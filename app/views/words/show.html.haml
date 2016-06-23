@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Lang from:
+  = @word.lang_from
+%p
+  %b Lang to:
+  = @word.lang_to
+%p
+  %b Text:
+  = @word.text
+%p
+  %b Translation:
+  = @word.translation
+
+= link_to 'Edit', edit_word_path(@word)
+\|
+= link_to 'Back', words_path
