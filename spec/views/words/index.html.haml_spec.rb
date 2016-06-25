@@ -4,25 +4,32 @@ RSpec.describe 'words/index', type: :view do
   before(:each) do
     assign(:words, [
       Word.create!(
-        :lang_from => 'English',
-        :lang_to => 'Russian',
-        :text => 'Text',
-        :translation => 'Translation'
+        lang_from: 'English',
+        lang_to: 'Russian',
+        text: 'hello',
+        translation: 'привет'
       ),
       Word.create!(
-        :lang_from => 'German',
-        :lang_to => 'Russian',
-        :text => 'Text',
-        :translation => 'Translation'
+        lang_from: 'German',
+        lang_to: 'Russian',
+        text: 'hallo',
+        translation: 'привет'
       )
     ])
   end
 
   it 'renders a list of words' do
     render
-    assert_select 'tr>td', :text => 'Lang from'.to_s, :count => 2
-    assert_select 'tr>td', :text => 'Lang to'.to_s, :count => 2
-    assert_select 'tr>td', :text => 'Text'.to_s, :count => 2
-    assert_select 'tr>td', :text => 'Translation'.to_s, :count => 2
+    {
+        'Russian': 2,
+        'German': 1,
+        'English': 1,
+        'hello': 1,
+        'hallo':1,
+        'привет': 2,
+
+    }.each do |text, count|
+      assert_select 'tr>td', text: text.to_s, count: count
+    end
   end
 end

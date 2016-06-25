@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe "words/edit", type: :view do
   before(:each) do
     @word = assign(:word, Word.create!(
-      :lang_from => "English",
-      :lang_to => "German",
+      lang_from: "English",
+      lang_to: "German",
       :text => "MyString",
-      :translation => "MyString"
+      translation: "MyString"
     ))
   end
 
