@@ -1,8 +1,11 @@
 After do |scenario|
   if scenario.failed?
     timestamp = Time.now.strftime('%Y%m%d%T')
-    puts("Saving screenshots/#{timestamp}.png to screenshots folder!")
-    save_screenshot("screenshots/#{timestamp}.png")
+    begin
+      save_screenshot("screenshots/#{timestamp}.png")
+      puts("Saving screenshots/#{timestamp}.png to screenshots folder!")
+    rescue Capybara::NotSupportedByDriverError
+    end
   end
 end
 

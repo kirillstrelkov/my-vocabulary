@@ -5,7 +5,7 @@ RSpec.describe "words/new", type: :view do
     assign(:word, Word.new(
       lang_from: "English",
       lang_to: "Russian",
-      :text => "MyString",
+      text: "MyString",
       translation: "MyString"
     ))
   end

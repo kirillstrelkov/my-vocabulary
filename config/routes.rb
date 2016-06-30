@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'dictionary/:name/languages' => 'dictionary#languages'
+  get 'dictionary/:name/lookup' => 'dictionary#lookup'
+
   resources :words
 
   # The priority is based upon order of creation: first created -> highest priority.

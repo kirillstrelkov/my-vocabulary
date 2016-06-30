@@ -3,9 +3,9 @@ Feature: Working with word and translation
   Scenario: User should be able to add word with new translation
     Given I am on main page
     When I click "Add word"
-    When I fill in "new_word" with "hallo"
-    And I select "German" from "lang_from"
-    And I select "English" from "lang_to"
+    When I fill in "word_text" with "hallo"
+    And I select "German" from "word_lang_from"
+    And I select "English" from "word_lang_to"
     And I click "Get translations"
     Then I should see "hello"
     When I click "Add word"
