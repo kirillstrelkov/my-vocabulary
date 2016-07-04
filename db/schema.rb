@@ -14,12 +14,12 @@
 ActiveRecord::Schema.define(version: 20160623203741) do
 
   create_table "words", force: :cascade do |t|
-    t.string   "lang_from"
-    t.string   "lang_to"
-    t.string   "text"
-    t.string   "translation"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "lang_code1"
+    t.string   "text1"
+    t.string   "lang_code2"
+    t.string   "text2"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

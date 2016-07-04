@@ -1,6 +1,14 @@
+require 'open-uri'
+
 module DictionaryHelper
-  def codes_and_languages(dictionary, lang_code)
-    dictionary.languages(lang_code).map {|code, value| [value, code]}
+  def language_name(lang_code, lang)
+    Hash[codes_and_languages(lang.to_sym).map {|v, c| [c,v]}][lang_code.to_sym]
+  end
+
+  def codes_and_languages(lang_code)
+    Dictionary::Yandex.pairs_and_languages(lang_code)[:langs].map do |code, value|
+      [value, code]
+    end.sort_by {|v, c| v}
   end
 
   class Dictionary

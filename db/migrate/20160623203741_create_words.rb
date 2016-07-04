@@ -1,10 +1,10 @@
 class CreateWords < ActiveRecord::Migration
   def change
     create_table :words do |t|
-      t.string :lang_from
-      t.string :lang_to
-      t.string :text
-      t.string :translation
+      t.string :lang_code1
+      t.string :text1
+      t.string :lang_code2
+      t.string :text2
 
       t.timestamps null: false
     end

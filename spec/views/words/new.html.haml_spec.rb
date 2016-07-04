@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe "words/new", type: :view do
   before(:each) do
     assign(:word, Word.new(
-      lang_from: "English",
-      lang_to: "Russian",
-      text: "MyString",
-      translation: "MyString"
+      lang_code1: 'en',
+      lang_code2: 'ru',
+      text1: 'hello',
+      text2: 'hallo'
     ))
   end
 
@@ -14,14 +14,10 @@ RSpec.describe "words/new", type: :view do
     render
 
     assert_select "form[action=?][method=?]", words_path, "post" do
-
-      assert_select "input#word_lang_from[name=?]", "word[lang_from]"
-
-      assert_select "input#word_lang_to[name=?]", "word[lang_to]"
-
-      assert_select "input#word_text[name=?]", "word[text]"
-
-      assert_select "input#word_translation[name=?]", "word[translation]"
+      assert_select "select#word_lang_code1 option[selected]", text: 'English'
+      assert_select "select#word_lang_code2 option[selected]", text: 'Russian'
+      assert_select "input#word_text1", value: 'hello'
+      assert_select "input#word_text2", value: 'hallo'
     end
   end
 end

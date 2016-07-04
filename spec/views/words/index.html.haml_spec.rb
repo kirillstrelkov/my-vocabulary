@@ -4,16 +4,16 @@ RSpec.describe 'words/index', type: :view do
   before(:each) do
     assign(:words, [
       Word.create!(
-        lang_from: 'English',
-        lang_to: 'Russian',
-        text: 'hello',
-        translation: 'привет'
+        lang_code1: 'en',
+        text1: 'hello',
+        lang_code2: 'ru',
+        text2: 'привет'
       ),
       Word.create!(
-        lang_from: 'German',
-        lang_to: 'Russian',
-        text: 'hallo',
-        translation: 'привет'
+        lang_code1: 'de',
+        text1: 'hallo',
+        lang_code2: 'ru',
+        text2: 'привет'
       )
     ])
   end
@@ -32,4 +32,5 @@ RSpec.describe 'words/index', type: :view do
       assert_select 'tr>td', text: text.to_s, count: count
     end
   end
+
 end

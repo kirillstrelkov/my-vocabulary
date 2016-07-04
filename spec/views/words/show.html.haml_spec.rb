@@ -3,18 +3,18 @@ require 'rails_helper'
 RSpec.describe "words/show", type: :view do
   before(:each) do
     @word = assign(:word, Word.create!(
-      lang_from: "English",
-      lang_to: "Russian",
-      :text => "Text",
-      translation: "Translation"
+      lang_code1: 'en',
+      lang_code2: 'ru',
+      text1: 'text 1',
+      text2: 'text 2'
     ))
   end
 
   it "renders attributes in <p>" do
     render
-    expect(rendered).to match(/Lang from/)
-    expect(rendered).to match(/Lang to/)
-    expect(rendered).to match(/Text/)
-    expect(rendered).to match(/Translation/)
+    expect(rendered).to match(/English/)
+    expect(rendered).to match(/Russian/)
+    expect(rendered).to match(/text 1/)
+    expect(rendered).to match(/text 2/)
   end
 end

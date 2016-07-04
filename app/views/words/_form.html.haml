@@ -1,22 +1,20 @@
-= form_for @word do |f|
-  - if @word.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@word.errors.count, "error")} prohibited this word from being saved:"
-      %ul
-        - @word.errors.full_messages.each do |msg|
-          %li= msg
+.field.form-group
+  = label_tag :q, 'Search'
+  = text_field_tag :q, nil, class: 'form-control'
+.actions.form-group
+  = button_tag 'Get translations', id: 'translate', class: 'btn btn-default'
+  = button_tag 'Add words', id: 'add-words',class: 'btn btn-default'
 
-  .field
-    = f.label :lang_from
-    = f.text_field :lang_from
-  .field
-    = f.label :lang_to
-    = f.text_field :lang_to
-  .field
-    = f.label :text
-    = f.text_field :text
-  .field
-    = f.label :translation
-    = f.text_field :translation
-  .actions
-    = f.submit 'Save'
+%table{class: 'table table-condensed table-hover'}
+  %thead
+    %th
+      %span{class: 'glyphicon glyphicon-ok cursor-pointer select-all', 'aria-hidden': 'true'}
+    %th
+      Lang pair
+    %th
+      Part of speech
+    %th
+      Text
+    %th
+      Translation
+  %tbody

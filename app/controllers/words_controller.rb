@@ -1,4 +1,5 @@
 class WordsController < ApplicationController
+  helper DictionaryHelper
   before_action :set_word, only: [:show, :edit, :update, :destroy]
 
   # GET /words
@@ -69,6 +70,6 @@ class WordsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def word_params
-      params.require(:word).permit(:lang_from, :lang_to, :text, :translation)
+      params.require(:word).permit(:lang_code1, :lang_code2, :text1, :text2)
     end
 end

@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :word do
-    lang_from "MyString"
-    lang_to "MyString"
-    text "MyString"
-    translation "MyString"
+    lang_code1 'en'
+    lang_code2 'ru'
+    text1 'my string'
+    text2 'my string'
   end
 end

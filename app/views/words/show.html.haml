@@ -1,17 +1,17 @@
 %p#notice= notice
 
 %p
-  %b Lang from:
-  = @word.lang_from
+  %b Lang code 1:
+  = language_name(@word.lang_code1, I18n.locale)
 %p
-  %b Lang to:
-  = @word.lang_to
+  %b Text 1:
+  = @word.text1
 %p
-  %b Text:
-  = @word.text
+  %b Lang code 2:
+  = language_name(@word.lang_code2, I18n.locale)
 %p
-  %b Translation:
-  = @word.translation
+  %b Text 2:
+  = @word.text2
 
 = link_to 'Edit', edit_word_path(@word)
 \|

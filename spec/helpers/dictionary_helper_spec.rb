@@ -1,35 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe DictionaryHelper, type: :helper do
-  context '#initialize' do
-    describe 'bad parameters' do
-      it 'empty string' do
-        expect { DictionaryHelper::Dictionary.new(nil) }.to raise_error NameError
+  describe 'DictionaryHelper::Dictionary' do
+    context '#initialize' do
+      describe 'bad parameters' do
+        it 'empty string' do
+          expect { DictionaryHelper::Dictionary.new(nil) }.to raise_error NameError
+        end
+
+        it 'empty string' do
+          expect { DictionaryHelper::Dictionary.new('') }.to raise_error NameError
+        end
+
+        it 'weird string' do
+          expect { DictionaryHelper::Dictionary.new('dsfsdfdsf') }.to raise_error NameError
+        end
       end
 
-      it 'empty string' do
-        expect { DictionaryHelper::Dictionary.new('') }.to raise_error NameError
+      describe 'correct' do
+        it 'lowercase' do
+          expect(DictionaryHelper::Dictionary.new('yandex')).not_to be_nil
+        end
+
+        it 'capitalize' do
+          expect(DictionaryHelper::Dictionary.new('Yandex')).not_to be_nil
+        end
       end
 
-      it 'weird string' do
-        expect { DictionaryHelper::Dictionary.new('dsfsdfdsf') }.to raise_error NameError
-      end
+
     end
 
-    describe 'correct' do
-      it 'lowercase' do
-        expect(DictionaryHelper::Dictionary.new('yandex')).not_to be_nil
-      end
-
-      it 'capitalize' do
-        expect(DictionaryHelper::Dictionary.new('Yandex')).not_to be_nil
-      end
-    end
-
-
-  end
-
-  describe '#languages' do
+    describe '#languages' do
       it 'contains English language data' do
         pairs, langs = DictionaryHelper::Dictionary.new('yandex').pairs_and_languages('en')
         expect(pairs).to include('en-ru')
@@ -44,7 +45,9 @@ RSpec.describe DictionaryHelper, type: :helper do
         expect(langs[:en]).to eq('Английский')
       end
 
+    end
   end
+
 
   describe 'translation_hash' do
     it 'translate initial json for hello to hash with translations' do
@@ -69,140 +72,138 @@ RSpec.describe DictionaryHelper, type: :helper do
                           :mean => [{:text => "greet"}]}]}]}
       trans = DictionaryHelper::Dictionary::Yandex.simplify_translations(json)
       expect(trans).to eq([{text: 'hello',
-                             pos: 'noun',
-                             ts: "ˈheˈləʊ",
-                             tr: 'привет'},
-                            {text: 'hello',
-                             pos: 'noun',
-                             ts: "ˈheˈləʊ",
-                             tr: 'приветствие'},
-                            {text: 'hello',
-                             pos: 'verb',
-                             ts: "ˈheˈləʊ",
-                             tr: 'поздороваться'}])
+                            pos: 'noun',
+                            ts: "ˈheˈləʊ",
+                            tr: 'привет'},
+                           {text: 'hello',
+                            pos: 'noun',
+                            ts: "ˈheˈləʊ",
+                            tr: 'приветствие'},
+                           {text: 'hello',
+                            pos: 'verb',
+                            ts: "ˈheˈləʊ",
+                            tr: 'поздороваться'}])
     end
 
-    it '' do
-      json = {:head=>{},
-              :def=>
-                  [{:text=>"do",
-                    :pos=>"verb",
-                    :ts=>"duː",
-                    :tr=>
-                        [{:text=>"делать",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :syn=>
-                              [{:text=>"выполнять", :pos=>"verb", :asp=>"несов"},
-                               {:text=>"исполнять", :pos=>"verb", :asp=>"несов"},
-                               {:text=>"сделать", :pos=>"verb", :asp=>"сов"},
-                               {:text=>"выполнить", :pos=>"verb", :asp=>"сов"},
-                               {:text=>"совершать", :pos=>"verb", :asp=>"несов"},
-                               {:text=>"проделать", :pos=>"verb", :asp=>"сов"},
-                               {:text=>"поделать", :pos=>"verb", :asp=>"сов"},
-                               {:text=>"устраивать", :pos=>"verb", :asp=>"несов"}],
-                          :mean=>[{:text=>"make"}, {:text=>"perform"}, {:text=>"do about it"}],
-                          :ex=>
-                              [{:text=>"do good", :tr=>[{:text=>"делать добро"}]},
-                               {:text=>"do the tasks", :tr=>[{:text=>"выполнять задания"}]},
-                               {:text=>"do shopping", :tr=>[{:text=>"сделать покупки"}]},
-                               {:text=>"do the job", :tr=>[{:text=>"выполнить задание"}]},
-                               {:text=>"do exploits", :tr=>[{:text=>"совершать подвиги"}]},
-                               {:text=>"do the work", :tr=>[{:text=>"проделать работу"}]}]},
-                         {:text=>"заниматься",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :syn=>[{:text=>"заняться", :pos=>"verb", :asp=>"сов"}],
-                          :mean=>[{:text=>"be"}, {:text=>"take"}],
-                          :ex=>
-                              [{:text=>"do business", :tr=>[{:text=>"заниматься бизнесом"}]},
-                               {:text=>"do the cooking", :tr=>[{:text=>"заняться стряпней"}]}]},
-                         {:text=>"поступать",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :syn=>
-                              [{:text=>"поступить", :pos=>"verb", :asp=>"сов"},
-                               {:text=>"подходить", :pos=>"verb", :asp=>"несов"}],
-                          :mean=>[{:text=>"come"}],
-                          :ex=>
-                              [{:text=>"do righteousness", :tr=>[{:text=>"поступать праведно"}]},
-                               {:text=>"do otherwise", :tr=>[{:text=>"поступить иначе"}]}]},
-                         {:text=>"осуществлять",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :syn=>
-                              [{:text=>"играть", :pos=>"verb", :asp=>"несов"},
-                               {:text=>"провести", :pos=>"verb", :asp=>"сов"},
-                               {:text=>"проводить", :pos=>"verb"}],
-                          :mean=>[{:text=>"carry"}, {:text=>"have"}],
-                          :ex=>
-                              [{:text=>"do the scene", :tr=>[{:text=>"играть сцену"}]},
-                               {:text=>"do the experiment", :tr=>[{:text=>"провести эксперимент"}]},
-                               {:text=>"doing research", :tr=>[{:text=>"проводить исследование"}]}]},
-                         {:text=>"обходиться", :pos=>"verb", :mean=>[{:text=>"manage"}]},
-                         {:text=>"оказывать",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :mean=>[{:text=>"render"}]},
-                         {:text=>"годиться",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :mean=>[{:text=>"fit"}]},
-                         {:text=>"творить",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :mean=>[{:text=>"create"}],
-                          :ex=>[{:text=>"do evil", :tr=>[{:text=>"творить зло"}]}]},
-                         {:text=>"действовать",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :syn=>[{:text=>"вести себя", :pos=>"verb"}],
-                          :mean=>[{:text=>"work"}, {:text=>"behave"}],
-                          :ex=>[{:text=>"do so", :tr=>[{:text=>"действовать так"}]}]},
-                         {:text=>"добиться",
-                          :pos=>"verb",
-                          :asp=>"сов",
-                          :mean=>[{:text=>"get"}],
-                          :ex=>[{:text=>"do the trick", :tr=>[{:text=>"добиться цели"}]}]},
-                         {:text=>"причинять",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :mean=>[{:text=>"cause"}]},
-                         {:text=>"готовить",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :mean=>[{:text=>"prepare"}]},
-                         {:text=>"покончить",
-                          :pos=>"verb",
-                          :asp=>"сов",
-                          :syn=>
-                              [{:text=>"заканчивать", :pos=>"verb", :asp=>"несов"},
-                               {:text=>"кончать", :pos=>"verb", :asp=>"несов"}],
-                          :mean=>[{:text=>"finish"}, {:text=>"end"}]},
-                         {:text=>"преуспевать",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :syn=>[{:text=>"процветать", :pos=>"verb", :asp=>"несов"}],
-                          :mean=>[{:text=>"succeed"}, {:text=>"flourish"}]},
-                         {:text=>"обманывать",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :mean=>[{:text=>"lie"}]},
-                         {:text=>"осматривать",
-                          :pos=>"verb",
-                          :asp=>"несов",
-                          :mean=>[{:text=>"examine"}]}]},
-                   {:text=>"do",
-                    :pos=>"noun",
-                    :ts=>"duː",
-                    :tr=>
-                        [{:text=>"участие",
-                          :pos=>"noun",
-                          :gen=>"ср",
-                          :mean=>[{:text=>"part"}]}]}]}
+    it 'translate initial json for do to hash with translations' do
+      json = {:head => {},
+              :def =>
+                  [{:text => "do",
+                    :pos => "verb",
+                    :ts => "duː",
+                    :tr =>
+                        [{:text => "делать",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :syn =>
+                              [{:text => "выполнять", :pos => "verb", :asp => "несов"},
+                               {:text => "исполнять", :pos => "verb", :asp => "несов"},
+                               {:text => "сделать", :pos => "verb", :asp => "сов"},
+                               {:text => "выполнить", :pos => "verb", :asp => "сов"},
+                               {:text => "совершать", :pos => "verb", :asp => "несов"},
+                               {:text => "проделать", :pos => "verb", :asp => "сов"},
+                               {:text => "поделать", :pos => "verb", :asp => "сов"},
+                               {:text => "устраивать", :pos => "verb", :asp => "несов"}],
+                          :mean => [{:text => "make"}, {:text => "perform"}, {:text => "do about it"}],
+                          :ex =>
+                              [{:text => "do good", :tr => [{:text => "делать добро"}]},
+                               {:text => "do the tasks", :tr => [{:text => "выполнять задания"}]},
+                               {:text => "do shopping", :tr => [{:text => "сделать покупки"}]},
+                               {:text => "do the job", :tr => [{:text => "выполнить задание"}]},
+                               {:text => "do exploits", :tr => [{:text => "совершать подвиги"}]},
+                               {:text => "do the work", :tr => [{:text => "проделать работу"}]}]},
+                         {:text => "заниматься",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :syn => [{:text => "заняться", :pos => "verb", :asp => "сов"}],
+                          :mean => [{:text => "be"}, {:text => "take"}],
+                          :ex =>
+                              [{:text => "do business", :tr => [{:text => "заниматься бизнесом"}]},
+                               {:text => "do the cooking", :tr => [{:text => "заняться стряпней"}]}]},
+                         {:text => "поступать",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :syn =>
+                              [{:text => "поступить", :pos => "verb", :asp => "сов"},
+                               {:text => "подходить", :pos => "verb", :asp => "несов"}],
+                          :mean => [{:text => "come"}],
+                          :ex =>
+                              [{:text => "do righteousness", :tr => [{:text => "поступать праведно"}]},
+                               {:text => "do otherwise", :tr => [{:text => "поступить иначе"}]}]},
+                         {:text => "осуществлять",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :syn =>
+                              [{:text => "играть", :pos => "verb", :asp => "несов"},
+                               {:text => "провести", :pos => "verb", :asp => "сов"},
+                               {:text => "проводить", :pos => "verb"}],
+                          :mean => [{:text => "carry"}, {:text => "have"}],
+                          :ex =>
+                              [{:text => "do the scene", :tr => [{:text => "играть сцену"}]},
+                               {:text => "do the experiment", :tr => [{:text => "провести эксперимент"}]},
+                               {:text => "doing research", :tr => [{:text => "проводить исследование"}]}]},
+                         {:text => "обходиться", :pos => "verb", :mean => [{:text => "manage"}]},
+                         {:text => "оказывать",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :mean => [{:text => "render"}]},
+                         {:text => "годиться",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :mean => [{:text => "fit"}]},
+                         {:text => "творить",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :mean => [{:text => "create"}],
+                          :ex => [{:text => "do evil", :tr => [{:text => "творить зло"}]}]},
+                         {:text => "действовать",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :syn => [{:text => "вести себя", :pos => "verb"}],
+                          :mean => [{:text => "work"}, {:text => "behave"}],
+                          :ex => [{:text => "do so", :tr => [{:text => "действовать так"}]}]},
+                         {:text => "добиться",
+                          :pos => "verb",
+                          :asp => "сов",
+                          :mean => [{:text => "get"}],
+                          :ex => [{:text => "do the trick", :tr => [{:text => "добиться цели"}]}]},
+                         {:text => "причинять",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :mean => [{:text => "cause"}]},
+                         {:text => "готовить",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :mean => [{:text => "prepare"}]},
+                         {:text => "покончить",
+                          :pos => "verb",
+                          :asp => "сов",
+                          :syn =>
+                              [{:text => "заканчивать", :pos => "verb", :asp => "несов"},
+                               {:text => "кончать", :pos => "verb", :asp => "несов"}],
+                          :mean => [{:text => "finish"}, {:text => "end"}]},
+                         {:text => "преуспевать",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :syn => [{:text => "процветать", :pos => "verb", :asp => "несов"}],
+                          :mean => [{:text => "succeed"}, {:text => "flourish"}]},
+                         {:text => "обманывать",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :mean => [{:text => "lie"}]},
+                         {:text => "осматривать",
+                          :pos => "verb",
+                          :asp => "несов",
+                          :mean => [{:text => "examine"}]}]},
+                   {:text => "do",
+                    :pos => "noun",
+                    :ts => "duː",
+                    :tr =>
+                        [{:text => "участие",
+                          :pos => "noun",
+                          :gen => "ср",
+                          :mean => [{:text => "part"}]}]}]}
       trans = DictionaryHelper::Dictionary::Yandex.simplify_translations(json)
-      require 'pp'
-      pp trans
       expect(trans).to eq(
                            [{:text => "do", :pos => "verb", :ts => "duː", :tr => "делать"},
                             {:text => "do", :pos => "verb", :ts => "duː", :tr => "выполнять"},
@@ -240,6 +241,38 @@ RSpec.describe DictionaryHelper, type: :helper do
                             {:text => "do", :pos => "verb", :ts => "duː", :tr => "осматривать"},
                             {:text => "do", :pos => "noun", :ts => "duː", :tr => "участие"}]
                        )
+    end
+  end
+
+  describe '#codes_and_languages' do
+    it 'should contain data for english with english locate' do
+      expect(codes_and_languages(:en)).to include(['English', :en])
+    end
+
+    it 'should contain array for russian with russian locale' do
+      expect(codes_and_languages(:ru)).to include(['Русский', :ru])
+    end
+  end
+
+  describe '#language_name' do
+    context 'app lang=en' do
+      it 'return English for :en' do
+        expect(language_name(:en, :en)).to eq('English')
+      end
+
+      it 'return Russian for :ru' do
+        expect(language_name(:ru, :en)).to eq('Russian')
+      end
+    end
+
+    context 'app lang=ru' do
+      it 'return English for :en' do
+        expect(language_name(:en, :ru)).to eq('Английский')
+      end
+
+      it 'return Russian for :ru' do
+        expect(language_name(:ru, :ru)).to eq('Русский')
+      end
     end
   end
 end

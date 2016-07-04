@@ -10,7 +10,11 @@ Then(/^I should be on "([^"]*)"$/) do |url|
   expect(current_url).to eq(url)
 end
 
-Then(/^I should see "([^"]*)"$/) do |text|
+Then(/^I should see "([^"]*)" within (\d+) seconds$/) do |text, timeout|
+  assert_text(text, wait: timeout.to_f)
+end
+
+Then(/^I should see "([^"]*)" on page$/) do |text|
   assert_text(text)
 end
 

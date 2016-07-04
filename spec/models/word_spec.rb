@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe Word, type: :model do
   let(:valid_data) do
     {
-      lang_from: 'German',
-      lang_to: 'English',
-      text: 'hallo',
-      translation: 'hello'
+      lang_code1: 'de',
+      lang_code2: 'en',
+      text1: 'hallo',
+      text2: 'hello'
     }
   end
   let(:valid_word) { FactoryGirl.build(:word, valid_data) }
@@ -32,13 +32,13 @@ RSpec.describe Word, type: :model do
       end
     end
     it 'has long text' do
-      expect(FactoryGirl.build(:word, text: Faker::Lorem.characters(51))).not_to be_valid
+      expect(FactoryGirl.build(:word, valid_data.merge(text1: Faker::Lorem.characters(51)))).not_to be_valid
     end
-    it 'has bad from language' do
-      expect(FactoryGirl.build(:word, lang_from: Faker::Lorem.characters(5))).not_to be_valid
+    it 'has short language code' do
+      expect(FactoryGirl.build(:word, valid_data.merge(lang_code1: Faker::Lorem.characters(1)))).not_to be_valid
     end
-    it 'has bad to language' do
-      expect(FactoryGirl.build(:word, lang_to: Faker::Lorem.characters(5))).not_to be_valid
+    it 'has long language code' do
+      expect(FactoryGirl.build(:word, valid_data.merge(lang_code2: Faker::Lorem.characters(4)))).not_to be_valid
     end
   end
 end

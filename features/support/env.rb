@@ -5,6 +5,8 @@
 # files.
 
 require 'cucumber/rails'
+require 'capybara/poltergeist'
+
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -56,3 +58,41 @@ end
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
+$browser = ENV['BROWSER'] || :chrome
+$browser = $browser.to_sym
+
+$driver = ENV['DRIVER'] || :poltergeist
+$driver = $driver.to_sym
+
+puts "Driver: #{$driver}"
+puts "Browser: #{$browser}"
+
+Capybara.default_driver = $driver
+
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, browser: $browser)
+end
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, window_size: [1366, 768])
+end
+
+mobile_drivers_and_names = {
+    iphone6: 'Apple iPhone 6',
+    s4: 'Samsung Galaxy S4'
+}
+$mobile_drivers = mobile_drivers_and_names.keys
+mobile_drivers_and_names.each do |device_symbol, device_name|
+  Capybara.register_driver device_symbol do |app|
+    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+        'chromeOptions' => {
+            'mobileEmulation' => { 'deviceName' => device_name }
+        }
+    )
+    Capybara::Selenium::Driver.new(
+        app,
+        browser: :chrome,
+        desired_capabilities: capabilities
+    )
+  end
+end
