@@ -26,7 +26,7 @@ $(document).ready ->
         pos = e['pos']
         text = e['text']
         tr = e['tr']
-        $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'>" + glyphicon_ok_html + "</td><td>"+lang_pair+"</td><td>"+pos+"</td><td>"+text+"</td><td>"+tr+"</td></tr>")
+        $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'>" + glyphicon_ok_html + "</td><td class='lang_pair'>"+lang_pair+"</td><td class='pos'>"+pos+"</td><td class='text1'>"+text+"</td><td class='text2'>"+tr+"</td></tr>")
       $('table tr.translation').click ->
           tr = $(this)
           glyph = 'span.glyphicon'
@@ -45,3 +45,46 @@ $(document).ready ->
     else
       if row.find(glyph).length != 0
         status.empty()
+
+  $('#add-words').click ->
+    $('td.status > span.glyphicon').each ->
+      row = $(this).parent().parent()
+      lang_pair = row.find('td.lang_pair').text()
+      lang_pair = lang_pair.split('-')
+      lang_code1 = lang_pair[0]
+      lang_code2 = lang_pair[1]
+      pos = row.find('td.pos').text()
+      text1 = row.find('td.text1').text()
+      text2 = row.find('td.text2').text()
+
+      data = {
+        word: {
+          lang_code1: lang_code1,
+          lang_code2: lang_code2,
+          pos: pos,
+          text1: text1,
+          text2: text2
+        }
+      }
+      $.post('/words.json', data, (resp)->
+        message = "Pair '#{resp['text1']} - #{resp['text2']}' was added successfully"
+        $('.alerts').append("""
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  #{message}
+</div>
+""")
+        $('.alert-dismissible .close').click ->
+          $(this).parent().remove()
+      ).error (resp)->
+        message = $.map(resp.responseJSON, (v,k)->
+          k + " " + v.join(', ');
+        ).join('. ')
+        $('.alerts').append("""
+<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  #{message}
+</div>
+""")
+        $('.alert-dismissible .close').click ->
+          $(this).parent().remove()

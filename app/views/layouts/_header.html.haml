@@ -1,3 +1,8 @@
-%div
-  =select_tag 'lang_code1', options_for_select(codes_and_languages(I18n.locale)), class: 'form-control'
-  =select_tag 'lang_code2', options_for_select(codes_and_languages(I18n.locale)), class: 'form-control'
+%div{class: 'row'}
+  %div{class: 'col-md-2'}
+    =select_tag 'lang_code1', options_for_select(codes_and_languages(I18n.locale)), class: 'form-control col-md-2'
+  -#%div{class: 'col-md-1'}
+  -#  %span{class: 'glyphicon glyphicon-transfer'}
+  %div{class: 'col-md-2'}
+    =select_tag 'lang_code2', options_for_select(codes_and_languages(I18n.locale)), class: 'form-control col-md-2'
+%div{class: 'alerts row'}

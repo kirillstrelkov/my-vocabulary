@@ -65,7 +65,7 @@ $driver = ENV['DRIVER'] || :poltergeist
 $driver = $driver.to_sym
 
 puts "Driver: #{$driver}"
-puts "Browser: #{$browser}"
+puts "Browser: #{$browser}" if $driver == :selenium
 
 Capybara.default_driver = $driver
 

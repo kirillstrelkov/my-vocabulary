@@ -11,7 +11,8 @@ Feature: Working with word and translation
     When I click "Add word"
     And I am on main page
     Then I should see "hello" on page
-     And I should see "hallo" on page
+     And I should see "hi" on page
+     And I should see "Hallo" on page
 
   Scenario Outline: User should be able to choose several languages and translate words
     Given I am on main page
@@ -33,3 +34,9 @@ Feature: Working with word and translation
 
   Scenario: User should be able to search world with parameter in link
     Given I am on main page
+
+  Scenario: User should be able navigate back to main page
+    Given I am on main page
+    When I click "Add word"
+    And I click "Back"
+    Then I should be on "/words"
