@@ -77,11 +77,15 @@ $(document).ready ->
         $('.alert-dismissible .close').click ->
           $(this).parent().remove()
       ).error (resp)->
+        if resp.status == 422
+          alert_class = 'warning'
+        else
+          alert_class = 'danger'
         message = $.map(resp.responseJSON, (v,k)->
           k + " " + v.join(', ');
         ).join('. ')
         $('.alerts').append("""
-<div class="alert alert-warning alert-dismissible" role="alert">
+<div class="alert alert-#{alert_class} alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   #{message}
 </div>
