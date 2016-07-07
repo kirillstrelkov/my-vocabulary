@@ -40,5 +40,10 @@ RSpec.describe Word, type: :model do
     it 'has long language code' do
       expect(FactoryGirl.build(:word, valid_data.merge(lang_code2: Faker::Lorem.characters(4)))).not_to be_valid
     end
+
+    it 'is a duplicate' do
+      FactoryGirl.create(:word, valid_data)
+      expect { FactoryGirl.create(:word, valid_data) }.to raise_error ActiveRecord::RecordInvalid
+    end
   end
 end
