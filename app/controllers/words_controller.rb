@@ -66,6 +66,11 @@ class WordsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_word
       @word = Word.find(params[:id])
+      if @word
+        @lang_pair = [@word.lang_code1, @word.lang_code2]
+      else
+        @lang_pair = [nil, nil]
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

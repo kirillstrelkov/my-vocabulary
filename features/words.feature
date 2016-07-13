@@ -40,3 +40,6 @@ Feature: Working with word and translation
     When I click "Add word"
     And I click "Back"
     Then I should be on "/words"
+
+  Scenario: Language combination should be save between pages
+    Given I am on main page

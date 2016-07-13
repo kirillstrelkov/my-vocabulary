@@ -1,6 +1,6 @@
 .field.form-group
   = label_tag :q, 'Search'
-  = text_field_tag :q, nil, class: 'form-control'
+  = text_field_tag :q, @word.text1, class: 'form-control'
 .actions.form-group
   = button_tag 'Get translations', id: 'translate', class: 'btn btn-default'
   = button_tag 'Add words', id: 'add-words',class: 'btn btn-primary'
@@ -18,3 +18,14 @@
     %th
       Translation
   %tbody
+    %tr{class: 'translation cursor-pointer'}
+      %td{class: 'status'}
+        %span{class: 'glyphicon glyphicon-ok', 'aria-hidden': 'true'}
+      %td
+        = "#{@word.lang_code1}-#{@word.lang_code2}"
+      %td{class: 'lang_pair'}
+      %td
+        = @word.text1
+      %td
+        = @word.text2
+
