@@ -1,8 +1,15 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+
+# VARIABLES:
+
 glyphicon_ok_html = "<span class='glyphicon glyphicon-ok' aria-hidden='true'>"
+
 $(document).ready ->
+
+  # EVENTS:
+
   $('.select-all').click ->
     rows = $('table tbody tr')
     number_of_rows = rows.length
@@ -38,27 +45,6 @@ $(document).ready ->
           else
             select_row(tr, false)
 
-  add_alert = (type, message)->
-    $('.alerts').append("""
-<div class="alert alert-#{type} alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  #{message}
-</div>
-""")
-    $('.alert-dismissible .close').click ->
-      $(this).parent().remove()
-
-  select_row = (row, selected)->
-    row = $(row)
-    glyph = 'span.glyphicon'
-    status = $(row.find('td.status'))
-    if selected
-      if row.find(glyph).length == 0
-        status.append($(glyphicon_ok_html))
-    else
-      if row.find(glyph).length != 0
-        status.empty()
-
   $('#add-words').click ->
     $('td.status > span.glyphicon').each ->
       row = $(this).parent().parent()
@@ -91,3 +77,26 @@ $(document).ready ->
           k + " " + v.join(', ');
         ).join('. ')
         add_alert(alert_type, message)
+
+  # FUNCTIONS:
+
+  add_alert = (type, message)->
+    $('.alerts').append("""
+<div class="alert alert-#{type} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  #{message}
+</div>
+""")
+    $('.alert-dismissible .close').click ->
+      $(this).parent().remove()
+
+  select_row = (row, selected)->
+    row = $(row)
+    glyph = 'span.glyphicon'
+    status = $(row.find('td.status'))
+    if selected
+      if row.find(glyph).length == 0
+        status.append($(glyphicon_ok_html))
+    else
+      if row.find(glyph).length != 0
+        status.empty()

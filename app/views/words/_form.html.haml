@@ -22,11 +22,12 @@
       %tr{class: 'translation cursor-pointer'}
         %td{class: 'status'}
           %span{class: 'glyphicon glyphicon-ok', 'aria-hidden': 'true'}
-        %td
-          = "#{@word.lang_code1}-#{@word.lang_code2}"
         %td{class: 'lang_pair'}
-        %td
+          = "#{@word.lang_code1}-#{@word.lang_code2}"
+        %td{class: 'pos'}
+          = @word.pos
+        %td{class: 'text'}
           = @word.text1
-        %td
+        %td{class: 'trans'}
           = @word.text2
 
