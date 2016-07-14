@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160707193407) do
+ActiveRecord::Schema.define(version: 20160714182245) do
 
   create_table "words", force: :cascade do |t|
     t.string   "lang_code1"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20160707193407) do
     t.string   "text2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "pos"
   end
 
   add_index "words", ["lang_code1", "lang_code2", "text1", "text2"], name: "index_words_on_lang_code1_and_lang_code2_and_text1_and_text2", unique: true
