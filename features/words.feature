@@ -58,7 +58,20 @@ Feature: Working with word and translation
     And I click "Get translations"
     Then I should see "The specified language is not supported" on page
 
-  Scenario: User should be able to select language pairs
+  Scenario: User should have English languages in dropdown with English locale
+    Given I am on main page
+    When I select "Russian" from "lang_code1"
+    Then I select "English" from "lang_code2"
+
+  Scenario: Language pair should be preserved while navigating
+    Given I am on main page
+    And I select "English" from "lang_code1"
+    And I select "Russian" from "lang_code2"
+    When I click "Add word"
+    Then I should see "English" option selected in "lang_code1"
+    And I should see "Russian" option selected in "lang_code2"
+
+  Scenario: User should be able to select correct language pairs
     Given I am on main page
 
 

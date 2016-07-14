@@ -1,9 +1,10 @@
 class DictionaryController < ApplicationController
+  include DictionaryHelper
   respond_to :json
 
-  # def pairs
-  #   respond_with @dict.pairs(params.fetch('lang_code', I18n.locale))
-  # end
+  def pairs
+    respond_with pairs_for_language(@dict, params.fetch('lang_code', I18n.locale))
+  end
 
   def languages
     respond_with @dict.languages(params.fetch('lang_code', I18n.locale))

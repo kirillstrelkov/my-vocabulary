@@ -10,6 +10,15 @@ $(document).ready ->
 
   # EVENTS:
 
+  $('#lang_code1').change ->
+    lang_code = $(this).val()
+    $.getJSON '/dictionary/yandex/pairs', {lang_code: lang_code}, (resp)->
+      lang_select2 = $('#lang_code2')
+      lang_select2.empty()
+      $(resp).each (index, [text, value])->
+        lang_select2.append("""<option value="#{value}">#{text}</option>""")
+
+
   $('.select-all').click ->
     rows = $('table tbody tr')
     number_of_rows = rows.length

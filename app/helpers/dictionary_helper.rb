@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'uri'
 
 module DictionaryHelper
   def language_pairs(dict, lang_code)
@@ -71,7 +72,7 @@ module DictionaryHelper
 
         Rails.logger.debug("#{self}##{__method__}: #{url}")
 
-        JSON.parse(open(url).read, symbolize_names: true)
+        JSON.parse(open(URI.encode(url)).read, symbolize_names: true)
       end
 
       def self.lookup(text, lang_pair, lang_code)
@@ -80,7 +81,7 @@ module DictionaryHelper
         Rails.logger.debug("#{self}##{__method__}: #{url}")
 
         begin
-          json = JSON.parse(open(url).read, symbolize_names: true)
+          json = JSON.parse(open(URI.encode(url)).read, symbolize_names: true)
         rescue OpenURI::HTTPError => e
           Rails.logger.debug("HTTPError status: #{e.io.status}")
           Rails.logger.debug("HTTPError string: #{e.io.string}")

@@ -55,4 +55,13 @@ RSpec.describe DictionaryController, type: :controller do
 
   end
 
+  describe 'GET #pairs' do
+    it 'returns json object with languages' do
+      get :pairs, name: 'yandex', format: :json
+      expect(response).to have_http_status(:success)
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json).to include(['Russian', 'ru'])
+    end
+  end
+
 end
