@@ -277,4 +277,32 @@ RSpec.describe DictionaryHelper, type: :helper do
       end
     end
   end
+
+  describe '#language_pair' do
+    it 'has en-ru and en-de' do
+      locale = :en
+      expect(language_pairs(dict, locale)).to include('en-ru')
+      expect(language_pairs(dict, locale)).to include('en-de')
+      expect(language_pairs(dict, locale)).not_to include('ru-en')
+      expect(language_pairs(dict, locale)).not_to include('de-en')
+    end
+
+    it 'has de-ru and de-en' do
+      locale = :de
+      expect(language_pairs(dict, locale)).to include('de-ru')
+      expect(language_pairs(dict, locale)).to include('de-en')
+      expect(language_pairs(dict, locale)).not_to include('ru-de')
+      expect(language_pairs(dict, locale)).not_to include('en-de')
+    end
+  end
+
+  describe '#language_pairs_with_codes_and_languages' do
+    it 'has en-ru and en-de' do
+      locale = :en
+      codes_and_languages = pairs_for_language(dict, locale)
+      expect(codes_and_languages.first).to eq(['Belarusian', 'be'])
+      expect(codes_and_languages).not_to include(['English', 'en'])
+    end
+  end
+
 end

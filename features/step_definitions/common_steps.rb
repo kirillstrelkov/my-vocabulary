@@ -33,3 +33,8 @@ end
 And(/^I select "([^"]*)" from "([^"]*)"$/) do |text, locator|
   select(text, from: locator)
 end
+
+Then(/^I should see "([^"]*)" option selected in "([^"]*)"$/) do |text, locator|
+  # expect(find(:select, locator).find(:option, '[selected]').text).to eq(text)
+  expect(page).to have_select(locator, selected: text)
+end

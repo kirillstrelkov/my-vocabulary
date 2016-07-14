@@ -1,6 +1,7 @@
 class WordsController < ApplicationController
   helper DictionaryHelper
   before_action :set_word, only: [:show, :edit, :update, :destroy]
+  before_action :set_lang_pair, only: [:index, :new]
 
   # GET /words
   # GET /words.json
@@ -66,14 +67,18 @@ class WordsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_word
       @word = Word.find(params[:id])
+      set_lang_pair
+    end
+
+    def set_lang_pair
       if @word
         @lang_pair = [@word.lang_code1, @word.lang_code2]
       else
-        @lang_pair = [nil, nil]
+        @lang_pair = [I18n.locale, nil]
       end
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+  # Never trust parameters from the scary internet, only allow the white list through.
     def word_params
       params.require(:word).permit(:lang_code1, :lang_code2, :text1, :text2)
     end

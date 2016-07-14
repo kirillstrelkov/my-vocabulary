@@ -24,6 +24,12 @@ RSpec.describe DictionaryController, type: :controller do
   end
 
   describe 'GET #lookup' do
+      it 'returns 400 bad request if pair is not supported' do
+        get :lookup, name: 'yandex', format: :json, lang_pair: 'en-be', text: 'hello'
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json).to eq({code: 501, message: 'The specified language is not supported'})
+      end
+
       it 'returns 406 if params are incorrect' do
         get :lookup, name: 'yandex', format: :json
         expect(response.status).to eq(406)

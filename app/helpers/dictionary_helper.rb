@@ -1,8 +1,20 @@
 require 'open-uri'
 
 module DictionaryHelper
+  def language_pairs(dict, lang_code)
+    dict.pairs(lang_code).select {|p| p.split('-').first == lang_code.to_s}.sort
+  end
+
   def language_name(dict, lang_code, lang)
     Hash[codes_and_languages(dict, lang.to_sym).map {|v, c| [c,v]}][lang_code.to_sym]
+  end
+
+  def pairs_for_language(dict, lang_code)
+    pairs = language_pairs(dict, lang_code)
+    pairs.map do |p|
+      code2 = p.split('-').last
+      [language_name(dict, code2, lang_code), code2]
+    end
   end
 
   def codes_and_languages(dict, lang_code)
@@ -56,12 +68,29 @@ module DictionaryHelper
 
       def self.pairs_and_languages(lang_code)
         url = TRNSL_URL + "getLangs?key=#{TRNSL_API_KEY}&ui=#{lang_code}"
+
+        Rails.logger.debug("#{self}##{__method__}: #{url}")
+
         JSON.parse(open(url).read, symbolize_names: true)
       end
 
       def self.lookup(text, lang_pair, lang_code)
         url = DICT_URL + "lookup?key=#{DICT_API_KEY}&text=#{text}&lang=#{lang_pair}&ui=#{lang_code}"
-        simplify_translations(JSON.parse(open(url).read, symbolize_names: true), lang_pair=lang_pair)
+
+        Rails.logger.debug("#{self}##{__method__}: #{url}")
+
+        begin
+          json = JSON.parse(open(url).read, symbolize_names: true)
+        rescue OpenURI::HTTPError => e
+          Rails.logger.debug("HTTPError status: #{e.io.status}")
+          Rails.logger.debug("HTTPError string: #{e.io.string}")
+          json = JSON.parse(e.io.string, symbolize_names: true)
+        end
+        unless json.include?(:code)
+          simplify_translations(json, lang_pair=lang_pair)
+        else
+          json
+        end
       end
 
       def self.simplify_translations(initial_json, lang_pair=nil)

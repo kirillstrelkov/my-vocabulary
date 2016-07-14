@@ -33,5 +33,7 @@ module MyWords
           namespace: redis_conf['namespace'],
           expires_in: redis_conf['ttl'] }
     ]
+
+    config.logger = Logger.new(STDOUT)
   end
 end

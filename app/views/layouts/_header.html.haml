@@ -5,5 +5,5 @@
   -#%div{class: 'col-md-1'}
   -#  %span{class: 'glyphicon glyphicon-transfer'}
   %div{class: 'col-md-2'}
-    =select_tag 'lang_code2', options_for_select(codes_and_languages(@dict, I18n.locale), lang_code2), class: 'form-control col-md-2'
+    =select_tag 'lang_code2', options_for_select(pairs_for_language(@dict, I18n.locale), lang_code2), class: 'form-control col-md-2'
 %div{class: 'alerts row'}

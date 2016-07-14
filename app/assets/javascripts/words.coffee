@@ -21,19 +21,32 @@ $(document).ready ->
     # TODO: add check for lang_pair NOT here but in controller
     $.getJSON '/dictionary/yandex/lookup', {text: text, lang_pair: lang_pair}, (resp)->
       $('table tbody').empty()
-      $(resp).each (i, e)->
-        lang_pair = e['lang_pair']
-        pos = e['pos']
-        text = e['text']
-        tr = e['tr']
-        $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'>" + glyphicon_ok_html + "</td><td class='lang_pair'>"+lang_pair+"</td><td class='pos'>"+pos+"</td><td class='text1'>"+text+"</td><td class='text2'>"+tr+"</td></tr>")
-      $('table tr.translation').click ->
+      if resp.code
+        add_alert('warning', resp['message'])
+      else
+        $(resp).each (i, e)->
+          lang_pair = e['lang_pair']
+          pos = e['pos']
+          text = e['text']
+          tr = e['tr']
+          $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'>" + glyphicon_ok_html + "</td><td class='lang_pair'>"+lang_pair+"</td><td class='pos'>"+pos+"</td><td class='text1'>"+text+"</td><td class='text2'>"+tr+"</td></tr>")
+        $('table tr.translation').click ->
           tr = $(this)
           glyph = 'span.glyphicon'
           if tr.find(glyph).length == 0
             select_row(tr, true)
           else
             select_row(tr, false)
+
+  add_alert = (type, message)->
+    $('.alerts').append("""
+<div class="alert alert-#{type} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  #{message}
+</div>
+""")
+    $('.alert-dismissible .close').click ->
+      $(this).parent().remove()
 
   select_row = (row, selected)->
     row = $(row)
@@ -68,27 +81,13 @@ $(document).ready ->
       }
       $.post('/words.json', data, (resp)->
         message = "Pair '#{resp['text1']} - #{resp['text2']}' was added successfully"
-        $('.alerts').append("""
-<div class="alert alert-success alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  #{message}
-</div>
-""")
-        $('.alert-dismissible .close').click ->
-          $(this).parent().remove()
+        add_alert('success', message)
       ).error (resp)->
         if resp.status == 422
-          alert_class = 'warning'
+          alert_type = 'warning'
         else
-          alert_class = 'danger'
+          alert_type = 'danger'
         message = $.map(resp.responseJSON, (v,k)->
           k + " " + v.join(', ');
         ).join('. ')
-        $('.alerts').append("""
-<div class="alert alert-#{alert_class} alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  #{message}
-</div>
-""")
-        $('.alert-dismissible .close').click ->
-          $(this).parent().remove()
+        add_alert(alert_type, message)
