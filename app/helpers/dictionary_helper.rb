@@ -1,17 +1,31 @@
 require 'open-uri'
 
 module DictionaryHelper
-  def language_name(lang_code, lang)
-    Hash[codes_and_languages(lang.to_sym).map {|v, c| [c,v]}][lang_code.to_sym]
+  def language_name(dict, lang_code, lang)
+    Hash[codes_and_languages(dict, lang.to_sym).map {|v, c| [c,v]}][lang_code.to_sym]
   end
 
-  def codes_and_languages(lang_code)
-    Dictionary::Yandex.pairs_and_languages(lang_code)[:langs].map do |code, value|
+  def codes_and_languages(dict, lang_code)
+    dict.pairs_and_languages(lang_code).last.map do |code, value|
       [value, code]
     end.sort_by {|v, c| v}
   end
 
   class Dictionary
+    include RedisHelper
+
+    def get_data(method, *params)
+      key = params.join('_')
+      prefix = method.to_s
+      data = get(prefix, key)
+      unless data
+        data = @dict.send(method, *params)
+        set(prefix, key, data)
+      end
+      data
+    end
+
+
     def initialize(name)
       @dict = Dictionary.const_get(name.capitalize)
     end
@@ -25,12 +39,12 @@ module DictionaryHelper
     end
 
     def pairs_and_languages(lang_code)
-      data = @dict.pairs_and_languages(lang_code)
+      data = get_data(__method__, lang_code)
       [data[:dirs], data[:langs]]
     end
 
     def lookup(text, lang_to_lang, lang_code)
-      @dict.lookup(text, lang_to_lang, lang_code)
+      get_data(__method__, text, lang_to_lang, lang_code)
     end
 
     module Yandex

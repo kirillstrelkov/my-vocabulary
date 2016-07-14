@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "words/show", type: :view do
   before(:each) do
-    @word = assign(:word, Word.create!(
+    assign(:dict, DictionaryHelper::Dictionary.new('Yandex'))
+    assign(:word, Word.create!(
       lang_code1: 'en',
       lang_code2: 'ru',
       text1: 'text 1',

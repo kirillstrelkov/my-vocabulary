@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe DictionaryHelper, type: :helper do
+  let(:dict) { DictionaryHelper::Dictionary.new('Yandex') }
+
   describe 'DictionaryHelper::Dictionary' do
     context '#initialize' do
       describe 'bad parameters' do
@@ -246,32 +248,32 @@ RSpec.describe DictionaryHelper, type: :helper do
 
   describe '#codes_and_languages' do
     it 'should contain data for english with english locate' do
-      expect(codes_and_languages(:en)).to include(['English', :en])
+      expect(codes_and_languages(dict, :en)).to include(['English', :en])
     end
 
     it 'should contain array for russian with russian locale' do
-      expect(codes_and_languages(:ru)).to include(['Русский', :ru])
+      expect(codes_and_languages(dict, :ru)).to include(['Русский', :ru])
     end
   end
 
   describe '#language_name' do
     context 'app lang=en' do
       it 'return English for :en' do
-        expect(language_name(:en, :en)).to eq('English')
+        expect(language_name(dict, :en, :en)).to eq('English')
       end
 
       it 'return Russian for :ru' do
-        expect(language_name(:ru, :en)).to eq('Russian')
+        expect(language_name(dict, :ru, :en)).to eq('Russian')
       end
     end
 
     context 'app lang=ru' do
       it 'return English for :en' do
-        expect(language_name(:en, :ru)).to eq('Английский')
+        expect(language_name(dict, :en, :ru)).to eq('Английский')
       end
 
       it 'return Russian for :ru' do
-        expect(language_name(:ru, :ru)).to eq('Русский')
+        expect(language_name(dict, :ru, :ru)).to eq('Русский')
       end
     end
   end

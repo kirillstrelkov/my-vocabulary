@@ -2,13 +2,13 @@
 
 %p
   %b Lang code 1:
-  = language_name(@word.lang_code1, I18n.locale)
+  = language_name(@dict, @word.lang_code1, I18n.locale)
 %p
   %b Text 1:
   = @word.text1
 %p
   %b Lang code 2:
-  = language_name(@word.lang_code2, I18n.locale)
+  = language_name(@dict, @word.lang_code2, I18n.locale)
 %p
   %b Text 2:
   = @word.text2

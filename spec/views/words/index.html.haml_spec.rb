@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'words/index', type: :view do
   before(:each) do
+    assign(:dict, DictionaryHelper::Dictionary.new('Yandex'))
     assign(:words, [
       Word.create!(
         lang_code1: 'en',

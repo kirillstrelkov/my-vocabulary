@@ -22,5 +22,16 @@ module MyWords
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    redis_conf = YAML.load(
+        ERB.new(File.read(File.join('config', 'redis.yml'))).result
+    )[Rails.env.to_s]
+    config.cache_store = [
+        :redis_store,
+        redis_conf['url'],
+        { db: redis_conf['db'],
+          namespace: redis_conf['namespace'],
+          expires_in: redis_conf['ttl'] }
+    ]
   end
 end

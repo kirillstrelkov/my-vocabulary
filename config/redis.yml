@@ -1,0 +1,16 @@
+development:
+  url: redis://localhost:6379
+  namespace: development_cache
+  ttl: <%= 5.minutes %>
+
+test:
+  url: redis://localhost:6379
+  namespace: test_cache
+  db: 2
+  ttl: <%= 1.minute %>
+
+production:
+  url: <%= ENV['REDIS_URL'] %>
+  namespace: production_cache
+  db: 0
+  ttl: <%= 30.days %>
