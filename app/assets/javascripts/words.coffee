@@ -12,7 +12,8 @@ $(document).ready ->
 
   $('#lang_code1').change ->
     lang_code = $(this).val()
-    $.getJSON '/dictionary/yandex/pairs', {lang_code: lang_code}, (resp)->
+    lang = $('body').prop('lang')
+    $.getJSON '/dictionary/yandex/pairs', {lang_code: lang_code, lang: lang}, (resp)->
       lang_select2 = $('#lang_code2')
       lang_select2.empty()
       $(resp).each (index, [text, value])->

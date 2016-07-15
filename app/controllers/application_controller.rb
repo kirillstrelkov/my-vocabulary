@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
   private
 
   def init_dictionary
-    @dict = DictionaryHelper::Dictionary.new('Yandex')
+    @dict = DictionaryHelper::Dictionary.new('Yandex', params.fetch('lang', I18n.locale))
   end
 end

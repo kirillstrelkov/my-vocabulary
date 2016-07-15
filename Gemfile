@@ -36,6 +36,8 @@ gem 'responders'
 gem 'bootstrap-sass'
 gem 'redis-rails'
 
+gem 'sort_alphabetical'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

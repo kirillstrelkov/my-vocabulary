@@ -280,6 +280,8 @@ GEM
     sexp_processor (4.6.0)
     shellany (0.0.1)
     slop (3.6.0)
+    sort_alphabetical (1.0.2)
+      unicode_utils (>= 1.2.2)
     spring (1.7.1)
     sprockets (3.6.1)
       concurrent-ruby (~> 1.0)
@@ -298,6 +300,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
+    unicode_utils (1.4.0)
     websocket (1.2.3)
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
@@ -336,6 +339,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   selenium-webdriver
+  sort_alphabetical
   spring
   sqlite3
   turbolinks

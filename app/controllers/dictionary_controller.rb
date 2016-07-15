@@ -3,11 +3,11 @@ class DictionaryController < ApplicationController
   respond_to :json
 
   def pairs
-    respond_with pairs_for_language(@dict, params.fetch('lang_code', I18n.locale))
+    respond_with pairs_for_language(@dict, params['lang_code'])
   end
 
   def languages
-    respond_with @dict.languages(params.fetch('lang_code', I18n.locale))
+    respond_with @dict.languages
   end
 
   def lookup
@@ -20,7 +20,7 @@ class DictionaryController < ApplicationController
       end
     end
     if errors.empty?
-      respond_with @dict.lookup(params['text'], params['lang_pair'], params.fetch('lang_code', I18n.locale))
+      respond_with @dict.lookup(params['text'], params['lang_pair'])
     else
       render json: {errors: errors}, status: :not_acceptable
     end

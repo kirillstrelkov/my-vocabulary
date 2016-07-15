@@ -12,14 +12,14 @@ RSpec.describe DictionaryController, type: :controller do
       get :languages, name: 'yandex', format: :json
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json).to include(:en)
-      expect(json[:en]).to include('English')
+      expect(json[:en]).to eq('English')
     end
 
     it 'returns supported languages for Russian' do
-      get :languages, name: 'yandex', lang_code: 'ru', format: :json
+      get :languages, name: 'yandex', lang_code: 'ru', lang:'ru', format: :json
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json).to include(:en)
-      expect(json[:en]).to include('Английский')
+      expect(json[:en]).to eq('Английский')
     end
   end
 
@@ -57,10 +57,17 @@ RSpec.describe DictionaryController, type: :controller do
 
   describe 'GET #pairs' do
     it 'returns json object with languages' do
-      get :pairs, name: 'yandex', format: :json
+      get :pairs, name: 'yandex', lang_code: 'en', format: :json
       expect(response).to have_http_status(:success)
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json).to include(['Russian', 'ru'])
+    end
+
+    it 'returns array with english content' do
+      get :pairs, name: 'yandex', lang_code: 'ru', format: :json
+      expect(response).to have_http_status(:success)
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json).to include(['English', 'en'])
     end
   end
 

@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe DictionaryHelper, type: :helper do
-  let(:dict) { DictionaryHelper::Dictionary.new('Yandex') }
+  let(:dict) { DictionaryHelper::Dictionary.new('Yandex', :en) }
+  let(:dict_ru) { DictionaryHelper::Dictionary.new('Yandex', :ru) }
 
   describe 'DictionaryHelper::Dictionary' do
     context '#initialize' do
       describe 'bad parameters' do
         it 'empty string' do
-          expect { DictionaryHelper::Dictionary.new(nil) }.to raise_error NameError
+          expect { DictionaryHelper::Dictionary.negw(nil) }.to raise_error NameError
         end
 
         it 'empty string' do
@@ -34,14 +35,14 @@ RSpec.describe DictionaryHelper, type: :helper do
 
     describe '#languages' do
       it 'contains English language data' do
-        pairs, langs = DictionaryHelper::Dictionary.new('yandex').pairs_and_languages('en')
+        pairs, langs = DictionaryHelper::Dictionary.new('yandex').pairs_and_languages
         expect(pairs).to include('en-ru')
         expect(langs).to include(:en)
         expect(langs[:en]).to eq('English')
       end
 
       it 'contains Russian language data' do
-        pairs, langs = DictionaryHelper::Dictionary.new('yandex').pairs_and_languages('ru')
+        pairs, langs = DictionaryHelper::Dictionary.new('yandex', :ru).pairs_and_languages
         expect(pairs).to include('ru-de')
         expect(langs).to include(:ru)
         expect(langs[:en]).to eq('Английский')
@@ -247,33 +248,45 @@ RSpec.describe DictionaryHelper, type: :helper do
   end
 
   describe '#codes_and_languages' do
-    it 'should contain data for english with english locate' do
-      expect(codes_and_languages(dict, :en)).to include(['English', :en])
+    it 'should not contains unsupported languages' do
+      codes_and_languages = supported_languages_and_codes(dict)
+      codes = codes_and_languages.map {|l, c| c}
+      languages = codes_and_languages.map {|l, c| l}
+      expect(codes).not_to include(:af)
+      expect(languages).not_to include('Afrikaans')
+    end
+
+    it 'should contain data for english with english locale' do
+      languages_and_codes = supported_languages_and_codes(dict)
+      expect(languages_and_codes).to include(%w(English en))
+      expect(languages_and_codes.count(%w(English en))).to eq(1)
     end
 
     it 'should contain array for russian with russian locale' do
-      expect(codes_and_languages(dict, :ru)).to include(['Русский', :ru])
+      languages_and_codes = supported_languages_and_codes(dict_ru)
+      expect(languages_and_codes).to include(%w(Русский ru))
+      expect(languages_and_codes.count(%w(Русский ru))).to eq(1)
     end
   end
 
   describe '#language_name' do
     context 'app lang=en' do
       it 'return English for :en' do
-        expect(language_name(dict, :en, :en)).to eq('English')
+        expect(language_name(dict, :en)).to eq('English')
       end
 
       it 'return Russian for :ru' do
-        expect(language_name(dict, :ru, :en)).to eq('Russian')
+        expect(language_name(dict, :ru)).to eq('Russian')
       end
     end
 
     context 'app lang=ru' do
       it 'return English for :en' do
-        expect(language_name(dict, :en, :ru)).to eq('Английский')
+        expect(language_name(dict_ru, :en)).to eq('Английский')
       end
 
       it 'return Russian for :ru' do
-        expect(language_name(dict, :ru, :ru)).to eq('Русский')
+        expect(language_name(dict_ru, :ru)).to eq('Русский')
       end
     end
   end
@@ -296,12 +309,28 @@ RSpec.describe DictionaryHelper, type: :helper do
     end
   end
 
-  describe '#language_pairs_with_codes_and_languages' do
-    it 'has en-ru and en-de' do
-      locale = :en
-      codes_and_languages = pairs_for_language(dict, locale)
-      expect(codes_and_languages.first).to eq(['Belarusian', 'be'])
-      expect(codes_and_languages).not_to include(['English', 'en'])
+  describe '#pairs_for_language' do
+    context 'english' do
+      it 'has albanian but not english' do
+        codes_and_languages = pairs_for_language(dict, :en)
+        expect(codes_and_languages.first).to eq(['Albanian', 'sq'])
+        expect(codes_and_languages).not_to include(['English', 'en'])
+      end
+    end
+
+    context 'russian' do
+      it 'has azerbaijan but not russian' do
+        codes_and_languages = pairs_for_language(dict, :ru)
+        expect(codes_and_languages.first).to eq(['Albanian', 'sq'])
+        expect(codes_and_languages).not_to include(['Russian', 'ru'])
+      end
+    end
+
+    context 'russian locale' do
+      it 'hash last element as estonian' do
+        codes_and_languages = pairs_for_language(dict_ru, :en)
+        expect(codes_and_languages.last).to eq(['Эстонский', 'et'])
+      end
     end
   end
 

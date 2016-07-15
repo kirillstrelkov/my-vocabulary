@@ -3,29 +3,33 @@ require 'uri'
 
 module DictionaryHelper
   def language_pairs(dict, lang_code)
-    dict.pairs(lang_code).select {|p| p.split('-').first == lang_code.to_s}.sort
+    dict.pairs.select {|p| p.split('-').first == lang_code.to_s}.sort
   end
 
-  def language_name(dict, lang_code, lang)
-    Hash[codes_and_languages(dict, lang.to_sym).map {|v, c| [c,v]}][lang_code.to_sym]
+  def language_name(dict, lang_code)
+    Hash[dict.languages][lang_code.to_sym]
   end
 
   def pairs_for_language(dict, lang_code)
     pairs = language_pairs(dict, lang_code)
     pairs.map do |p|
       code2 = p.split('-').last
-      [language_name(dict, code2, lang_code), code2]
-    end
+      [language_name(dict, code2), code2]
+    end.sort_alphabetical_by {|v, c| v}
   end
 
-  def codes_and_languages(dict, lang_code)
-    dict.pairs_and_languages(lang_code).last.map do |code, value|
-      [value, code]
-    end.sort_by {|v, c| v}
+  def supported_languages_and_codes(dict)
+    dict.pairs.map do |pair|
+      pair.split('-').first
+    end.uniq.map do |code|
+      [language_name(dict, code), code]
+    end.sort_alphabetical_by {|v, c| v}
   end
 
   class Dictionary
     include RedisHelper
+
+    attr_accessor :lang_ui
 
     def get_data(method, *params)
       key = params.join('_')
@@ -39,25 +43,26 @@ module DictionaryHelper
     end
 
 
-    def initialize(name)
+    def initialize(name, lang_ui=:en)
       @dict = Dictionary.const_get(name.capitalize)
+      @lang_ui = lang_ui
     end
 
-    def pairs(lang_code)
-      pairs_and_languages(lang_code).first
+    def pairs
+      pairs_and_languages.first
     end
 
-    def languages(lang_code)
-      pairs_and_languages(lang_code).last
+    def languages
+      pairs_and_languages.last
     end
 
-    def pairs_and_languages(lang_code)
-      data = get_data(__method__, lang_code)
+    def pairs_and_languages
+      data = get_data(__method__, @lang_ui)
       [data[:dirs], data[:langs]]
     end
 
-    def lookup(text, lang_to_lang, lang_code)
-      get_data(__method__, text, lang_to_lang, lang_code)
+    def lookup(text, lang_to_lang)
+      get_data(__method__, text, lang_to_lang, @lang_ui)
     end
 
     module Yandex
@@ -67,16 +72,16 @@ module DictionaryHelper
       DICT_API_KEY = 'dict.1.1.20160628T204751Z.71532c0441bb3f56.edcc94822048ae14ba397c5ab1dfab9580077edb'
       DICT_URL = 'https://dictionary.yandex.net/api/v1/dicservice.json/'
 
-      def self.pairs_and_languages(lang_code)
-        url = TRNSL_URL + "getLangs?key=#{TRNSL_API_KEY}&ui=#{lang_code}"
+      def self.pairs_and_languages(lang_ui)
+        url = TRNSL_URL + "getLangs?key=#{TRNSL_API_KEY}&ui=#{lang_ui}"
 
         Rails.logger.debug("#{self}##{__method__}: #{url}")
 
         JSON.parse(open(URI.encode(url)).read, symbolize_names: true)
       end
 
-      def self.lookup(text, lang_pair, lang_code)
-        url = DICT_URL + "lookup?key=#{DICT_API_KEY}&text=#{text}&lang=#{lang_pair}&ui=#{lang_code}"
+      def self.lookup(text, lang_pair, lang_ui)
+        url = DICT_URL + "lookup?key=#{DICT_API_KEY}&text=#{text}&lang=#{lang_pair}&ui=#{lang_ui}"
 
         Rails.logger.debug("#{self}##{__method__}: #{url}")
 
@@ -87,10 +92,10 @@ module DictionaryHelper
           Rails.logger.debug("HTTPError string: #{e.io.string}")
           json = JSON.parse(e.io.string, symbolize_names: true)
         end
-        unless json.include?(:code)
-          simplify_translations(json, lang_pair=lang_pair)
-        else
+        if json.include?(:code)
           json
+        else
+          simplify_translations(json, lang_pair=lang_pair)
         end
       end
 
