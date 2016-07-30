@@ -23,6 +23,20 @@ class WordsController < ApplicationController
   def edit
   end
 
+  # GET /words/play
+  def play
+    word = Word.all.sample
+    translations = Word.where(
+        lang_code1: word.lang_code1,
+        lang_code2: word.lang_code2
+    ).where.not(text1: word.text1, text2: word.text2).limit(3) + [word]
+    translations.shuffle!
+    @cards = {
+        word: word,
+        translations:  translations
+    }
+  end
+
   # POST /words
   # POST /words.json
   def create

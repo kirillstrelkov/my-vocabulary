@@ -34,6 +34,7 @@ gem 'haml-rails'
 gem 'responders'
 
 gem 'bootstrap-sass'
+gem 'bootstrap-select-rails'
 gem 'redis-rails'
 
 gem 'sort_alphabetical'

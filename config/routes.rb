@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'words/play'
+
   get 'dictionary/:name/languages' => 'dictionary#languages'
   get 'dictionary/:name/lookup' => 'dictionary#lookup'
   get 'dictionary/:name/pairs' => 'dictionary#pairs'

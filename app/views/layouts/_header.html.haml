@@ -1,9 +1,23 @@
 %div{class: 'row'}
-  - lang_code1, lang_code2 = @lang_pair
-  %div{class: 'col-md-2'}
-    =select_tag 'lang_code1', options_for_select(supported_languages_and_codes(@dict), lang_code1), class: 'language-select form-control col-md-2'
-  -#%div{class: 'col-md-1'}
-  -#  %span{class: 'glyphicon glyphicon-transfer'}
-  %div{class: 'col-md-2'}
-    =select_tag 'lang_code2', options_for_select(pairs_for_language(@dict, lang_code1 || I18n.locale), lang_code2), class: 'language-select form-control col-md-2'
+  %div{class: 'col-md-6 col-md-offset-3'}
+    - lang_code1, lang_code2 = @lang_pair
+    %div{class: 'input-group'}
+      =select_tag 'lang_code1', options_for_select(supported_languages_and_codes(@dict), lang_code1), class: 'language-select selectpicker'
+      %span{class: 'input-group-addon cursor-pointer'}
+        %i{class: 'glyphicon glyphicon-transfer glyphicon-resize-horizontal'}
+      =select_tag 'lang_code2', options_for_select(pairs_for_language(@dict, lang_code1 || I18n.locale), lang_code2), class: 'language-select selectpicker'
+  %div{class: 'col-md-3'}
+    %h4{class: 'text-right'}
+      Words:
+      %span{class: 'badge'}
+        =number_of_words
+      Score:
+      %span{class: 'badge'}
+        =score
 %div{class: 'alerts row'}
+%ul{class: 'nav nav-tabs'}
+  -{words_path => 'My vocabulary',
+    new_word_path => 'Add word',
+    words_play_path => 'Play',}.each do |path, text|
+    %li{role: 'presentation', class: request.original_url.end_with?(path) ? 'active' : ''}
+      =link_to text, path

@@ -1,0 +1,24 @@
+-if @cards
+  %div{class: 'row', id: 'cards'}
+    %div{class: 'panel panel-default'}
+      %div{class: 'panel-heading'}
+        %h3{class: 'text-center word', 'data-word-id': @cards[:word].id}
+          =@cards[:word].text1
+          -if @cards[:word].pos
+            %span{class: 'label label-info'}
+              =@cards[:word].pos
+      %div{class: 'panel-body'}
+        -@cards[:translations].each_slice(2) do |sub_array|
+          %div{class: 'row'}
+            -sub_array.each do |tr|
+              %div{class: 'col-md-6'}
+                %button{class: 'btn btn-default btn-lg col-md-12 card', 'data-word-id': tr.id}
+                  =tr.text2
+      %div{class: 'row'}
+        %button{id: 'next-word', class: 'btn btn-default btn-lg disabled center-block'}
+          Next word
+-else
+  %div{class: 'row'}
+    %div{class: 'alert alert-info',  role: 'alert'}
+      %h3
+        Not enough words to play, please add more words

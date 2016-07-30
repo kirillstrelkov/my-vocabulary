@@ -3,12 +3,16 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 # VARIABLES:
-
 glyphicon_ok_html = "<span class='glyphicon glyphicon-ok' aria-hidden='true'>"
 
 $(document).ready ->
+  $('.selectpicker').selectpicker();
 
   # EVENTS:
+  $('#next-word').click ->
+    if not $(this).hasClass('disabled')
+      location.reload()
+      # fixme use ajax and don't use page reload
 
   $('#lang_code1').change ->
     lang_code = $(this).val()
@@ -18,7 +22,7 @@ $(document).ready ->
       lang_select2.empty()
       $(resp).each (index, [text, value])->
         lang_select2.append("""<option value="#{value}">#{text}</option>""")
-
+      lang_select2.selectpicker('refresh');
 
   $('.select-all').click ->
     rows = $('table tbody tr')
@@ -54,6 +58,25 @@ $(document).ready ->
             select_row(tr, true)
           else
             select_row(tr, false)
+
+  $('#cards .card').click ->
+    if $(this).hasClass('disabled')
+      return false
+    word_id = $('#cards .word').attr('data-word-id')
+    trans_id = $(this).attr('data-word-id')
+    $(this).removeClass('btn-default')
+    if word_id == trans_id
+      $(this).addClass('btn-success')
+    else
+      $(this).addClass('btn-danger')
+    $("#cards .card[data-word-id!=#{trans_id}]").each ->
+      $(this).addClass('disabled')
+    next_word_btn = $('#next-word')
+    if next_word_btn.hasClass('disabled')
+      next_word_btn.removeClass('disabled')
+    if next_word_btn.hasClass('btn-default')
+      next_word_btn.removeClass('btn-default')
+      next_word_btn.addClass('btn-primary')
 
   $('#add-words').click ->
     $('td.status > span.glyphicon').each ->
