@@ -2,6 +2,10 @@ Given(/^I am on "([^"]*)"$/) do |url|
   visit(url)
 end
 
+Given(/^I am on "([^"]*)" page$/) do |path|
+  visit(path)
+end
+
 When(/^I click "([^"]*)"$/) do |locator|
   click_link_or_button(locator)
 end
