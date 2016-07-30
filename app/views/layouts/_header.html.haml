@@ -8,6 +8,8 @@
       =select_tag 'lang_code2', options_for_select(pairs_for_language(@dict, lang_code1 || I18n.locale), lang_code2), class: 'language-select selectpicker'
   %div{class: 'col-md-3'}
     %h4{class: 'text-right'}
+      %span{class: 'text-info'}
+        = "#{@user.name},"
       Words:
       %span{class: 'badge'}
         =number_of_words

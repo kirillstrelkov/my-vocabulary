@@ -11,18 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714182245) do
+ActiveRecord::Schema.define(version: 20160730212515) do
 
-  create_table "words", force: :cascade do |t|
-    t.string   "lang_code1"
-    t.string   "text1"
-    t.string   "lang_code2"
-    t.string   "text2"
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "pos"
   end
 
-  add_index "words", ["lang_code1", "lang_code2", "text1", "text2"], name: "index_words_on_lang_code1_and_lang_code2_and_text1_and_text2", unique: true
+# Could not dump table "words" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
 end
