@@ -67,16 +67,28 @@ $(document).ready ->
     $(this).removeClass('btn-default')
     if word_id == trans_id
       $(this).addClass('btn-success')
+      command = 'increase'
     else
       $(this).addClass('btn-danger')
-    $("#cards .card[data-word-id!=#{trans_id}]").each ->
-      $(this).addClass('disabled')
-    next_word_btn = $('#next-word')
-    if next_word_btn.hasClass('disabled')
-      next_word_btn.removeClass('disabled')
-    if next_word_btn.hasClass('btn-default')
-      next_word_btn.removeClass('btn-default')
-      next_word_btn.addClass('btn-primary')
+      command = 'decrease'
+    $.post('/update_score', {command: command}, (resp)->
+      score_element = $('#score')
+      score = parseInt(score_element.text())
+      if command == 'increase'
+        score += 1
+      else if command == 'decrease'
+        score -= 1
+      score_element.text(score)
+
+      $("#cards .card[data-word-id!=#{trans_id}]").each ->
+        $(this).addClass('disabled')
+      next_word_btn = $('#next-word')
+      if next_word_btn.hasClass('disabled')
+        next_word_btn.removeClass('disabled')
+      if next_word_btn.hasClass('btn-default')
+        next_word_btn.removeClass('btn-default')
+        next_word_btn.addClass('btn-primary')
+    )
 
   $('#add-words').click ->
     $('td.status > span.glyphicon').each ->
@@ -101,6 +113,10 @@ $(document).ready ->
       $.post('/words.json', data, (resp)->
         message = "Pair '#{resp['text1']} - #{resp['text2']}' was added successfully"
         add_alert('success', message)
+        now_element = $('#number-of-words')
+        number_of_words = parseInt(now_element.text())
+        number_of_words += 1
+        now_element.text(number_of_words)
       ).error (resp)->
         if resp.status == 422
           alert_type = 'warning'

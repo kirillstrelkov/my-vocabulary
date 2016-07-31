@@ -11,11 +11,11 @@
       %span{class: 'text-info'}
         = "#{@user.name},"
       Words:
-      %span{class: 'badge'}
+      %span{id: 'number-of-words', class: 'badge'}
         =number_of_words
       Score:
-      %span{class: 'badge'}
-        =score
+      %span{id: 'score', class: 'badge'}
+        = @user.nil? ? 0 : @user.score
 %div{class: 'alerts row'}
 %ul{class: 'nav nav-tabs'}
   -{words_path => 'My vocabulary',

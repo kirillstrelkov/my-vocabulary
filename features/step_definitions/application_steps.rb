@@ -26,5 +26,7 @@ end
 
 When(/^I choose incorrect answer$/) do
   correct_word_id = find('.panel-heading h3')['data-word-id']
-  first("button[data-word-id!='#{correct_word_id}']").click
+  all("button[data-word-id]").select do |e|
+    e['data-word-id'] != correct_word_id
+  end.sample.click
 end

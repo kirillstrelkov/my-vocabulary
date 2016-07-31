@@ -15,5 +15,16 @@ class ApplicationController < ActionController::Base
     email = 'guest@localhost'
     guest = User.where(email: email).first
     @user = guest || User.create!(name: 'Guest', email: email)
+    session[:user_id] = @user.id
+  end
+
+  def loggedin?
+    guest = User.where(email: 'guest@localhost').first
+    if guest
+      session[:user_id] == guest.id
+    else
+      false
+    end
+    # supports only Guest session
   end
 end

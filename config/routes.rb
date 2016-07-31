@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :words
 
+  post 'update_score' => 'user#update_score'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

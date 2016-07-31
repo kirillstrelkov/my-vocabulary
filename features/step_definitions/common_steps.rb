@@ -39,16 +39,19 @@ When(/^I click css element "([^"]*)"$/) do |locator|
 end
 
 And(/^I select "([^"]*)" from "([^"]*)"$/) do |text, locator|
-  select(text, from: locator)
+  select(text, from: locator, visible: false)
 end
 
 Then(/^I should see "([^"]*)" option selected in "([^"]*)"$/) do |text, locator|
-  # expect(find(:select, locator).find(:option, '[selected]').text).to eq(text)
   expect(page).to have_select(locator, selected: text)
 end
 
 When(/^I wait for (\d+\.\d+|\d+) seconds?$/) do |timeout|
   sleep(timeout.to_f)
+end
+
+When(/^I debug$/) do
+  byebug
 end
 
 Given(/^pending.*$/) do
