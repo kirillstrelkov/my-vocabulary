@@ -4,6 +4,7 @@ class Word < ActiveRecord::Base
   validates :lang_code1, :lang_code2, format: { with: /\A[a-z]{2,3}\z/,
                                                 message: 'bad language code' }
   validate :uniqness, on: :create
+  belongs_to :post
 
   private
   def uniqness

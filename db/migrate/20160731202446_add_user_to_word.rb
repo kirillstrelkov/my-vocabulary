@@ -1,5 +1,5 @@
 class AddUserToWord < ActiveRecord::Migration
   def change
-    add_column :words, :user_id, :reference
+    add_reference :words, :user, index: true
   end
 end
