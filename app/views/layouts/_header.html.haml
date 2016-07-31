@@ -16,10 +16,10 @@
       Score:
       %span{id: 'score', class: 'badge'}
         = @user.nil? ? 0 : @user.score
-%div{class: 'alerts row'}
 %ul{class: 'nav nav-tabs'}
   -{words_path => 'My vocabulary',
     new_word_path => 'Add word',
     words_play_path => 'Play',}.each do |path, text|
     %li{role: 'presentation', class: request.original_url.end_with?(path) ? 'active' : ''}
       =link_to text, path
+%div{class: 'alerts row'}
