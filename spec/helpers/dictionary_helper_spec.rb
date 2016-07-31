@@ -33,7 +33,7 @@ RSpec.describe DictionaryHelper, type: :helper do
 
     end
 
-    describe '#languages' do
+    describe '#pairs_and_languages' do
       it 'contains English language data' do
         pairs, langs = DictionaryHelper::Dictionary.new('yandex').pairs_and_languages
         expect(pairs).to include('en-ru')
