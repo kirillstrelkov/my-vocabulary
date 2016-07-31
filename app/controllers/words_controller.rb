@@ -25,19 +25,20 @@ class WordsController < ApplicationController
 
   # GET /words/play
   def play
-    if Word.count > 4
+    @cards = nil
+    if Word.count > 0
       word = Word.all.sample
       translations = Word.where(
           lang_code1: word.lang_code1,
           lang_code2: word.lang_code2
       ).where.not(text1: word.text1, text2: word.text2).limit(3) + [word]
-      translations.shuffle!
-      @cards = {
-          word: word,
-          translations:  translations
-      }
-    else
-      @cards = nil
+      if translations.length > 4
+        translations.shuffle!
+        @cards = {
+            word: word,
+            translations:  translations
+        }
+      end
     end
   end
 

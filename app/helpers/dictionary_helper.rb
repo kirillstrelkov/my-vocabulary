@@ -66,10 +66,10 @@ module DictionaryHelper
     end
 
     module Yandex
-      TRNSL_API_KEY = 'trnsl.1.1.20160628T200655Z.c8b724f2b136fa7b.04f68b56a9aaf7bf3e0c8164c3efe063d8f316d7'
+      TRNSL_API_KEY = ENV['YANDEX_TRNSL_API_KEY']
       TRNSL_URL = 'https://translate.yandex.net/api/v1.5/tr.json/'
 
-      DICT_API_KEY = 'dict.1.1.20160628T204751Z.71532c0441bb3f56.edcc94822048ae14ba397c5ab1dfab9580077edb'
+      DICT_API_KEY = ENV['YANDEX_DICT_API_KEY']
       DICT_URL = 'https://dictionary.yandex.net/api/v1/dicservice.json/'
 
       def self.pairs_and_languages(lang_ui)
