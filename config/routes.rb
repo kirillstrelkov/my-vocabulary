@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'session/update_lang_pair'
+
   get 'words/play'
 
   get 'dictionary/:name/languages' => 'dictionary#languages'

@@ -1,6 +1,6 @@
 Feature: Application should support different languages and language pairs
 
-  Scenario: User should be change languge pair
+  Scenario: User should be change languge pair from url
     Given I am on main page
     And pending
 
@@ -32,7 +32,6 @@ Feature: Application should support different languages and language pairs
     Given I am on main page
     Then I should see "Russian" option selected in "lang_code1"
     And I should see "Belorussian" option selected in "lang_code2"
-
 
   Scenario: Language pair should be preserved while navigating
     Given I am on main page

@@ -20,7 +20,6 @@ Feature: User should be able to add new word
     When I click "Add word"
     When I fill in "q" with "<orig_text>"
     And I select "<from_lang>" from "lang_code1"
-    And I wait for 0.3 seconds
     And I select "<to_lang>" from "lang_code2"
     And I click "Get translations"
     Then I should see "<trans_text>" on page
@@ -36,7 +35,6 @@ Feature: User should be able to add new word
     When I click "Add word"
     When I fill in "q" with "hallo"
     And I select "German" from "lang_code1"
-    And I wait for 0.3 seconds
     And I select "English" from "lang_code2"
     And I click "Get translations"
     Then I should see "hello" on page

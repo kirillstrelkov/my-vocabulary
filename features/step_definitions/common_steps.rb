@@ -39,11 +39,20 @@ When(/^I click css element "([^"]*)"$/) do |locator|
 end
 
 And(/^I select "([^"]*)" from "([^"]*)"$/) do |text, locator|
-  select(text, from: locator, visible: false)
+  if first('.selectpicker')
+    find("button[data-id='#{locator}']").click
+    find('.dropdown-menu.open').find('a span.text', text: text).click
+  else
+    select(text, from: locator, visible: false)
+  end
 end
 
 Then(/^I should see "([^"]*)" option selected in "([^"]*)"$/) do |text, locator|
-  expect(page).to have_select(locator, selected: text)
+  if first('.selectpicker')
+    expect(find("button[data-id='#{locator}']")['title']).to eq(text)
+  else
+    expect(page).to have_select(locator, selected: text, visible: false)
+  end
 end
 
 When(/^I wait for (\d+\.\d+|\d+) seconds?$/) do |timeout|

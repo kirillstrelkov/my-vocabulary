@@ -23,6 +23,11 @@ $(document).ready ->
       $(resp).each (index, [text, value])->
         lang_select2.append("""<option value="#{value}">#{text}</option>""")
       lang_select2.selectpicker('refresh');
+      lang_select2.val(resp[0][1]);
+      update_session()
+
+  $('#lang_code2').change ->
+    update_session()
 
   $('.select-all').click ->
     rows = $('table tbody tr')
@@ -128,6 +133,10 @@ $(document).ready ->
         add_alert(alert_type, message)
 
   # FUNCTIONS:
+  update_session = ()->
+    lang_code1 = $('#lang_code1').val()
+    lang_code2 = $('#lang_code2').val()
+    $.post('/session/update_lang_pair', { lang_pair: "#{lang_code1}-#{lang_code2}" })
 
   add_alert = (type, message)->
     $('.alerts').append("""
