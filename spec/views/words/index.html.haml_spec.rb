@@ -8,13 +8,15 @@ RSpec.describe 'words/index', type: :view do
         lang_code1: 'en',
         text1: 'hello',
         lang_code2: 'ru',
-        text2: 'привет'
+        text2: 'привет',
+        user_id: 1,
       ),
       Word.create!(
         lang_code1: 'de',
         text1: 'hallo',
         lang_code2: 'ru',
-        text2: 'привет'
+        text2: 'привет',
+        user_id: 1,
       )
     ])
   end

@@ -7,7 +7,8 @@ RSpec.describe "words/show", type: :view do
       lang_code1: 'en',
       lang_code2: 'ru',
       text1: 'text 1',
-      text2: 'text 2'
+      text2: 'text 2',
+      user_id: 1,
     ))
   end
 

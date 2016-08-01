@@ -6,7 +6,7 @@ class WordsController < ApplicationController
   # GET /words
   # GET /words.json
   def index
-    @words = Word.all
+    @words = @user ? @user.words : []
   end
 
   # GET /words/1
@@ -26,17 +26,23 @@ class WordsController < ApplicationController
   # GET /words/play
   def play
     @cards = nil
-    if Word.count > 0
-      word = Word.all.sample
-      translations = Word.where(
-          lang_code1: word.lang_code1,
-          lang_code2: word.lang_code2
-      ).where.not(text1: word.text1, text2: word.text2).limit(3) + [word]
-      if translations.length > 4
+    words = @user.words
+    if words.count > 0
+      word = words.sample
+      translations = words.where(
+        lang_code1: word.lang_code1,
+        lang_code2: word.lang_code2,
+        pos: word.pos,
+      ).where.not(
+        text1: word.text1,
+        text2: word.text2,
+      ).limit(3)
+      if translations.length == 3
+        translations += [word]
         translations.shuffle!
         @cards = {
-            word: word,
-            translations:  translations
+          word: word,
+          translations:  translations
         }
       end
     end
@@ -99,6 +105,7 @@ class WordsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
     def word_params
-      params.require(:word).permit(:lang_code1, :lang_code2, :text1, :text2, :pos)
+      params[:word][:user_id] = @user ? @user.id : nil
+      params.require(:word).permit(:lang_code1, :lang_code2, :text1, :text2, :pos, :user_id)
     end
 end

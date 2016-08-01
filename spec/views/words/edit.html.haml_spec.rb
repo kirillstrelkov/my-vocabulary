@@ -6,7 +6,8 @@ RSpec.describe 'words/edit', type: :view do
       lang_code1: 'en',
       lang_code2: 'de',
       text1: 'hello',
-      text2: 'hallo'
+      text2: 'hallo',
+      user_id: 1,
     ))
   end
 

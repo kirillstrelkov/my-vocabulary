@@ -1,5 +1,5 @@
 module WordsHelper
   def number_of_words
-    Word.all.length
+    @user ? @user.words.count : 0
   end
 end

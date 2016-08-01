@@ -107,7 +107,7 @@ $(document).ready ->
           lang_code2: lang_code2,
           pos: pos,
           text1: text1,
-          text2: text2
+          text2: text2,
         }
       }
       $.post('/words.json', data, (resp)->

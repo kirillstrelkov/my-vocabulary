@@ -6,10 +6,14 @@ RSpec.describe Word, type: :model do
       lang_code1: 'de',
       lang_code2: 'en',
       text1: 'hallo',
-      text2: 'hello'
+      text2: 'hello',
+      user_id: 1
     }
   end
   let(:valid_word) { FactoryGirl.build(:word, valid_data) }
+  let(:word_without_user_id) do
+    FactoryGirl.build(:word, valid_data.update({user_id: nil}))
+  end
 
   it 'has correct field' do
     valid_data.each do |k, v|
@@ -23,7 +27,10 @@ RSpec.describe Word, type: :model do
     end
   end
   context 'not valid?' do
-    it 'has field is not set' do
+    it 'has user_id not set' do
+      expect(word_without_user_id).not_to be_valid
+    end
+    it 'has field not set' do
       invalid_words = valid_data.map do |k, v|
         FactoryGirl.build(:word, valid_data.merge({k => nil}))
       end
