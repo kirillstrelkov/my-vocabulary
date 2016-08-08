@@ -4,6 +4,7 @@ FactoryGirl.define do
     lang_code2 'ru'
     text1 'my string'
     text2 'my string'
+    pos 'noun'
     user_id 1
   end
 end

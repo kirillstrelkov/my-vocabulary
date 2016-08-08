@@ -40,7 +40,10 @@ end
 
 And(/^I select "([^"]*)" from "([^"]*)"$/) do |text, locator|
   if first('.selectpicker')
-    find("button[data-id='#{locator}']").click
+    3.times do |t|
+      find("button[data-id='#{locator}']").click
+      break if has_css?('.dropdown-menu.open')
+    end
     find('.dropdown-menu.open').find('a span.text', text: text).click
   else
     select(text, from: locator, visible: false)
@@ -65,6 +68,10 @@ end
 
 Given(/^pending.*$/) do
   pending
+end
+
+When(/^I hit (\w+) in "([^"]*)"$/) do |key, locator|
+  find(:fillable_field, locator).native.send_keys(key.downcase.to_sym)
 end
 
 def wait_for(timeout, &condition)

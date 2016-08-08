@@ -45,6 +45,14 @@ Feature: User should be able to add new word
     And I should see "hi" on page
     And I should see "Hallo" on page
 
+  Scenario: User should be able to seach for translation with ENTER
+    Given I am on main page
+    When I click "Add word"
+    And I select "German" from "lang_code1"
+    And I select "English" from "lang_code2"
+    And I fill in "q" with "hallo"
+    And I hit ENTER in "q"
+    Then I should see "hello" on page
 
   Scenario: User should be able to select correct language pairs
     Given I am on main page

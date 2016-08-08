@@ -6,8 +6,11 @@ Given(/^the following words exist:$/) do |table|
   data = table.raw
   header = data.first
   Word.destroy_all
+  user_id = (User.where(email: 'guest@locahost').first || FactoryGirl.create(:user)).id
   data[1..-1].each do |row|
-    FactoryGirl.create(:word, Hash[header.zip(row)])
+    hash = Hash[header.zip(row)]
+    hash[:user_id] = user_id
+    FactoryGirl.create(:word, hash)
   end
 end
 
@@ -29,4 +32,12 @@ When(/^I choose incorrect answer$/) do
   all("button[data-word-id]").select do |e|
     e['data-word-id'] != correct_word_id
   end.sample.click
+end
+
+Then(/^I should see correct answer$/) do
+  assert_selector("button.card[class*='btn-success']")
+end
+
+Then(/^I should see incorrect answer$/) do
+  assert_selector("button.card[class*='btn-danger']")
 end

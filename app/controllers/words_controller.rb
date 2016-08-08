@@ -1,5 +1,6 @@
 class WordsController < ApplicationController
   helper DictionaryHelper
+  include CardGeneratorHelper
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   before_action :set_lang_pair, only: [:index, :new, :play]
 
@@ -25,27 +26,7 @@ class WordsController < ApplicationController
 
   # GET /words/play
   def play
-    @cards = nil
-    words = @user.words
-    if words.count > 0
-      word = words.sample
-      translations = words.where(
-        lang_code1: word.lang_code1,
-        lang_code2: word.lang_code2,
-        pos: word.pos,
-      ).where.not(
-        text1: word.text1,
-        text2: word.text2,
-      ).limit(3)
-      if translations.length == 3
-        translations += [word]
-        translations.shuffle!
-        @cards = {
-          word: word,
-          translations:  translations
-        }
-      end
-    end
+    @cards = generate_cards
   end
 
   # POST /words

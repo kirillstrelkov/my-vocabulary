@@ -23,6 +23,14 @@ Feature: Application should support different languages and language pairs
     Then I should see "English" option selected in "lang_code1"
     And I should see "Albanian" option selected in "lang_code2"
 
+  Scenario: Language combination should be changable
+    Given I am on main page
+    Then I should see "English" option selected in "lang_code1"
+    And I should see "Albanian" option selected in "lang_code2"
+    When I click "change_langs"
+    Then I should see "Albanian" option selected in "lang_code1"
+    And I should see "English" option selected in "lang_code2"
+
   Scenario: Default language should be English
     Given I am on main page
     Then I should see "English" option selected in "lang_code1"

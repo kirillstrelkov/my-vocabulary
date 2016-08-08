@@ -15,4 +15,6 @@ Feature: Words list
   Scenario: User should see German-English words if German-English lang_pair is passed
     Given pending
 
+  Scenario: User should see updated table if language pair was changed
+    Given pending
 # TODO check alerts: close, success, warning, etc

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   context 'valid' do
     it 'with correct field' do
-      user = FactoryGirl.build(:user)
+      user = FactoryGirl.build(:user, email: Faker::Internet.email)
       expect(user).to be_valid
     end
   end
@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
   end
 
   context 'without words' do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.build(:user, email: Faker::Internet.email) }
 
     it 'has no words' do
       expect(user.words).to be_empty
@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do
 
   context 'with words' do
     let(:user) do
-      u = FactoryGirl.create(:user)
+      u = FactoryGirl.create(:user, email: Faker::Internet.email)
       FactoryGirl.create(:word, user_id: u.id)
       FactoryGirl.create(:word, text1: 'my string 1', user_id: u.id)
       FactoryGirl.create(:word, text1: 'my string 2', user_id: u.id)

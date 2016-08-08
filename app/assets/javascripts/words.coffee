@@ -9,6 +9,9 @@ $(document).ready ->
   $('.selectpicker').selectpicker();
 
   # EVENTS:
+  $('#q').keypress (e)->
+    $('#translate').click() if e.keyCode == 13
+
   $('#next-word').click ->
     if not $(this).hasClass('disabled')
       location.reload()
@@ -71,11 +74,11 @@ $(document).ready ->
     trans_id = $(this).attr('data-word-id')
     $(this).removeClass('btn-default')
     if word_id == trans_id
-      $(this).addClass('btn-success')
       command = 'increase'
     else
       $(this).addClass('btn-danger')
       command = 'decrease'
+    $("#cards .card[data-word-id='#{word_id}']").addClass('btn-success')
     $.post('/update_score', {command: command}, (resp)->
       score_element = $('#score')
       score = parseInt(score_element.text())
@@ -85,14 +88,14 @@ $(document).ready ->
         score -= 1
       score_element.text(score)
 
-      $("#cards .card[data-word-id!=#{trans_id}]").each ->
-        $(this).addClass('disabled')
+      $("#cards .card").each ->
+        $(this).addClass('disabled') if not $(this).hasClass('disabled')
       next_word_btn = $('#next-word')
-      if next_word_btn.hasClass('disabled')
-        next_word_btn.removeClass('disabled')
-      if next_word_btn.hasClass('btn-default')
-        next_word_btn.removeClass('btn-default')
-        next_word_btn.addClass('btn-primary')
+      $.each(['disabled', 'btn-default'], (index, value)->
+        if next_word_btn.hasClass(value)
+          next_word_btn.removeClass(value)
+      )
+      next_word_btn.addClass('btn-primary')
     )
 
   $('#add-words').click ->
