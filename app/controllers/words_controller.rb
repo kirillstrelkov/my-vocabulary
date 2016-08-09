@@ -76,7 +76,11 @@ class WordsController < ApplicationController
     end
 
     def set_lang_pair
-      if session[:lang_pair]
+      lang_pair = params[:lang_pair]
+      if lang_pair && lang_pair.match(/^\w{2,3}-\w{2,3}$/)
+        @lang_pair = lang_pair.downcase.split('-')
+        session[:lang_pair] = @lang_pair
+      elsif session[:lang_pair]
         @lang_pair = session[:lang_pair]
       else
         if @word

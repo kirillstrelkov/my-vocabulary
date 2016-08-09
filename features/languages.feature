@@ -1,8 +1,9 @@
 Feature: Application should support different languages and language pairs
 
   Scenario: User should be change languge pair from url
-    Given I am on main page
-    And pending
+    Given I am on "/?lang_pair=de-ru"
+    Then I should see "German" option selected in "lang_code1"
+    And I should see "Russian" option selected in "lang_code2"
 
   Scenario: User should be able to use application in English
     Given I am on main page
@@ -23,7 +24,7 @@ Feature: Application should support different languages and language pairs
     Then I should see "English" option selected in "lang_code1"
     And I should see "Albanian" option selected in "lang_code2"
 
-  Scenario: Language combination should be changable
+  Scenario: Language combination should be changable using button
     Given I am on main page
     Then I should see "English" option selected in "lang_code1"
     And I should see "Albanian" option selected in "lang_code2"
