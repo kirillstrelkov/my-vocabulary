@@ -9,6 +9,15 @@ $(document).ready ->
   $('.selectpicker').selectpicker();
 
   # EVENTS:
+  $('#change_langs').click ->
+    lang_code1 = $('#lang_code1').val()
+    lang_code2 = $('#lang_code2').val()
+    $('#lang_code1').val(lang_code2)
+    $('#lang_code1').selectpicker('refresh')
+    lang = $('body').prop('lang')
+    load_languages_and_select_one(lang_code2, lang, lang_code1)
+    update_session()
+
   $('#q').keypress (e)->
     $('#translate').click() if e.keyCode == 13
 
@@ -20,14 +29,7 @@ $(document).ready ->
   $('#lang_code1').change ->
     lang_code = $(this).val()
     lang = $('body').prop('lang')
-    $.getJSON '/dictionary/yandex/pairs', {lang_code: lang_code, lang: lang}, (resp)->
-      lang_select2 = $('#lang_code2')
-      lang_select2.empty()
-      $(resp).each (index, [text, value])->
-        lang_select2.append("""<option value="#{value}">#{text}</option>""")
-      lang_select2.selectpicker('refresh');
-      lang_select2.val(resp[0][1]);
-      update_session()
+    load_languages_and_select_one(lang_code, lang, null)
 
   $('#lang_code2').change ->
     update_session()
@@ -161,3 +163,16 @@ $(document).ready ->
     else
       if row.find(glyph).length != 0
         status.empty()
+
+  load_languages_and_select_one = (lang_code, lang, selected_lang)->
+    $.getJSON '/dictionary/yandex/pairs', {lang_code: lang_code, lang: lang}, (resp)->
+      lang_select2 = $('#lang_code2')
+      lang_select2.empty()
+      $(resp).each (index, [text, value])->
+        lang_select2.append("""<option value="#{value}">#{text}</option>""")
+      if selected_lang
+        lang_select2.val(selected_lang)
+      else
+        lang_select2.val(resp[0][1])
+      lang_select2.selectpicker('refresh')
+      update_session()

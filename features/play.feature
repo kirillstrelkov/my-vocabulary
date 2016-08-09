@@ -48,18 +48,4 @@ Feature: Cards play
     And I select "English" from "lang_code2"
     And I click "Play"
     Then I should see "Words: 4" on page
-    Then I should see "Not enough words to play, please add more words" on page
-
-#  Scenario: User should be able to play with cards
-#    Given I am on main page
-#    When I click "Add word"
-#    When I fill in "q" with "hallo"
-#    And I select "German" from "lang_code1"
-#    And I select "English" from "lang_code2"
-#    And I click "Get translations"
-#    Then I should see "hello" on page
-#    When I click "Add word"
-#    And I am on main page
-#    Then I should see "hello" on page
-#    And I should see "hi" on page
-#    And I should see "Hallo" on page
+    Then I should see "Not enough words to play for this language pair, please add more words or choose another pair" on page
