@@ -11,8 +11,8 @@
         -@cards[:translations].each_slice(2) do |sub_array|
           %div{class: 'row'}
             -sub_array.each do |tr|
-              %div{class: 'col-md-6'}
-                %button{class: 'btn btn-default btn-lg col-md-12 card', 'data-word-id': tr.id}
+              %div{class: 'col-md-6 col-sm-6 col-xs-12'}
+                %button{class: 'btn btn-default btn-lg col-md-12 col-sm-12 col-xs-12 card', 'data-word-id': tr.id}
                   =tr.text2
       %div{class: 'row'}
         %button{id: 'next-word', class: 'btn btn-default btn-lg disabled center-block'}
@@ -21,4 +21,4 @@
   %div{class: 'row'}
     %div{class: 'alert alert-info',  role: 'alert'}
       %h3{class: 'text-center'}
-        Not enough words to play, please add more words
+        Not enough words to play for this language pair, please add more words or choose another pair
