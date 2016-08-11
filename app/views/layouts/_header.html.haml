@@ -2,7 +2,7 @@
   %div{class: 'col-md-6 col-md-offset-3'}
     - lang_code1, lang_code2 = @lang_pair
     %div{class: 'input-group'}
-      =select_tag 'lang_code1', options_for_select(supported_languages_and_codes(@dict), lang_code1), class: 'language-select selectpicker', 'data-live-search': true
+      =select_tag 'lang_code1', options_for_select(unique_langs(@dict, :from), lang_code1), class: 'language-select selectpicker', 'data-live-search': true
       %span{id: 'change_langs', class: 'input-group-addon cursor-pointer'}
         %i{class: 'glyphicon glyphicon-transfer glyphicon-resize-horizontal'}
       =select_tag 'lang_code2', options_for_select(pairs_for_language(@dict, lang_code1 || I18n.locale), lang_code2), class: 'language-select selectpicker', 'data-live-search': true

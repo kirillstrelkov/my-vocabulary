@@ -16,26 +16,26 @@ Feature: Application should support different languages and language pairs
   Scenario: Language combination should be saved between pages
     Given I am on main page
     Then I should see "English" option selected in "lang_code1"
-    And I should see "Albanian" option selected in "lang_code2"
+    And I should see "Czech" option selected in "lang_code2"
     When I click "Add word"
     Then I should see "English" option selected in "lang_code1"
-    And I should see "Albanian" option selected in "lang_code2"
+    And I should see "Czech" option selected in "lang_code2"
     When I click "Play"
     Then I should see "English" option selected in "lang_code1"
-    And I should see "Albanian" option selected in "lang_code2"
+    And I should see "Czech" option selected in "lang_code2"
 
   Scenario: Language combination should be changable using button
     Given I am on main page
     Then I should see "English" option selected in "lang_code1"
-    And I should see "Albanian" option selected in "lang_code2"
+    And I should see "Czech" option selected in "lang_code2"
     When I click css element "#change_langs"
-    Then I should see "Albanian" option selected in "lang_code1"
+    Then I should see "Czech" option selected in "lang_code1"
     And I should see "English" option selected in "lang_code2"
 
   Scenario: Default language should be English
     Given I am on main page
     Then I should see "English" option selected in "lang_code1"
-    And I should see "Albanian" option selected in "lang_code2"
+    And I should see "Czech" option selected in "lang_code2"
 
   Scenario: Language pair is correct if locale is russian
     Given I am on main page

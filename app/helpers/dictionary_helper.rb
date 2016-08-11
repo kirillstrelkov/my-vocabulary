@@ -2,8 +2,53 @@ require 'open-uri'
 require 'uri'
 
 module DictionaryHelper
-  def language_pairs(dict, lang_code)
-    dict.pairs.select {|p| p.split('-').first == lang_code.to_s}.sort
+  def unique_langs(dict, direction)
+    raise Excetion("Unsupported #{direction} parameter") unless [:to, :from].include?(direction)
+    supported_pairs.map do |code1, code2|
+      code = direction == :from ? code1 : code2
+      [language_name(dict, code), code]
+    end.uniq
+  end
+
+  def supported_pairs
+    [
+      ["be", "ru"],
+      ["bg", "ru"],
+      ["cs", "en"], ["cs", "ru"],
+      ["da", "en"], ["da", "ru"],
+      ["nl", "en"], ["nl", "ru"],
+      ["en", "cs"], ["en", "da"], ["en", "nl"], ["en", "et"],
+      ["en", "fi"], ["en", "fr"], ["en", "de"], ["en", "el"],
+      ["en", "it"], ["en", "lv"], ["en", "lt"], ["en", "no"],
+      ["en", "pt"], ["en", "ru"], ["en", "sk"], ["en", "es"],
+      ["en", "sv"], ["en", "tr"], ["en", "uk"],
+      ["et", "en"], ["et", "ru"],
+      ["fi", "en"], ["fi", "ru"],
+      ["fr", "en"], ["fr", "ru"],
+      ["de", "en"], ["de", "ru"], ["de", "tr"],
+      ["el", "en"], ["el", "ru"],
+      ["it", "en"], ["it", "ru"],
+      ["lv", "en"], ["lv", "ru"],
+      ["lt", "en"], ["lt", "ru"],
+      ["no", "en"], ["no", "ru"],
+      ["pl", "ru"],
+      ["pt", "en"], ["pt", "ru"],
+      ["ru", "be"], ["ru", "bg"], ["ru", "cs"], ["ru", "da"],
+      ["ru", "nl"], ["ru", "en"], ["ru", "et"], ["ru", "fi"],
+      ["ru", "fr"], ["ru", "de"], ["ru", "el"], ["ru", "it"],
+      ["ru", "lv"], ["ru", "lt"], ["ru", "no"], ["ru", "pl"],
+      ["ru", "pt"], ["ru", "sk"], ["ru", "es"], ["ru", "sv"],
+      ["ru", "tr"], ["ru", "uk"],
+      ["sk", "en"], ["sk", "ru"],
+      ["es", "en"], ["es", "ru"],
+      ["sv", "en"], ["sv", "ru"],
+      ["tr", "en"], ["tr", "de"], ["tr", "ru"],
+      ["uk", "en"], ["uk", "ru"]
+    ]
+  end
+
+  def language_pairs(lang_code)
+    supported_pairs.select { |code1, _| code1 == lang_code.to_s }.sort
   end
 
   def language_name(dict, lang_code)
@@ -11,11 +56,11 @@ module DictionaryHelper
   end
 
   def pairs_for_language(dict, lang_code)
-    pairs = language_pairs(dict, lang_code)
-    pairs.map do |p|
-      code2 = p.split('-').last
+    language_pairs(lang_code).map do |_, code2|
       [language_name(dict, code2), code2]
-    end.sort_alphabetical_by {|v, c| v}
+    end.sort_alphabetical_by do |v, _|
+      v
+    end
   end
 
   def supported_languages_and_codes(dict)

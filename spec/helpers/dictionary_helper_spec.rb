@@ -3,6 +3,176 @@ require 'rails_helper'
 RSpec.describe DictionaryHelper, type: :helper do
   let(:dict) { DictionaryHelper::Dictionary.new('Yandex', :en) }
   let(:dict_ru) { DictionaryHelper::Dictionary.new('Yandex', :ru) }
+  let(:expected_good_pairs) do
+    [
+      ["be", "ru"],
+      ["bg", "ru"],
+      ["cs", "en"],
+      ["cs", "ru"],
+      ["da", "en"],
+      ["da", "ru"],
+      ["nl", "en"],
+      ["nl", "ru"],
+      ["en", "cs"],
+      ["en", "da"],
+      ["en", "nl"],
+      ["en", "et"],
+      ["en", "fi"],
+      ["en", "fr"],
+      ["en", "de"],
+      ["en", "el"],
+      ["en", "it"],
+      ["en", "lv"],
+      ["en", "lt"],
+      ["en", "no"],
+      ["en", "pt"],
+      ["en", "ru"],
+      ["en", "sk"],
+      ["en", "es"],
+      ["en", "sv"],
+      ["en", "tr"],
+      ["en", "uk"],
+      ["et", "en"],
+      ["et", "ru"],
+      ["fi", "en"],
+      ["fi", "ru"],
+      ["fr", "en"],
+      ["fr", "ru"],
+      ["de", "en"],
+      ["de", "ru"],
+      ["de", "tr"],
+      ["el", "en"],
+      ["el", "ru"],
+      ["it", "en"],
+      ["it", "ru"],
+      ["lv", "en"],
+      ["lv", "ru"],
+      ["lt", "en"],
+      ["lt", "ru"],
+      ["no", "en"],
+      ["no", "ru"],
+      ["pl", "ru"],
+      ["pt", "en"],
+      ["pt", "ru"],
+      ["ru", "be"],
+      ["ru", "bg"],
+      ["ru", "cs"],
+      ["ru", "da"],
+      ["ru", "nl"],
+      ["ru", "en"],
+      ["ru", "et"],
+      ["ru", "fi"],
+      ["ru", "fr"],
+      ["ru", "de"],
+      ["ru", "el"],
+      ["ru", "it"],
+      ["ru", "lv"],
+      ["ru", "lt"],
+      ["ru", "no"],
+      ["ru", "pl"],
+      ["ru", "pt"],
+      ["ru", "sk"],
+      ["ru", "es"],
+      ["ru", "sv"],
+      ["ru", "tr"],
+      ["ru", "uk"],
+      ["sk", "en"],
+      ["sk", "ru"],
+      ["es", "en"],
+      ["es", "ru"],
+      ["sv", "en"],
+      ["sv", "ru"],
+      ["tr", "en"],
+      ["tr", "de"],
+      ["tr", "ru"],
+      ["uk", "en"],
+      ["uk", "ru"]
+    ]
+  end
+  let(:expected_bad_pairs) do
+    [
+      ["sq", "en"],
+      ["sq", "ru"],
+      ["hy", "ru"],
+      ["az", "ru"],
+      ["be", "bg"],
+      ["be", "cs"],
+      ["be", "en"],
+      ["be", "fr"],
+      ["be", "de"],
+      ["be", "it"],
+      ["be", "pl"],
+      ["be", "ro"],
+      ["be", "sr"],
+      ["be", "es"],
+      ["be", "tr"],
+      ["bg", "be"],
+      ["bg", "uk"],
+      ["ca", "en"],
+      ["ca", "ru"],
+      ["hr", "ru"],
+      ["cs", "be"],
+      ["cs", "uk"],
+      ["en", "sq"],
+      ["en", "be"],
+      ["en", "ca"],
+      ["en", "hu"],
+      ["en", "mk"],
+      ["en", "sl"],
+      ["fr", "be"],
+      ["fr", "de"],
+      ["fr", "uk"],
+      ["de", "be"],
+      ["de", "fr"],
+      ["de", "it"],
+      ["de", "es"],
+      ["de", "uk"],
+      ["hu", "en"],
+      ["hu", "ru"],
+      ["it", "be"],
+      ["it", "de"],
+      ["it", "uk"],
+      ["mk", "en"],
+      ["mk", "ru"],
+      ["pl", "be"],
+      ["pl", "uk"],
+      ["ro", "be"],
+      ["ro", "ru"],
+      ["ro", "uk"],
+      ["ru", "sq"],
+      ["ru", "hy"],
+      ["ru", "az"],
+      ["ru", "ca"],
+      ["ru", "hr"],
+      ["ru", "hu"],
+      ["ru", "mk"],
+      ["ru", "ro"],
+      ["ru", "sr"],
+      ["ru", "sl"],
+      ["sr", "be"],
+      ["sr", "ru"],
+      ["sr", "uk"],
+      ["sl", "en"],
+      ["sl", "ru"],
+      ["es", "be"],
+      ["es", "de"],
+      ["es", "uk"],
+      ["tr", "be"],
+      ["tr", "uk"],
+      ["uk", "bg"],
+      ["uk", "cs"],
+      ["uk", "fr"],
+      ["uk", "de"],
+      ["uk", "it"],
+      ["uk", "pl"],
+      ["uk", "ro"],
+      ["uk", "sr"],
+      ["uk", "es"],
+      ["uk", "tr"]
+    ]
+  end
+
+
 
   describe 'DictionaryHelper::Dictionary' do
     context '#initialize' do
@@ -29,8 +199,6 @@ RSpec.describe DictionaryHelper, type: :helper do
           expect(DictionaryHelper::Dictionary.new('Yandex')).not_to be_nil
         end
       end
-
-
     end
 
     describe '#pairs_and_languages' do
@@ -47,7 +215,6 @@ RSpec.describe DictionaryHelper, type: :helper do
         expect(langs).to include(:ru)
         expect(langs[:en]).to eq('Английский')
       end
-
     end
   end
 
@@ -250,6 +417,7 @@ RSpec.describe DictionaryHelper, type: :helper do
   describe '#codes_and_languages' do
     it 'should not contains unsupported languages' do
       codes_and_languages = supported_languages_and_codes(dict)
+      pp codes_and_languages
       codes = codes_and_languages.map {|l, c| c}
       languages = codes_and_languages.map {|l, c| l}
       expect(codes).not_to include(:af)
@@ -294,35 +462,35 @@ RSpec.describe DictionaryHelper, type: :helper do
   describe '#language_pair' do
     it 'has en-ru and en-de' do
       locale = :en
-      expect(language_pairs(dict, locale)).to include('en-ru')
-      expect(language_pairs(dict, locale)).to include('en-de')
-      expect(language_pairs(dict, locale)).not_to include('ru-en')
-      expect(language_pairs(dict, locale)).not_to include('de-en')
+      expect(language_pairs(locale)).to include(%w(en ru))
+      expect(language_pairs(locale)).to include(%w(en de))
+      expect(language_pairs(locale)).not_to include(%w(ru en))
+      expect(language_pairs(locale)).not_to include(%w(de en))
     end
 
     it 'has de-ru and de-en' do
       locale = :de
-      expect(language_pairs(dict, locale)).to include('de-ru')
-      expect(language_pairs(dict, locale)).to include('de-en')
-      expect(language_pairs(dict, locale)).not_to include('ru-de')
-      expect(language_pairs(dict, locale)).not_to include('en-de')
+      expect(language_pairs(locale)).to include(%w(de ru))
+      expect(language_pairs(locale)).to include(%w(de en))
+      expect(language_pairs(locale)).not_to include(%w(ru de))
+      expect(language_pairs(locale)).not_to include(%w(en de))
     end
   end
 
   describe '#pairs_for_language' do
     context 'english' do
-      it 'has albanian but not english' do
+      it 'has czech but not english' do
         codes_and_languages = pairs_for_language(dict, :en)
-        expect(codes_and_languages.first).to eq(['Albanian', 'sq'])
-        expect(codes_and_languages).not_to include(['English', 'en'])
+        expect(codes_and_languages.first).to eq(%w(Czech cs))
+        expect(codes_and_languages).not_to include(%w(English en))
       end
     end
 
     context 'russian' do
-      it 'has azerbaijan but not russian' do
+      it 'has belorusian but not russian' do
         codes_and_languages = pairs_for_language(dict, :ru)
-        expect(codes_and_languages.first).to eq(['Albanian', 'sq'])
-        expect(codes_and_languages).not_to include(['Russian', 'ru'])
+        expect(codes_and_languages.first).to eq(%w(Belarusian be))
+        expect(codes_and_languages).not_to include(%w(Russian ru))
       end
     end
 
@@ -334,4 +502,55 @@ RSpec.describe DictionaryHelper, type: :helper do
     end
   end
 
+  # describe '#supported_languages_and_codes and #pairs_for_language' do
+  #   it 'should return only supported languages' do
+  #     bad_pairs = []
+  #     good_pairs = []
+  #     supported_languages_and_codes(dict).each do |_, code1|
+  #       pairs_for_language(code1).each do |_, code2|
+  #         lang_pair = "#{code1}-#{code2}"
+  #         lookup = dict.lookup('', lang_pair)
+  #         if lookup.empty?
+  #           good_pairs << [code1, code2]
+  #         else
+  #           bad_pairs << [code1, code2]
+  #         end
+  #       end
+  #     end
+  #     expect(good_pairs).to eq(expected_good_pairs)
+  #     expect(bad_pairs).to eq(expected_bad_pairs)
+  #   end
+  # end
+
+  describe '#supported_pairs' do
+    it 'should return correct pairs' do
+      expect(supported_pairs).to eq(expected_good_pairs)
+    end
+
+    it 'should NOT return incorrect pairs' do
+      expect(supported_pairs).not_to eq(expected_bad_pairs)
+    end
+  end
+
+  describe '#unique_langs' do
+    context 'should return correct pairs' do
+      it 'from' do
+        langs = unique_langs(dict, :from)
+        expect(langs).to include(%w(English en))
+        expect(langs.count(%w(English en))).to eq(1)
+        expect(langs.first).to eq(%w(Belarusian be))
+      end
+
+      it 'to' do
+        langs = unique_langs(dict, :to)
+        expect(langs).to include(%w(English en))
+        expect(langs.count(%w(English en))).to eq(1)
+        expect(langs.first).to eq(%w(Russian ru))
+      end
+
+      it 'raise exception' do
+        expect { unique_langs(dict, :oo) }.to raise_error Exception
+      end
+    end
+  end
 end

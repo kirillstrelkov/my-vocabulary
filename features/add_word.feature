@@ -6,15 +6,6 @@ Feature: User should be able to add new word
     And I click "My vocabulary"
     Then I should be on "/words"
 
-  Scenario: User should receive and error if translates from unsupported language pair
-    Given I am on main page
-    When I click "Add word"
-    When I fill in "q" with "hello"
-    And I select "English" from "lang_code1"
-    And I select "Belarusia" from "lang_code2"
-    And I click "Get translations"
-    Then I should see "The specified language is not supported" on page
-
   Scenario Outline: User should be able to choose several languages and translate words
     Given I am on main page
     When I click "Add word"
