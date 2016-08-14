@@ -7,7 +7,7 @@ class WordsController < ApplicationController
   # GET /words
   # GET /words.json
   def index
-    @words = @user ? @user.words : []
+    @words = current_user ? current_user.words : []
   end
 
   # GET /words/1
