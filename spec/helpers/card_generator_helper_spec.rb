@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CardGeneratorHelper, type: :helper do
   context '#generate_cards' do
     before :all do
-      @user = FactoryGirl.create(:user)
+      @user = FactoryGirl.create(:random_user)
       @lang_pair = ['de', 'en']
     end
 
@@ -29,7 +29,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      expect(generate_cards).to be_nil
+      expect(generate_cards(@user)).to be_nil
     end
 
     it 'returns cards when 4 words are verbs' do
@@ -49,7 +49,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      cards = generate_cards
+      cards = generate_cards(@user)
       expect(cards).to include(:translations)
       verify_cards(cards)
     end
@@ -73,7 +73,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      cards = generate_cards
+      cards = generate_cards(@user)
       expect(cards).to include(:translations)
       verify_cards(cards)
     end
@@ -95,7 +95,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      expect(generate_cards).to be_nil
+      expect(generate_cards(@user)).to be_nil
     end
   end
 

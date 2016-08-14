@@ -21,17 +21,18 @@ module MyVocabulary
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.assets.initialize_on_precompile = false
     config.active_record.raise_in_transactional_callbacks = true
 
     redis_conf = YAML.load(
-        ERB.new(File.read(File.join('config', 'redis.yml'))).result
+      ERB.new(File.read(File.join('config', 'redis.yml'))).result
     )[Rails.env.to_s]
     config.cache_store = [
-        :redis_store,
-        redis_conf['url'],
-        { db: redis_conf['db'],
-          namespace: redis_conf['namespace'],
-          expires_in: redis_conf['ttl'] }
+      :redis_store,
+      redis_conf['url'],
+      { db: redis_conf['db'],
+        namespace: redis_conf['namespace'],
+        expires_in: redis_conf['ttl'] }
     ]
 
     config.logger = Logger.new(STDOUT)

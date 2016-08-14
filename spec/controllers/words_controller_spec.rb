@@ -19,6 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe WordsController, type: :controller do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # Word. As you add validations to Word, be sure to

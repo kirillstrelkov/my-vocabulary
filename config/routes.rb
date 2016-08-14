@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # devise_for :users
+
+  devise_for :users, controllers: { sessions: 'users/sessions' }
+
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   post 'session/update_lang_pair'
 
   get 'words/play'

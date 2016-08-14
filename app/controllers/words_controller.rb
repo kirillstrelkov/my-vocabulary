@@ -26,7 +26,7 @@ class WordsController < ApplicationController
 
   # GET /words/play
   def play
-    @cards = generate_cards
+    @cards = user_signed_in? ? generate_cards(current_user) : nil
   end
 
   # POST /words
@@ -93,7 +93,7 @@ class WordsController < ApplicationController
     end
 
     def word_params
-      params[:word][:user_id] = @user ? @user.id : nil
+      params[:word][:user_id] = current_user.id
       params.require(:word).permit(:lang_code1, :lang_code2, :text1, :text2, :pos, :user_id)
     end
 end

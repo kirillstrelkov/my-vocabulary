@@ -28,6 +28,9 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'rails_admin'
+gem 'devise'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -52,6 +55,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-cucumber'
   gem 'factory_girl_rails'
+  gem 'faker'
 end
 
 group :test do
@@ -63,7 +67,6 @@ group :test do
   gem 'chromedriver-helper'
   gem 'poltergeist'
   gem 'rspec-rails'
-  gem 'faker'
 end
 
 group :development do

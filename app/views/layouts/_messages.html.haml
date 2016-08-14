@@ -1,0 +1,7 @@
+.alerts
+  - flash.each do |key, value|
+    - key = key == 'notice' ? 'info' : key
+    - alert_class = {'notice' => 'info', 'alert' => 'warning'}.fetch(key, key)
+    .alert.text-center{class: "alert-#{alert_class}"}
+      = link_to '×', '#', { 'data-dismiss' => 'alert', class: 'close' }
+      = value

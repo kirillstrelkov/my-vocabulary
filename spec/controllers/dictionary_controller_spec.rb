@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DictionaryController, type: :controller do
+  login_user
 
   describe 'GET #languages' do
     it 'returns http success' do

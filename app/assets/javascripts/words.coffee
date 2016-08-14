@@ -9,6 +9,11 @@ $(document).ready ->
   $('.selectpicker').selectpicker();
 
   # EVENTS:
+  $('#try_it').click ->
+    guest_email = 'guest@localhost'
+    $('#user_email').val(guest_email)
+    $('#user_password').val(guest_email)
+
   $('#change_langs').click ->
     lang_code1 = $('#lang_code1').val()
     lang_code2 = $('#lang_code2').val()

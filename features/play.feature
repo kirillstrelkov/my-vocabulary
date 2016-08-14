@@ -1,4 +1,6 @@
 Feature: Cards play
+  Background:
+    Given I am logged in as "Guest"
 
   Scenario: User should be able to get +1 score for correct result
     Given the following words exist:

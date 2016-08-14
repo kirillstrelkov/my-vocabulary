@@ -2,11 +2,18 @@ Given(/^I am on main page$/) do
   visit('/')
 end
 
+Given(/^I am logged in as "([^"]*)"$/) do |username|
+  create_guest if username.downcase == 'guest'
+  visit('/users/sign_in')
+  click_button('Try it')
+  assert_text('Logout')
+end
+
 Given(/^the following words exist:$/) do |table|
   data = table.raw
   header = data.first
   Word.destroy_all
-  user_id = (User.where(email: 'guest@locahost').first || FactoryGirl.create(:user)).id
+  user_id = create_guest.id
   data[1..-1].each do |row|
     hash = Hash[header.zip(row)]
     hash[:user_id] = user_id
@@ -40,4 +47,8 @@ end
 
 Then(/^I should see incorrect answer$/) do
   assert_selector("button.card[class*='btn-danger']")
+end
+
+def create_guest
+  User.where(email: 'guest@localhost').first || FactoryGirl.create(:user)
 end

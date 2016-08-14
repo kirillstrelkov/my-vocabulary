@@ -3,28 +3,12 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :init_dictionary
-  before_action :init_user
+  before_filter :authenticate_user!
 
   private
 
   def init_dictionary
-    @dict = DictionaryHelper::Dictionary.new('Yandex', params.fetch('lang', I18n.locale))
-  end
-
-  def init_user
-    email = 'guest@localhost'
-    guest = User.where(email: email).first
-    @user = guest || User.create!(name: 'Guest', email: email)
-    session[:user_id] = @user.id
-  end
-
-  def loggedin?
-    guest = User.where(email: 'guest@localhost').first
-    if guest
-      session[:user_id] == guest.id
-    else
-      false
-    end
-    # supports only Guest session
+    locale = params.fetch('lang', I18n.locale)
+    @dict = DictionaryHelper::Dictionary.new('Yandex', locale)
   end
 end

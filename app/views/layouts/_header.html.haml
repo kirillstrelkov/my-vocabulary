@@ -1,25 +1,28 @@
 %div{class: 'row'}
-  %div{class: 'col-md-6 col-md-offset-3'}
+  %div{class: 'col-md-6'}
     - lang_code1, lang_code2 = @lang_pair
     %div{class: 'input-group'}
       =select_tag 'lang_code1', options_for_select(unique_langs(@dict, :from), lang_code1), class: 'language-select selectpicker', 'data-live-search': true
       %span{id: 'change_langs', class: 'input-group-addon cursor-pointer'}
         %i{class: 'glyphicon glyphicon-transfer glyphicon-resize-horizontal'}
       =select_tag 'lang_code2', options_for_select(pairs_for_language(@dict, lang_code1 || I18n.locale), lang_code2), class: 'language-select selectpicker', 'data-live-search': true
-  %div{class: 'col-md-3'}
-    %h4{class: 'text-right'}
-      %span{class: 'text-info'}
-        = "#{@user.name},"
-      Words:
-      %span{id: 'number-of-words', class: 'badge'}
-        =number_of_words
-      Score:
-      %span{id: 'score', class: 'badge'}
-        = @user.nil? ? 0 : @user.score
+  %div{class: 'col-md-6'}
+    - if user_signed_in?
+      %h4{class: 'text-right'}
+        %span{class: 'text-info'}
+          = link_to "#{current_user.name}", edit_user_registration_path
+        Words:
+        %span{id: 'number-of-words', class: 'badge'}
+          = current_user.words.count
+        Score:
+        %span{id: 'score', class: 'badge'}
+          = current_user.score
+        = link_to('Logout', destroy_user_session_path, :method => :delete)
 %ul{class: 'nav nav-tabs'}
-  -{words_path => 'My vocabulary',
+  -{ edit_user_registration_path => 'My settings',
+    words_path => 'My vocabulary',
     new_word_path => 'Add word',
     words_play_path => 'Play',}.each do |path, text|
     %li{role: 'presentation', class: request.original_url.end_with?(path) ? 'active' : ''}
       =link_to text, path
-%div{class: 'alerts row'}
+= render 'layouts/messages'

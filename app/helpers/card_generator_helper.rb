@@ -1,8 +1,8 @@
 module CardGeneratorHelper
-  def generate_cards
+  def generate_cards(user)
     cards = nil
     Word.pluck(:pos).uniq.shuffle.each do |pos|
-      words = @user.words
+      words = user.words
       lang_code1, lang_code2 = @lang_pair
       if words.count > 0
         translations = words.where(
@@ -11,7 +11,7 @@ module CardGeneratorHelper
           pos: pos,
         )
         unless translations.empty?
-          uniq_text1 = translations.select(:text1).distinct.map {|w| w.text1}
+          uniq_text1 = translations.select(:text1).distinct.map(&:text1)
           word = translations.sample
           translations = translations.where(text1: uniq_text1 - [word.text1]).limit(3)
           if translations.length == 3
@@ -26,6 +26,7 @@ module CardGeneratorHelper
         end
       end
     end
+    flash[:notice] = 'Not enough words to play for this language pair, please add more words or choose another pair' if cards.nil? || cards.empty?
     cards
   end
 end

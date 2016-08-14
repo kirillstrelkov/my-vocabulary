@@ -39,8 +39,9 @@ When(/^I click css element "([^"]*)"$/) do |locator|
 end
 
 And(/^I select "([^"]*)" from "([^"]*)"$/) do |text, locator|
+  sleep(0.3) if Capybara.current_driver == :poltergeist
   if first('.selectpicker')
-    3.times do |t|
+    3.times do |_|
       find("button[data-id='#{locator}']").click
       break if has_css?('.dropdown-menu.open')
     end
@@ -60,6 +61,18 @@ end
 
 When(/^I wait for (\d+\.\d+|\d+) seconds?$/) do |timeout|
   sleep(timeout.to_f)
+end
+
+When(/^I accept alert$/) do
+  accept_alert
+end
+
+When(/^I cancel alert$/) do
+  accept_alert { click_button('Cancel') }
+end
+
+Then(/^I refresh page$/) do
+  visit(current_url)
 end
 
 When(/^I debug$/) do

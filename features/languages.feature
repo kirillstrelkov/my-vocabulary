@@ -1,4 +1,6 @@
 Feature: Application should support different languages and language pairs
+  Background:
+    Given I am logged in as "Guest"
 
   Scenario: User should be change languge pair from url
     Given I am on "/?lang_pair=de-ru"
