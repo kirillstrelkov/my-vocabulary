@@ -26,6 +26,11 @@ Then(/^I should see "([^"]*)" on page$/) do |text|
   assert_text(text)
 end
 
+Then(/^I should not see "([^"]*)" on page$/) do |text|
+  assert_no_text(text)
+end
+
+
 When(/^I fill in "([^"]*)" with "([^"]*)"$/) do |locator, text|
   fill_in(locator, with: text)
 end

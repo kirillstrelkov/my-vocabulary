@@ -38,6 +38,36 @@ Feature: User should be able to add new word
     And I should see "hi" on page
     And I should see "Hallo" on page
 
+    Scenario: User should see one success message if tries to add word second time
+      Given I am on main page
+      When I click "Add word"
+      And I select "English" from "lang_code1"
+      And I select "Russian" from "lang_code2"
+      When I fill in "q" with "tal"
+      And I click "Get translations"
+      Then I should see "таль" on page
+      When I click "Add words"
+      Then I should see "was added successfully" on page
+      When I click "Add words"
+      Then I should not see "was added successfully" on page
+
+    Scenario: User should see message if translation not found
+      Given I am on main page
+      When I click "Add word"
+      And I select "English" from "lang_code1"
+      And I select "Russian" from "lang_code2"
+      When I fill in "q" with "sdfsdf"
+      And I click "Get translations"
+      Then I should see "No translations were found" on page
+
+    Scenario: User should see message if tries to add word without selecting one of them
+      Given I am on main page
+      When I click "Add word"
+      And I select "English" from "lang_code1"
+      And I select "Russian" from "lang_code2"
+      And I click "Add words"
+      Then I should see "No translations were selected" on page
+
   Scenario: User should be able to seach for translation with ENTER
     Given I am on main page
     When I click "Add word"

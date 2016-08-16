@@ -50,6 +50,7 @@ $(document).ready ->
         select_row($(this), true)
 
   $('#translate').click ->
+    $('.alerts').empty()
     lang_code1 = $('#lang_code1').val()
     lang_code2 = $('#lang_code2').val()
     text = $('#q').val()
@@ -59,13 +60,15 @@ $(document).ready ->
       $('table tbody').empty()
       if resp.code
         add_alert('warning', resp['message'])
+      else if resp.length == 0
+        add_alert('info', 'No translations were found')
       else
         $(resp).each (i, e)->
           lang_pair = e['lang_pair']
           pos = e['pos']
           text = e['text']
           tr = e['tr']
-          $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'>" + glyphicon_ok_html + "</td><td class='lang_pair'>"+lang_pair+"</td><td class='pos'>"+pos+"</td><td class='text1'>"+text+"</td><td class='text2'>"+tr+"</td></tr>")
+          $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'></td><td class='lang_pair'>"+lang_pair+"</td><td class='pos'>"+pos+"</td><td class='text1'>"+text+"</td><td class='text2'>"+tr+"</td></tr>")
         $('table tr.translation').click ->
           tr = $(this)
           glyph = 'span.glyphicon'
@@ -106,7 +109,10 @@ $(document).ready ->
     )
 
   $('#add-words').click ->
-    $('td.status > span.glyphicon').each ->
+    $('.alerts').empty()
+    glyphicons = $('td.status > span.glyphicon')
+    add_alert('info', 'No translations were selected')
+    glyphicons.each ->
       row = $(this).parent().parent()
       lang_pair = row.find('td.lang_pair').text()
       lang_pair = lang_pair.split('-')
