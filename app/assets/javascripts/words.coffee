@@ -111,7 +111,6 @@ $(document).ready ->
   $('#add-words').click ->
     $('.alerts').empty()
     glyphicons = $('td.status > span.glyphicon')
-    add_alert('info', 'No translations were selected')
     glyphicons.each ->
       row = $(this).parent().parent()
       lang_pair = row.find('td.lang_pair').text()

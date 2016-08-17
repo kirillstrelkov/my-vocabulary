@@ -45,6 +45,8 @@ gem 'bootstrap-select-rails'
 gem 'redis-rails'
 
 gem 'sort_alphabetical'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

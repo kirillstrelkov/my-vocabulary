@@ -6,7 +6,10 @@ class Word < ActiveRecord::Base
   validate :uniqness, on: :create
   belongs_to :post
 
+  self.per_page = 10
+
   private
+
   def uniqness
     errors.add('Pair', "'#{text1} - #{text2}'  has already been added") if Word.find_by({text1: text1, text2: text2, lang_code1: lang_code1, lang_code2: lang_code2})
   end
