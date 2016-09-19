@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   # devise_for :users
 
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    omniauth_callbacks: 'omniauth_callbacks'
+  }
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   post 'session/update_lang_pair'
