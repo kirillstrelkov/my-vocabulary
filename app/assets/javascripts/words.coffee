@@ -31,6 +31,14 @@ $(document).ready ->
       location.reload()
       # fixme use ajax and don't use page reload
 
+  $('#skip-word').click ->
+    next_word = $('#next-word')
+    next_word.removeClass('hidden')
+    next_word.removeClass('disabled')
+    next_word.show()
+    $(this).hide()
+    show_correct_card()
+
   $('#lang_code1').change ->
     lang_code = $(this).val()
     lang = $('body').prop('lang')
@@ -88,7 +96,7 @@ $(document).ready ->
     else
       $(this).addClass('btn-danger')
       command = 'decrease'
-    $("#cards .card[data-word-id='#{word_id}']").addClass('btn-success')
+    show_correct_card()
     $.post('/update_score', {command: command}, (resp)->
       score_element = $('#score')
       score = parseInt(score_element.text())
@@ -186,3 +194,7 @@ $(document).ready ->
         lang_select2.val(resp[0][1])
       lang_select2.selectpicker('refresh')
       update_session()
+
+  show_correct_card = ()->
+    word_id = $('#cards .word').attr('data-word-id')
+    $("#cards .card[data-word-id='#{word_id}']").addClass('btn-success')
