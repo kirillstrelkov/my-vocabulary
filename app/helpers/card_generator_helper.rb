@@ -1,5 +1,5 @@
 module CardGeneratorHelper
-  def generate_cards(user)
+  def generate_cards(user, rng=nil)
     cards = nil
     Word.pluck(:pos).uniq.shuffle.each do |pos|
       words = user.words
@@ -12,8 +12,10 @@ module CardGeneratorHelper
         )
         unless translations.empty?
           uniq_text1 = translations.select(:text1).distinct.map(&:text1)
-          word = translations.sample
-          translations = translations.where(text1: uniq_text1 - [word.text1]).limit(3)
+          word = translations.sample(random: rng)
+          translations = translations.where(
+            text1: uniq_text1 - [word.text1]
+          ).where.not(text2: word.text2).limit(3)
           if translations.length == 3
             translations += [word]
             translations.shuffle!

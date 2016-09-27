@@ -95,7 +95,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      expect(generate_cards(@user)).to be_nil
+      expect(generate_cards(@user, Random.new(2))).to be_nil
     end
   end
 
