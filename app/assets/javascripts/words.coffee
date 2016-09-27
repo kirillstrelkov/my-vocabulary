@@ -33,11 +33,10 @@ $(document).ready ->
 
   $('#skip-word').click ->
     next_word = $('#next-word')
-    next_word.removeClass('hidden')
     next_word.removeClass('disabled')
-    next_word.show()
-    $(this).hide()
-    show_correct_card()
+    b_show(next_word)
+    b_hide(this)
+    show_correct_card_and_disable_cards()
 
   $('#lang_code1').change ->
     lang_code = $(this).val()
@@ -88,6 +87,10 @@ $(document).ready ->
   $('#cards .card').click ->
     if $(this).hasClass('disabled')
       return false
+
+    b_hide($('#skip-word'))
+    b_show($('#next-word'))
+
     word_id = $('#cards .word').attr('data-word-id')
     trans_id = $(this).attr('data-word-id')
     $(this).removeClass('btn-default')
@@ -96,7 +99,7 @@ $(document).ready ->
     else
       $(this).addClass('btn-danger')
       command = 'decrease'
-    show_correct_card()
+
     $.post('/update_score', {command: command}, (resp)->
       score_element = $('#score')
       score = parseInt(score_element.text())
@@ -106,8 +109,8 @@ $(document).ready ->
         score -= 1
       score_element.text(score)
 
-      $("#cards .card").each ->
-        $(this).addClass('disabled') if not $(this).hasClass('disabled')
+      show_correct_card_and_disable_cards()
+
       next_word_btn = $('#next-word')
       $.each(['disabled', 'btn-default'], (index, value)->
         if next_word_btn.hasClass(value)
@@ -195,6 +198,18 @@ $(document).ready ->
       lang_select2.selectpicker('refresh')
       update_session()
 
-  show_correct_card = ()->
+  show_correct_card_and_disable_cards = ()->
     word_id = $('#cards .word').attr('data-word-id')
     $("#cards .card[data-word-id='#{word_id}']").addClass('btn-success')
+    $("#cards .card").each ->
+      $(this).addClass('disabled') if not $(this).hasClass('disabled')
+
+  b_show = (e)->
+    e = $(e)
+    if e.hasClass('hidden')
+      e.removeClass('hidden')
+
+  b_hide = (e)->
+    e = $(e)
+    unless e.hasClass('hidden')
+      e.addClass('hidden')
