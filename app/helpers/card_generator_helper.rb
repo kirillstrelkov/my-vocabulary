@@ -8,14 +8,17 @@ module CardGeneratorHelper
         translations = words.where(
           lang_code1: lang_code1,
           lang_code2: lang_code2,
-          pos: pos,
+          pos: pos
         )
+
         unless translations.empty?
-          uniq_text1 = translations.select(:text1).distinct.map(&:text1)
           word = translations.sample(random: rng)
-          translations = translations.where(
-            text1: uniq_text1 - [word.text1]
-          ).where.not(text2: word.text2).limit(3)
+
+          translations = translations.where.not(
+            text1: word.text1,
+            text2: word.text2
+          ).limit(3)
+
           if translations.length == 3
             translations += [word]
             translations.shuffle!

@@ -15,9 +15,9 @@ RSpec.describe CardGeneratorHelper, type: :helper do
       data = [
         ['de', 'en', 'hallo', 'hello', 'noun'],
         ['de', 'en', 'hallo', 'hi', 'noun'],
-        ['de', 'en', 'haben', 'have', 'verb'],
-        ['de', 'en', 'müssen', 'must', 'verb'],
-        ['de', 'en', 'tun', 'do', 'verb'],
+        %w(de en haben have verb),
+        %w(de en müssen must verb),
+        %w(de en tun do verb),
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -33,11 +33,11 @@ RSpec.describe CardGeneratorHelper, type: :helper do
     end
 
     it 'returns cards when 4 words are verbs' do
-      data = [
-        ['de', 'en', 'machen', 'make', 'verb'],
-        ['de', 'en', 'haben', 'have', 'verb'],
-        ['de', 'en', 'müssen', 'must', 'verb'],
-        ['de', 'en', 'tun', 'do', 'verb'],
+      [
+        %w(de en machen make verb),
+        %w(de en haben have verb),
+        %w(de en müssen must verb),
+        %w(de en tun do verb)
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -55,11 +55,11 @@ RSpec.describe CardGeneratorHelper, type: :helper do
     end
 
     it 'returns cards when 4 words are verbs and 2 words are nouns' do
-      data = [
-        ['de', 'en', 'machen', 'make', 'verb'],
-        ['de', 'en', 'haben', 'have', 'verb'],
-        ['de', 'en', 'müssen', 'must', 'verb'],
-        ['de', 'en', 'tun', 'do', 'verb'],
+      [
+        %w(de en machen make verb),
+        %w(de en haben have verb),
+        %w(de en müssen must verb),
+        %w(de en tun do verb),
         ['de', 'en', 'hallo', 'hello', 'noun'],
         ['de', 'en', 'hallo', 'hi', 'noun'],
       ].each do |lang_code1, lang_code2, text1, text2, pos|
@@ -78,12 +78,54 @@ RSpec.describe CardGeneratorHelper, type: :helper do
       verify_cards(cards)
     end
 
-    it 'returns nil when 4 words and 2 have same translation' do
+    it 'returns nil when 4 words and selected word has same translation as in translation words' do
+      [
+        %w(de en machen make verb),
+        %w(de en stellen make verb),
+        %w(de en müssen must verb),
+        %w(de en tun do verb),
+      ].each do |lang_code1, lang_code2, text1, text2, pos|
+        FactoryGirl.create(
+          :word,
+          lang_code1: lang_code1,
+          lang_code2: lang_code2,
+          text1: text1,
+          text2: text2,
+          pos: pos,
+          user_id: @user.id
+        )
+      end
+      (1..100).each do |e|
+        expect(generate_cards(@user, Random.new(3))).to be_nil
+      end
+    end
+
+    it 'returns nil when 4 words and 2 translation words have same translation' do
       data = [
-        ['de', 'en', 'machen', 'make', 'verb'],
-        ['de', 'en', 'stellen', 'make', 'verb'],
-        ['de', 'en', 'müssen', 'must', 'verb'],
-        ['de', 'en', 'tun', 'do', 'verb'],
+        %w(de en machen make verb),
+        %w(de en stellen make verb),
+        %w(de en müssen must verb),
+        %w(de en tun do verb),
+      ].each do |lang_code1, lang_code2, text1, text2, pos|
+        FactoryGirl.create(
+          :word,
+          lang_code1: lang_code1,
+          lang_code2: lang_code2,
+          text1: text1,
+          text2: text2,
+          pos: pos,
+          user_id: @user.id
+        )
+      end
+      expect(generate_cards(@user, Random.new(2))).to be_nil
+    end
+
+    it 'returns always something when 2 positions and one with less than 4 words' do
+      data = [
+        %w(de en machen make verb),
+        %w(de en stellen make verb),
+        %w(de en müssen must verb),
+        %w(de en tun do verb),
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
