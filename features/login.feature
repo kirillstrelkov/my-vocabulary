@@ -3,12 +3,15 @@ Feature: User should be able to login
   Scenario: User logins in with Facebook account
     Given I am on main page
     When I login with "Facebook" account
-    Then I should see "Logout" on page
+    And I should see "Successfully authenticated from Facebook account." within 5 seconds
+    When I click "Logout"
+    Then I should see "You need to sign in or sign up before continuing." within 5 seconds
+    When I login with "Facebook" account
+    And I should see "Successfully authenticated from Facebook account" within 5 seconds
 
   Scenario: User logins in with Vkontakte account
     Given I am on main page
     When I login with "Vkontakte" account
-    Then I should see "Logout" on page
     And I should see "Successfully authenticated from Vkontakte account." on page
     When I click "Logout"
     Then I should see "You need to sign in or sign up before continuing." on page
@@ -18,7 +21,11 @@ Feature: User should be able to login
   Scenario: User logins in with Google account
     Given I am on main page
     When I login with "Google" account
-    Then I should see "Logout" on page
+    And I should see "Successfully authenticated from Google account." on page
+    When I click "Logout"
+    Then I should see "You need to sign in or sign up before continuing." on page
+    When I login with "Google" account
+    And I should see "Successfully authenticated from Google account" on page
 
   Scenario: User registers logs in then logs out and logs in
     Given I am on main page

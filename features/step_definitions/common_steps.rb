@@ -30,7 +30,6 @@ Then(/^I should not see "([^"]*)" on page$/) do |text|
   assert_no_text(text)
 end
 
-
 When(/^I fill in "([^"]*)" with "([^"]*)"$/) do |locator, text|
   fill_in(locator, with: text)
 end
@@ -96,9 +95,12 @@ When(/^I clear browser$/) do
   reset_session!
 end
 
-def redirected?(timeout = Capybara.default_max_wait_time)
-  old_host = URI.parse(current_url).host
-  wait_for(timeout) { old_host != URI.parse(current_url).host }
+def host_redirected?(timeout = Capybara.default_max_wait_time)
+  old_url = URI.parse(current_url).host
+  wait_for(timeout) do
+    url = URI.parse(current_url).host
+    old_url != url
+  end
 end
 
 def wait_for(timeout, &condition)

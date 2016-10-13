@@ -32,10 +32,17 @@ end
 When(/^I login with "([^"]*)" account$/) do |provider|
   provider.downcase!
   click_link_or_button("Sign in with #{provider.capitalize}")
-  if redirected?
+  if host_redirected?
     case provider
     when 'facebook'
-      puts 'facebook'
+      within('#loginform') do
+        fill_in('email', with: ENV['FACEBOOK_TEST_USERNAME'])
+        fill_in('pass', with: ENV['FACEBOOK_TEST_PASSWORD'])
+        click_link_or_button('Log In')
+      end
+      if current_url.include?('facebook.com')
+        click_link_or_button('Continue as')
+      end
     when 'google'
       puts 'google'
     when 'vkontakte'
