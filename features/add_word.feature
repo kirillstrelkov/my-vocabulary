@@ -31,7 +31,8 @@ Feature: User should be able to add new word
     And I select "English" from "lang_code2"
     And I click "Get translations"
     Then I should see "hello" on page
-    When I click "Add words"
+    When I choose first translation
+    And I click "Add words"
     Then I should see "was added successfully" on page
     And I should see "Words: 2" on page
     And I should see "hello" on page
@@ -46,6 +47,7 @@ Feature: User should be able to add new word
       When I fill in "q" with "tal"
       And I click "Get translations"
       Then I should see "таль" on page
+      When I choose first translation
       When I click "Add words"
       Then I should see "was added successfully" on page
       When I click "Add words"

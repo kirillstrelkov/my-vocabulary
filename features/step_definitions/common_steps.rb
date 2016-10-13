@@ -92,6 +92,15 @@ When(/^I hit (\w+) in "([^"]*)"$/) do |key, locator|
   find(:fillable_field, locator).native.send_keys(key.downcase.to_sym)
 end
 
+When(/^I clear browser$/) do
+  reset_session!
+end
+
+def redirected?(timeout = Capybara.default_max_wait_time)
+  old_host = URI.parse(current_url).host
+  wait_for(timeout) { old_host != URI.parse(current_url).host }
+end
+
 def wait_for(timeout, &condition)
   def bool_func_call(bool_func, safe=true)
     if safe

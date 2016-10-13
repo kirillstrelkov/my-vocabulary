@@ -5,10 +5,19 @@ class ApplicationController < ActionController::Base
   before_action :init_dictionary
   before_filter :authenticate_user!
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+  end
+
   private
 
   def init_dictionary
     locale = params.fetch('lang', I18n.locale)
     @dict = DictionaryHelper::Dictionary.new('Yandex', locale)
   end
+
 end

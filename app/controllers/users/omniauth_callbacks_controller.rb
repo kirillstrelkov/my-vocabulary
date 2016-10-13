@@ -3,8 +3,22 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # devise :omniauthable, omniauth_providers: [:twitter]
 
   # You should also create an action method in this controller like this:
-  # def twitter
-  # end
+  def vkontakte
+    @user = User.from_omniauth(request.env['omniauth.auth'])
+    provider = request.env['omniauth.auth'].provider
+
+    set_flash_message(
+      :notice, :success, kind: provider.capitalize
+    ) if is_navigational_format?
+    if @user.persisted?
+      sign_in_and_redirect @user, event: :authentication
+      # byebug
+    else
+      # session['devise.omniauth_data'] = request.env['omniauth.auth']
+      # byebug
+      redirect_to edit_user_registration_path
+    end
+  end
 
   # More info at:
   # https://github.com/plataformatec/devise#omniauth

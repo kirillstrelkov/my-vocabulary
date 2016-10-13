@@ -21,12 +21,32 @@ Given(/^the following words exist:$/) do |table|
   end
 end
 
+When(/^I choose first translation$/) do
+  first(:css, '.translation').click
+end
+
 When(/^I select "([^"]*)" test file$/) do |arg1|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-When(/^I login with "([^"]*)" account$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+When(/^I login with "([^"]*)" account$/) do |provider|
+  provider.downcase!
+  click_link_or_button("Sign in with #{provider.capitalize}")
+  if redirected?
+    case provider
+    when 'facebook'
+      puts 'facebook'
+    when 'google'
+      puts 'google'
+    when 'vkontakte'
+      fill_in('email', with: ENV['VKONTAKTE_TEST_USERNAME'])
+      fill_in('pass', with: ENV['VKONTAKTE_TEST_PASSWORD'])
+      click_link_or_button('Log in')
+      click_link_or_button('Allow') if first(:link_or_button, 'Allow')
+    else
+      raise "Unsupported account: #{provider}"
+    end
+  end
 end
 
 When(/^I choose correct answer$/) do
