@@ -33,26 +33,23 @@ When(/^I login with "([^"]*)" account$/) do |provider|
   provider.downcase!
   click_link_or_button("Sign in with #{provider.capitalize}")
   if host_redirected?
+    username = nil
+    password = nil
     case provider
     when 'facebook'
       within('#loginform') do
-        fill_in('email', with: ENV['FACEBOOK_TEST_USERNAME'])
-        fill_in('pass', with: ENV['FACEBOOK_TEST_PASSWORD'])
-        click_link_or_button('Log In')
-      end
-      if current_url.include?('facebook.com')
-        click_link_or_button('Continue as')
+        username = ENV['FACEBOOK_TEST_USERNAME']
+        password = ENV['FACEBOOK_TEST_PASSWORD']
       end
     when 'google'
       puts 'google'
+      username = ENV['GOOGLE_TEST_USERNAME']
+      password = ENV['GOOGLE_TEST_PASSWORD']
     when 'vkontakte'
-      fill_in('email', with: ENV['VKONTAKTE_TEST_USERNAME'])
-      fill_in('pass', with: ENV['VKONTAKTE_TEST_PASSWORD'])
-      click_link_or_button('Log in')
-      click_link_or_button('Allow') if first(:link_or_button, 'Allow')
-    else
-      raise "Unsupported account: #{provider}"
+      username = ENV['VKONTAKTE_TEST_USERNAME']
+      password = ENV['VKONTAKTE_TEST_PASSWORD']
     end
+    login_with(provider, username, password)
   end
 end
 

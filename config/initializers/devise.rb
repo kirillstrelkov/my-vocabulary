@@ -243,7 +243,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
-  config.omniauth :google, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET']
+  config.omniauth :google_oauth2, ENV['GOOGLE_CLIENT_ID'], ENV['GOOGLE_CLIEND_SECRET'], name: 'google'
   config.omniauth :vkontakte, ENV['VKONTAKTE_KEY'], ENV['VKONTAKTE_SECRET']
 
   # ==> Warden configuration

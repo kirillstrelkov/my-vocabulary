@@ -13,11 +13,11 @@ Feature: User should be able to login
   Scenario: User logins in with Vkontakte account
     Given I am on main page
     When I login with "Vkontakte" account
-    And I should see "Successfully authenticated from Vkontakte account." on page
+    And I should see "Successfully authenticated from Vkontakte account." within 5 seconds
     When I click "Logout"
-    Then I should see "You need to sign in or sign up before continuing." on page
+    Then I should see "You need to sign in or sign up before continuing." within 5 seconds
     When I login with "Vkontakte" account
-    And I should see "Successfully authenticated from Vkontakte account" on page
+    And I should see "Successfully authenticated from Vkontakte account" within 5 seconds
 
   Scenario: User logins in with Google account
     Given I am on main page
