@@ -46,3 +46,28 @@ Feature: User should be able to login
     And I click "Log in"
     Then I should see "New user" on page
     And I should see "Signed in successfully" on page
+
+  Scenario: User logins in with Google account and should NOT be able to edit password
+    Given I am on main page
+    When I login with "Google" account
+    And I should see "Successfully authenticated from Google account." on page
+    When I am on "/users/edit"
+    Then I should not see "Password" on page
+    And I should not see "Password confirmation" on page
+    And I should not see "Current password" on page
+
+  Scenario: User registers logs in and should be able to change password
+    Given I am on main page
+    Then I should see "You need to sign in or sign up before continuing." on page
+    When I click "Sign up"
+    And I fill in "user_name" with "New user"
+    And I fill in "user_email" with "name@gmail.com"
+    And I fill in "user_password" with "123456"
+    And I fill in "user_password_confirmation" with "123456"
+    And I click "Sign up"
+    Then I should see "New user" on page
+    And I should see "Welcome! You have signed up successfully." on page
+    When I am on "/users/edit"
+    Then I should see "Password" on page
+    And I should see "Password confirmation" on page
+    And I should see "Current password" on page
