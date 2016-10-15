@@ -6,9 +6,8 @@ module CardGeneratorHelper
       lang_code1, lang_code2 = @lang_pair
       if words.count > 0
         translations = words.where(
-          lang_code1: lang_code1,
-          lang_code2: lang_code2,
-          pos: pos
+          'pos = (?) and (lang_code1 = (?) and lang_code2 = (?) or lang_code1 = (?) and lang_code2 = (?))',
+          pos, lang_code1, lang_code2, lang_code2, lang_code1
         )
 
         unless translations.empty?

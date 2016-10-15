@@ -20,6 +20,21 @@ Feature: Cards play
     Then I should see "Score: 1" on page
     And I should see correct answer
 
+    Scenario: User should be able play with reversed languages
+      Given the following words exist:
+      | lang_code1 | lang_code2 | text1 | text2 |
+      |   de       |    en      | hallo | hello |
+      |   de       |    en      | machen| make  |
+      |   de       |    en      | haben | have  |
+      |   de       |    en      | muss  | must  |
+      |   de       |    en      | tun   | do    |
+      When I am on main page
+      And I select "English" from "lang_code1"
+      And I select "German" from "lang_code2"
+      And I click "Play"
+      When I choose correct answer
+      And I should see correct answer
+
   Scenario: User should be able to get -1 score for incorrect result
     Given the following words exist:
     | lang_code1 | lang_code2 | text1 | text2 |
