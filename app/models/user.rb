@@ -14,8 +14,8 @@ class User < ActiveRecord::Base
       uid: auth.uid
     ).first_or_create! do |user|
       user.name = auth.info.name
-      email = user.name.downcase.split(/\s+/).join('_')
-      user.email = auth.info.email || "#{email}@#{auth.provider}"
+      new_email = "#{auth.uid}@#{auth.provider}".downcase
+      user.email = auth.info.email || new_email
       user.password = Devise.friendly_token[0, 20]
     end
   end
