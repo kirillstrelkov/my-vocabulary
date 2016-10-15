@@ -11,6 +11,12 @@ class Word < ActiveRecord::Base
   private
 
   def uniqness
-    errors.add('Pair', "'#{text1} - #{text2}'  has already been added") if Word.find_by({text1: text1, text2: text2, lang_code1: lang_code1, lang_code2: lang_code2})
+    errors.add('Pair', "'#{text1} - #{text2}'  has already been added") if Word.find_by(
+      text1: text1,
+      text2: text2,
+      lang_code1: lang_code1,
+      lang_code2: lang_code2,
+      user_id: user_id
+    )
   end
 end

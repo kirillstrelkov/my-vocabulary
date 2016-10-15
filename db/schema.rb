@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160824115004) do
+ActiveRecord::Schema.define(version: 20161015173059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20160824115004) do
     t.integer  "user_id"
   end
 
-  add_index "words", ["lang_code1", "lang_code2", "text1", "text2"], name: "index_words_on_lang_code1_and_lang_code2_and_text1_and_text2", unique: true, using: :btree
+  add_index "words", ["lang_code1", "lang_code2", "text1", "text2", "user_id"], name: "unique_word", unique: true, using: :btree
   add_index "words", ["user_id"], name: "index_words_on_user_id", using: :btree
 
 end

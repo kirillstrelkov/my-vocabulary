@@ -21,8 +21,9 @@ Given(/^the following words exist:$/) do |table|
   end
 end
 
-When(/^I choose first translation$/) do
-  first(:css, '.translation').click
+When(/^I choose (\w+) translation$/) do |number|
+  number = number[/\d+/].to_i - 1
+  all(:css, '.translation')[number].click
 end
 
 When(/^I select "([^"]*)" test file$/) do |arg1|

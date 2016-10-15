@@ -13,6 +13,7 @@ $(document).ready ->
     guest_email = 'guest@localhost'
     $('#user_email').val(guest_email)
     $('#user_password').val(guest_email)
+    $('#new_user').submit()
 
   $('#change_langs').click ->
     lang_code1 = $('#lang_code1').val()
