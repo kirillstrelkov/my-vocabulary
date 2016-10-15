@@ -44,6 +44,8 @@ gem 'responders'
 
 gem 'bootstrap-sass'
 gem 'bootstrap-select-rails'
+gem 'font-awesome-rails'
+gem 'bootstrap-social-rails'
 gem 'redis-rails'
 
 gem 'sort_alphabetical'

@@ -18,6 +18,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "bootstrap-select";
+@import "font-awesome";
+@import "bootstrap-social";
 
 .cursor-pointer {
   cursor: pointer;
@@ -25,4 +27,8 @@
 
 #cards > .panel > .row {
   margin-bottom: 5px;
+}
+
+.btn-social {
+  margin-right: 5px;
 }

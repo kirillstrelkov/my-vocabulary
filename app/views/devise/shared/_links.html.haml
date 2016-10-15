@@ -2,7 +2,10 @@
   = button_tag 'Try it', id: 'try_it', class: 'btn btn-info'
   - if devise_mapping.omniauthable?
     - resource_class.omniauth_providers.each do |provider|
-      = link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: 'btn btn-default'
+      - css_provider = provider == :vkontakte ? :vk : provider
+      = link_to(omniauth_authorize_path(resource_name, provider), class: "btn btn-social btn-#{css_provider}") do
+        %span{class: "fa fa-#{css_provider}"}
+        = "Sign in with #{OmniAuth::Utils.camelize(provider)}"
 .form-group
   - if controller_name != 'sessions'
     = link_to "Log in", new_session_path(resource_name), class: 'btn btn-default'
