@@ -74,9 +74,10 @@ $(document).ready ->
         $(resp).each (i, e)->
           lang_pair = e['lang_pair']
           pos = e['pos']
+          gender = if e['gen']? then e['gen'] else ''
           text = e['text']
           tr = e['tr']
-          $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'></td><td class='lang_pair'>"+lang_pair+"</td><td class='pos'>"+pos+"</td><td class='text1'>"+text+"</td><td class='text2'>"+tr+"</td></tr>")
+          $('table tbody').append("<tr class='translation cursor-pointer'><td class='status'></td><td class='lang_pair'>"+lang_pair+"</td><td class='pos'>"+pos+"</td><td class='gender'>"+gender+"</td><td class='text1'>"+text+"</td><td class='text2'>"+tr+"</td></tr>")
         $('table tr.translation').click ->
           tr = $(this)
           glyph = 'span.glyphicon'

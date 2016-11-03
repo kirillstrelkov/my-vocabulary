@@ -147,28 +147,30 @@ module DictionaryHelper
       def self.simplify_translations(initial_json, lang_pair=nil)
         trans = []
         initial_json[:def].each do |w|
-            w[:tr].each do |tr|
-              translation = {
+          w[:tr].each do |tr|
+            translation = {
+              text: w[:text],
+              pos: w[:pos],
+              gen: tr[:gen],
+              ts: w[:ts],
+              tr: tr[:text]
+            }
+            translation[:lang_pair] = lang_pair if lang_pair
+            trans << translation
+            if tr[:syn]
+              tr[:syn].each do |syn|
+                translation = {
                   text: w[:text],
-                  pos: w[:pos],
+                  pos: syn[:pos],
+                  gen: syn[:gen],
                   ts: w[:ts],
-                  tr: tr[:text]
-              }
-              translation[:lang_pair] = lang_pair if lang_pair
-              trans << translation
-              if tr[:syn]
-                tr[:syn].each do |syn|
-                  translation = {
-                      text: w[:text],
-                      pos: syn[:pos],
-                      ts: w[:ts],
-                      tr: syn[:text]
-                  }
-                  translation[:lang_pair] = lang_pair if lang_pair
-                  trans << translation
-                end
+                  tr: syn[:text]
+                }
+                translation[:lang_pair] = lang_pair if lang_pair
+                trans << translation
               end
             end
+          end
         end
         trans
       end

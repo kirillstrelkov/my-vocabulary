@@ -16,12 +16,14 @@ Feature: User should be able to add new word
     And I select "<to_lang>" from "lang_code2"
     And I click "Get translations"
     Then I should see "<trans_text>" on page
+    And I should see "<gender>" on page
 
     Examples:
-      | from_lang | to_lang | orig_text | trans_text |
-      | German    | English | hallo     | hello      |
-      | German    | Russian | tun       | делать     |
-      | English   | Russian | hello     | привет     |
+      | from_lang | to_lang | orig_text | trans_text  | gender |
+      | German    | English | hallo     | hello       |        |
+      | German    | Russian | tun       | делать      |        |
+      | English   | Russian | hello     | привет      |        |
+      | English   | Russian | hello     | приветствие |   ср   |
 
   Scenario: User should be able to add word with new translation
     Given I am on main page

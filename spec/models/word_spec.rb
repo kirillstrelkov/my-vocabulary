@@ -7,7 +7,7 @@ RSpec.describe Word, type: :model do
       lang_code2: 'en',
       text1: 'hallo',
       text2: 'hello',
-      user_id: 1
+      user_id: 1,
     }
   end
   let(:valid_word) { FactoryGirl.build(:word, valid_data) }

@@ -2,6 +2,10 @@ Given(/^I am on "([^"]*)"$/) do |url|
   visit(url)
 end
 
+Given(/^I am on main page$/) do
+  visit('/')
+end
+
 Given(/^I am on "([^"]*)" page$/) do |path|
   visit(path)
 end

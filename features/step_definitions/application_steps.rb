@@ -1,7 +1,3 @@
-Given(/^I am on main page$/) do
-  visit('/')
-end
-
 Given(/^I am logged in as "([^"]*)"$/) do |username|
   create_guest if username.downcase == 'guest'
   visit('/users/sign_in')

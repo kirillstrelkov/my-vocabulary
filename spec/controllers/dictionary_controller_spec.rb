@@ -52,8 +52,8 @@ RSpec.describe DictionaryController, type: :controller do
         expect(json.first[:lang_pair]).to include('en-ru')
 
         expect(json.map {|t| t[:tr] }).to include('привет')
+        expect(json.map {|t| t[:gen] }).to include('ср')
       end
-
   end
 
   describe 'GET #pairs' do

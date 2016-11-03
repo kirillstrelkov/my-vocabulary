@@ -14,6 +14,8 @@
     %th
       Part of speech
     %th
+      Gender
+    %th
       Text
     %th
       Translation
@@ -26,6 +28,8 @@
           = "#{@word.lang_code1}-#{@word.lang_code2}"
         %td{class: 'pos'}
           = @word.pos
+        %td{class: 'gender'}
+          = @word.gender
         %td{class: 'text'}
           = @word.text1
         %td{class: 'trans'}
