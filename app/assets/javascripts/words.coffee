@@ -97,8 +97,9 @@ $(document).on 'click', '#skip-word', (event)->
 
 $(document).on 'change', '#lang_code1', (event)->
   lang_code = $(this).val()
+  lang_code2 = $('#lang_code2').val()
   lang = $('body').prop('lang')
-  load_languages_and_select_one(lang_code, lang, null)
+  load_languages_and_select_one(lang_code, lang, lang_code2)
 
 $(document).on 'change', '#lang_code2', (event)->
   update_session()

@@ -51,3 +51,13 @@ Feature: Application should support different languages and language pairs
     When I click "Add word"
     Then I should see "English" option selected in "lang_code1"
     And I should see "Russian" option selected in "lang_code2"
+
+  Scenario: Second language should be selected if possible
+    Given I am on main page
+    And I select "English" from "lang_code1"
+    And I select "Russian" from "lang_code2"
+    Then I should see "English" option selected in "lang_code1"
+    And I should see "Russian" option selected in "lang_code2"
+    And I select "German" from "lang_code1"
+    Then I should see "German" option selected in "lang_code1"
+    And I should see "Russian" option selected in "lang_code2"
