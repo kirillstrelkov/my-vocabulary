@@ -5,6 +5,10 @@ Given(/^I am logged in as "([^"]*)"$/) do |username|
   assert_text('Logout')
 end
 
+Given(/^there are no words in database$/) do
+  Word.destroy_all
+end
+
 Given(/^the following words exist:$/) do |table|
   data = table.raw
   header = data.first

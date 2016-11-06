@@ -3,19 +3,20 @@
     %div{class: 'panel panel-default'}
       %div{class: 'panel-heading'}
         %h3{class: 'text-center word', 'data-word-id': @cards[:word].id}
-          =@cards[:word].text1
-          -if @cards[:word].pos
+          - word = @cards[:word]
+          = format_text(word, @lang_pair.first == word.lang_code1 ? :text1 : :text2)
+          -if word.pos
             %span{class: 'label label-info'}
-              =@cards[:word].pos
+              = word.pos
       %div{class: 'panel-body'}
         -@cards[:translations].each_slice(2) do |sub_array|
           %div{class: 'row'}
             -sub_array.each do |tr|
               %div{class: 'col-md-6 col-sm-6 col-xs-12'}
                 %button{class: 'btn btn-default btn-lg col-md-12 col-sm-12 col-xs-12 card', 'data-word-id': tr.id}
-                  =tr.text2
+                  = format_text(tr, @lang_pair.first == word.lang_code1 ? :text2 : :text1)
       %div{class: 'row'}
         %button{id: 'next-word', class: 'btn btn-default btn-lg disabled center-block hidden'}
           Next word
-        %button{id: 'skip-word', class: 'btn btn-danger btn-lg center-block'}
-          Skip
+        %button{id: 'skip-word', class: 'btn btn-warning btn-lg center-block'}
+          Don't know

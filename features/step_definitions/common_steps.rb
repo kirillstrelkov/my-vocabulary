@@ -22,6 +22,10 @@ Then(/^I should be on "([^"]*)" within (\d+|\d+\.\d+) seconds?$/) do |url, timeo
   wait_for(timeout.to_f) { expect(current_url).to eq(url) }
 end
 
+Then(/^I should see "([^"]*)" in "([^"]*)"$/) do |text, locator|
+  find(locator).assert_text(text)
+end
+
 Then(/^I should see "([^"]*)" within (\d+) seconds$/) do |text, timeout|
   assert_text(text, wait: timeout.to_f)
 end

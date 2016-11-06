@@ -8,8 +8,9 @@ RSpec.describe 'words/edit', type: :view do
         lang_code1: 'en',
         lang_code2: 'ru',
         text1: 'hello',
+        text1_gender: 'ср',
         text2: 'приветствие',
-        gender: 'ср',
+        text2_gender: 'ср',
         user_id: 1
       )
     )

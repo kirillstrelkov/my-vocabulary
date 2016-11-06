@@ -5,7 +5,8 @@ FactoryGirl.define do
     text1 'my string'
     text2 'my string'
     pos 'noun'
-    gender 'm'
+    text1_gender nil
+    text2_gender 'm'
     user_id 1
   end
 end

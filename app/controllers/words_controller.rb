@@ -26,7 +26,8 @@ class WordsController < ApplicationController
 
   # GET /words/play
   def play
-    @cards = user_signed_in? ? generate_cards(current_user) : nil
+    rng = params[:seed] && !Rails.env.production? ? Random.new(params[:seed].to_i) : nil
+    @cards = user_signed_in? ? generate_cards(current_user, rng) : nil
   end
 
   # POST /words
@@ -94,6 +95,12 @@ class WordsController < ApplicationController
 
     def word_params
       params[:word][:user_id] = current_user.id
-      params.require(:word).permit(:lang_code1, :lang_code2, :text1, :text2, :pos, :user_id)
+      params.require(:word).permit(
+        :lang_code1, :lang_code2,
+        :text1, :text1_gender,
+        :text2, :text2_gender,
+        :pos,
+        :user_id
+      )
     end
 end

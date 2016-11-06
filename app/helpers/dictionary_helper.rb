@@ -150,10 +150,11 @@ module DictionaryHelper
           w[:tr].each do |tr|
             translation = {
               text: w[:text],
+              text_gen: w[:gen],
               pos: w[:pos],
-              gen: tr[:gen],
               ts: w[:ts],
-              tr: tr[:text]
+              tr: tr[:text],
+              tr_gen: tr[:gen]
             }
             translation[:lang_pair] = lang_pair if lang_pair
             trans << translation
@@ -161,10 +162,11 @@ module DictionaryHelper
               tr[:syn].each do |syn|
                 translation = {
                   text: w[:text],
+                  text_gen: w[:gen],
                   pos: syn[:pos],
-                  gen: syn[:gen],
                   ts: w[:ts],
-                  tr: syn[:text]
+                  tr: syn[:text],
+                  tr_gen: syn[:gen]
                 }
                 translation[:lang_pair] = lang_pair if lang_pair
                 trans << translation

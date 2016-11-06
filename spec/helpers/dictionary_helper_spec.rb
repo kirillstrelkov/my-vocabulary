@@ -218,7 +218,6 @@ RSpec.describe DictionaryHelper, type: :helper do
     end
   end
 
-
   describe 'translation_hash' do
     it 'translate initial json for hello to hash with translations' do
       json = {:head => {},
@@ -243,17 +242,20 @@ RSpec.describe DictionaryHelper, type: :helper do
       trans = DictionaryHelper::Dictionary::Yandex.simplify_translations(json)
       expect(trans).to eq([{text: 'hello',
                             pos: 'noun',
-                            gen: nil,
+                            text_gen: nil,
+                            tr_gen: nil,
                             ts: "ˈheˈləʊ",
                             tr: 'привет'},
                            {text: 'hello',
                             pos: 'noun',
-                            gen: "ср",
+                            text_gen: nil,
+                            tr_gen: "ср",
                             ts: "ˈheˈləʊ",
                             tr: 'приветствие'},
                            {text: 'hello',
                             pos: 'verb',
-                            gen: nil,
+                            text_gen: nil,
+                            tr_gen: nil,
                             ts: "ˈheˈləʊ",
                             tr: 'поздороваться'}])
     end
@@ -378,41 +380,41 @@ RSpec.describe DictionaryHelper, type: :helper do
                           :mean => [{:text => "part"}]}]}]}
       trans = DictionaryHelper::Dictionary::Yandex.simplify_translations(json)
       expect(trans).to eq(
-                           [{:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "делать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "выполнять"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "исполнять"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "сделать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "выполнить"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "совершать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "проделать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "поделать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "устраивать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "заниматься"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "заняться"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "поступать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "поступить"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "подходить"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "осуществлять"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "играть"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "провести"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "проводить"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "обходиться"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "оказывать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "годиться"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "творить"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "действовать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "вести себя"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "добиться"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "причинять"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "готовить"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "покончить"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "заканчивать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "кончать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "преуспевать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "процветать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "обманывать"},
-                            {:text => "do", :pos => "verb", :gen => nil, :ts => "duː", :tr => "осматривать"},
-                            {:text => "do", :pos => "noun", :gen => "ср", :ts => "duː", :tr => "участие"}]
+                           [{:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "делать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "выполнять"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "исполнять"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "сделать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "выполнить"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "совершать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "проделать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "поделать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "устраивать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "заниматься"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "заняться"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "поступать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "поступить"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "подходить"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "осуществлять"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "играть"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "провести"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "проводить"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "обходиться"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "оказывать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "годиться"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "творить"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "действовать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "вести себя"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "добиться"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "причинять"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "готовить"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "покончить"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "заканчивать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "кончать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "преуспевать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "процветать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "обманывать"},
+                            {:text => "do", :text_gen => nil, :pos => "verb", :tr_gen => nil, :ts => "duː", :tr => "осматривать"},
+                            {:text => "do", :text_gen => nil, :pos => "noun", :tr_gen => "ср", :ts => "duː", :tr => "участие"}]
                        )
     end
   end
@@ -420,7 +422,6 @@ RSpec.describe DictionaryHelper, type: :helper do
   describe '#codes_and_languages' do
     it 'should not contains unsupported languages' do
       codes_and_languages = supported_languages_and_codes(dict)
-      pp codes_and_languages
       codes = codes_and_languages.map {|l, c| c}
       languages = codes_and_languages.map {|l, c| l}
       expect(codes).not_to include(:af)
@@ -558,14 +559,32 @@ RSpec.describe DictionaryHelper, type: :helper do
   end
 
   describe '#lookup' do
-    it 'return valid object' do
+    it 'return valid object en' do
       obj = dict.lookup('dog', 'en-ru')
-      expect(obj).to include(gen: 'ж',
-                             lang_pair: 'en-ru',
+      expect(obj).to include(lang_pair: 'en-ru',
                              pos: 'noun',
                              text: 'dog',
+                             text_gen: nil,
                              tr: 'собака',
+                             tr_gen: 'ж',
                              ts: 'dɔg')
+    end
+    it 'return valid object de' do
+      obj = dict.lookup('pferd', 'de-ru')
+      expect(obj).to include(lang_pair: 'de-ru',
+                             pos: 'noun',
+                             text: 'Pferd',
+                             text_gen: 'n',
+                             tr: 'лошадь',
+                             tr_gen: 'ж',
+                             ts: nil)
+      expect(obj).to include(lang_pair: 'de-ru',
+                             pos: 'noun',
+                             text: 'Pferd',
+                             text_gen: 'n',
+                             tr: 'конь',
+                             tr_gen: 'м',
+                             ts: nil)
     end
   end
 end

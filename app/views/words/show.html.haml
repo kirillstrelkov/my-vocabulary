@@ -7,11 +7,17 @@
   %b Text 1:
   = @word.text1
 %p
+  %b Gender 1:
+  = @word.text1_gender
+%p
   %b Lang code 2:
   = language_name(@dict, @word.lang_code2)
 %p
   %b Text 2:
   = @word.text2
+%p
+  %b Gender 2:
+  = @word.text2_gender
 
 = link_to 'Back', words_path, class: 'btn btn-default'
 = link_to 'Edit', edit_word_path(@word), class: 'btn btn-default'

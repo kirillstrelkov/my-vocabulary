@@ -117,7 +117,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      expect(generate_cards(@user, Random.new(2))).to be_nil
+      expect(generate_cards(@user, Random.new(3))).to be_nil
     end
 
     it 'returns always something when 2 positions and one with less than 4 words' do
@@ -137,7 +137,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      expect(generate_cards(@user, Random.new(2))).to be_nil
+      expect(generate_cards(@user, Random.new(3))).to be_nil
     end
   end
 

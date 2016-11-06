@@ -1,11 +1,14 @@
 Feature: Words list
   Background:
     Given I am logged in as "Guest"
+    Given the following words exist:
+    | lang_code1 | lang_code2 | pos  | gender | text1 | text2  |
+    |   en       |    ru      | noun |   ж    | dog   | собака |
+    |   en       |    ru      | noun |   м    | dog   | пес    |
+    |   de       |    ru      | noun |   ж    | Hund  | собака |
+    |   de       |    ru      | noun |   м    | Hund  | пес    |
 
   Scenario: Guest user should not be able to delete words
-    Given the following words exist:
-    | lang_code1 | lang_code2 | text1 | text2 |
-    |   de       |    en      | hallo | hello |
     When I am on main page
     Then I should see "Words: 1" on page
     When I click "Destroy"
@@ -27,7 +30,3 @@ Feature: Words list
 
   Scenario: User should see German-English words if German-English lang_pair is passed
     Given pending
-
-  Scenario: User should see updated table if language pair was changed
-    Given pending
-# TODO check alerts: close, success, warning, etc

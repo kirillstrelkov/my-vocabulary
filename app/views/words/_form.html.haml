@@ -14,11 +14,13 @@
     %th
       Part of speech
     %th
-      Gender
-    %th
       Text
     %th
+      Gender
+    %th
       Translation
+    %th
+      Gender
   %tbody
     - if @word.valid?
       %tr{class: 'translation cursor-pointer'}
@@ -28,9 +30,11 @@
           = "#{@word.lang_code1}-#{@word.lang_code2}"
         %td{class: 'pos'}
           = @word.pos
-        %td{class: 'gender'}
-          = @word.gender
         %td{class: 'text'}
           = @word.text1
+        %td{class: 'text1_gender gender'}
+          = @word.text1_gender
         %td{class: 'trans'}
           = @word.text2
+        %td{class: 'text1_gender gender'}
+          = @word.text2_gender

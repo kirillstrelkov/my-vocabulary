@@ -19,5 +19,4 @@ class ApplicationController < ActionController::Base
     locale = params.fetch('lang', I18n.locale)
     @dict = DictionaryHelper::Dictionary.new('Yandex', locale)
   end
-
 end
