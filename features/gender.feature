@@ -50,13 +50,15 @@ Feature: Word should have gender
 
   Scenario: Gender should be visible on play page
     Given I am on main page
-    And I am on "/words/play?seed=2&lang_pair=de-ru"
+    And I am on "/words/play?lang_pair=de-ru"
+    And I am playing with "Hund"
     Then I should see "Hund" on page
     And I should see "der" on page
     And I should see "ж" on page
 
   Scenario: Gender should be visible on play page
     Given I am on main page
-    And I am on "/words/play?seed=2&lang_pair=ru-de"
+    And I am on "/words/play?lang_pair=ru-de"
+    And I am playing with "Hund"
     Then I should see "собака" on page
     And I should see "der Hund" on page

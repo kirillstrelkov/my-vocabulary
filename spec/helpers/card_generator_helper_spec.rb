@@ -96,7 +96,8 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         )
       end
       (1..100).each do |e|
-        expect(generate_cards(@user, Random.new(3))).to be_nil
+        # word should be machen or stellen
+        expect(generate_cards(@user, Random.new(1))).to be_nil
       end
     end
 
@@ -117,7 +118,8 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      expect(generate_cards(@user, Random.new(3))).to be_nil
+      # word should be müssen or tun
+      expect(generate_cards(@user, Random.new(4))).to be_nil
     end
 
     it 'returns always something when 2 positions and one with less than 4 words' do
@@ -138,6 +140,84 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         )
       end
       expect(generate_cards(@user, Random.new(3))).to be_nil
+    end
+
+    context 'with memorized' do
+      it 'returns cards when 4 words are verbs with memorized 0 or 1' do
+        [
+          %w(de en machen make verb 1),
+          %w(de en haben have verb 0),
+          %w(de en müssen must verb 0),
+          %w(de en tun do verb 1)
+          ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
+            FactoryGirl.create(
+              :word,
+              lang_code1: lang_code1,
+              lang_code2: lang_code2,
+              text1: text1,
+              text2: text2,
+              pos: pos,
+              user_id: @user.id,
+              memorized: memorized.to_i
+            )
+        end
+        cards = generate_cards(@user)
+        expect(cards).to include(:translations)
+        verify_cards(cards)
+      end
+
+      it 'returns nil when 4 words and one with with memorized 2' do
+        [
+          %w(de en machen make verb 2),
+          %w(de en haben have verb 0),
+          %w(de en müssen must verb 0),
+          %w(de en tun do verb 1)
+          ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
+            FactoryGirl.create(
+              :word,
+              lang_code1: lang_code1,
+              lang_code2: lang_code2,
+              text1: text1,
+              text2: text2,
+              pos: pos,
+              user_id: @user.id,
+              memorized: memorized.to_i
+            )
+        end
+        cards = generate_cards(@user)
+        expect(cards).to be_nil
+      end
+
+      it 'returns card when 5 words and one with with memorized 2' do
+        [
+          %w(de en fliegen fly verb 2),
+          %w(de en machen make verb 1),
+          %w(de en haben have verb 0),
+          %w(de en müssen must verb 0),
+          %w(de en tun do verb 1)
+          ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
+            FactoryGirl.create(
+              :word,
+              lang_code1: lang_code1,
+              lang_code2: lang_code2,
+              text1: text1,
+              text2: text2,
+              pos: pos,
+              user_id: @user.id,
+              memorized: memorized.to_i
+            )
+        end
+        cards = generate_cards(@user)
+        (1..10).each do |i|
+          cards = generate_cards(@user, Random.new(i))
+          pp cards
+          expect(cards).not_to be_nil
+          expect(cards[:word].text1).not_to eq('fliegen')
+          expect(cards[:word].text2).not_to eq('fly')
+          expect(cards[:translations].map(&:text1)).not_to include('fliegen')
+          expect(cards[:translations].map(&:text2)).not_to include('fly')
+        end
+      end
     end
   end
 

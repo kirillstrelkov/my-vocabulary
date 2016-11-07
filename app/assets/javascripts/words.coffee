@@ -171,7 +171,7 @@ $(document).on 'click', '#cards .card', (event)->
     $(this).addClass('btn-danger')
     command = 'decrease'
 
-  $.post('/update_score', {command: command}, (resp)->
+  $.post('/update_score', {command: command, word_id: word_id}, (resp)->
     score_element = $('#score')
     score = parseInt(score_element.text())
     if command == 'increase'

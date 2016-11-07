@@ -26,8 +26,13 @@ class WordsController < ApplicationController
 
   # GET /words/play
   def play
-    rng = params[:seed] && !Rails.env.production? ? Random.new(params[:seed].to_i) : nil
-    @cards = user_signed_in? ? generate_cards(current_user, rng) : nil
+    if Rails.env.production?
+      @cards = user_signed_in? ? generate_cards(current_user) : nil
+    else
+      rng = params[:seed] ? Random.new(params[:seed].to_i) : nil
+      text1 = params[:text1]
+      @cards = user_signed_in? ? generate_cards(current_user, rng, text1) : nil
+    end
   end
 
   # POST /words

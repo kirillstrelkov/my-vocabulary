@@ -156,5 +156,4 @@ RSpec.describe WordsController, type: :controller do
       expect(response).to redirect_to(words_url)
     end
   end
-
 end

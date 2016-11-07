@@ -93,9 +93,11 @@ Feature: Cards play
     |   de       |    en      | muss  | must  |
     |   de       |    en      | tun   | do    |
     When I am on main page
-    And I am on "/words/play?seed=1&lang_pair=de-en"
+    And I am on "/words/play?lang_pair=de-en"
+    And I am playing with "muss"
     Then I should see "muss" in ".panel-heading"
     And I should see "must" in ".panel-body"
-    When I am on "/words/play?seed=1&lang_pair=en-de"
+    When I am on "/words/play?lang_pair=en-de"
+    And I am playing with "muss"
     Then I should see "must" in ".panel-heading"
     And I should see "muss" in ".panel-body"

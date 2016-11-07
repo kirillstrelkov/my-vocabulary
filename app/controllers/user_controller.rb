@@ -1,17 +1,20 @@
 class UserController < ApplicationController
   def update_score
-    # TODO: fix because any user can trigger it manually
-    command = params[:command]
+    # TODO: fix not safe - because any user can trigger it manually
+    word_id = params[:word_id]
     status = :failed
-    if user_signed_in?
-      if command
+    if user_signed_in? && word_id
+      word = current_user.words.find(word_id)
+      command = params[:command]
+      if command && word
         command = command.to_sym
         if command == :increase
-          current_user.score += 1
+          current_user.update_attribute(:score, current_user.score + 1)
+          word.update_attribute(:memorized, word.memorized + 1)
         elsif command == :decrease
-          current_user.score -= 1
+          current_user.update_attribute(:score, current_user.score - 1)
+          word.update_attribute(:memorized, word.memorized - 1) if word.memorized > 0
         end
-        current_user.save!
         status = command
       end
     end

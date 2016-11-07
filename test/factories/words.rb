@@ -8,5 +8,6 @@ FactoryGirl.define do
     text1_gender nil
     text2_gender 'm'
     user_id 1
+    memorized 0
   end
 end

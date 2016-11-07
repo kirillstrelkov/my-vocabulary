@@ -9,6 +9,10 @@ Given(/^there are no words in database$/) do
   Word.destroy_all
 end
 
+When(/^I am playing with "([^"]*)"$/) do |value|
+  visit("/words/play?text1=#{value}")
+end
+
 Given(/^the following words exist:$/) do |table|
   data = table.raw
   header = data.first

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161106132216) do
+ActiveRecord::Schema.define(version: 20161107205151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,12 +43,13 @@ ActiveRecord::Schema.define(version: 20161106132216) do
     t.string   "text1"
     t.string   "lang_code2"
     t.string   "text2"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.string   "pos"
     t.integer  "user_id"
     t.string   "text1_gender"
     t.string   "text2_gender"
+    t.integer  "memorized",    default: 0
   end
 
   add_index "words", ["lang_code1", "lang_code2", "text1", "text2", "user_id"], name: "unique_word", unique: true, using: :btree

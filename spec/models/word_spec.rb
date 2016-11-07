@@ -15,6 +15,10 @@ RSpec.describe Word, type: :model do
     FactoryGirl.build(:word, valid_data.update({user_id: nil}))
   end
 
+  before :each do
+    Word.destroy_all
+  end
+
   it 'has correct field' do
     valid_data.each do |k, v|
       expect(valid_word.send(k)).to eq(v)
