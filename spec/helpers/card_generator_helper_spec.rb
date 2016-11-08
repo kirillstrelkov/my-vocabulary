@@ -78,7 +78,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
       verify_cards(cards)
     end
 
-    it 'returns nil when 4 words and selected word has same translation as in translation words' do
+    it 'returns nil when word translation is in translations' do
       [
         %w(de en machen make verb),
         %w(de en stellen make verb),
@@ -95,13 +95,10 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      (1..100).each do |e|
-        # word should be machen or stellen
-        expect(generate_cards(@user, Random.new(1))).to be_nil
-      end
+      expect(generate_cards(@user, nil, 'machen')).to be_nil
     end
 
-    it 'returns nil when 4 words and 2 translation words have same translation' do
+    it 'returns nil there are two same translations for word' do
       data = [
         %w(de en machen make verb),
         %w(de en stellen make verb),
@@ -118,16 +115,16 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      # word should be müssen or tun
-      expect(generate_cards(@user, Random.new(4))).to be_nil
+      expect(generate_cards(@user, nil, 'müssen')).to be_nil
     end
 
-    it 'returns always something when 2 positions and one with less than 4 words' do
+    it 'returns cards there are two same translations for word but enough words' do
       data = [
         %w(de en machen make verb),
         %w(de en stellen make verb),
         %w(de en müssen must verb),
         %w(de en tun do verb),
+        %w(de en fliegen fly verb),
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -139,7 +136,9 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           user_id: @user.id
         )
       end
-      expect(generate_cards(@user, Random.new(3))).to be_nil
+      10.times do
+        expect(generate_cards(@user, nil, 'müssen')).not_to be_nil
+      end
     end
 
     context 'with memorized' do
@@ -210,7 +209,6 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         cards = generate_cards(@user)
         (1..10).each do |i|
           cards = generate_cards(@user, Random.new(i))
-          pp cards
           expect(cards).not_to be_nil
           expect(cards[:word].text1).not_to eq('fliegen')
           expect(cards[:word].text2).not_to eq('fly')

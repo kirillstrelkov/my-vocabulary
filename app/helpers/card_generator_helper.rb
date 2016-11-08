@@ -24,14 +24,28 @@ module CardGeneratorHelper
           translations = translations.where.not(
             text1: word.text1,
             text2: word.text2
-          ).order('random()').limit(3)
+          ).order('random()')
+          limited_translations = translations.limit(3)
 
-          if translations.length == 3
-            translations += [word]
-            translations.shuffle!
+          if limited_translations.pluck(:text2).uniq.length != 3
+            limited_translations = limited_translations.to_a
+            limited_translations.each do |t|
+              if limited_translations.count {|lt| lt.text2 == t.text2} != 1
+                limited_translations.delete(t)
+              end
+            end
+            limited_translations += translations.where.not(
+              text1: word.text1,
+              text2: limited_translations.map(&:text2)
+            ).limit(3 - limited_translations.length)
+          end
+
+          if limited_translations.length == 3
+            limited_translations += [word]
+            limited_translations.shuffle!
             cards = {
               word: word,
-              translations:  translations
+              translations:  limited_translations
             }
             break
           end
