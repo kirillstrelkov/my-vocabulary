@@ -24,7 +24,7 @@ module CardGeneratorHelper
           translations = translations.where.not(
             text1: word.text1,
             text2: word.text2
-          ).limit(3)
+          ).order('random()').limit(3)
 
           if translations.length == 3
             translations += [word]
