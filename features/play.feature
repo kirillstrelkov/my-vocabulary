@@ -101,3 +101,26 @@ Feature: Cards play
     And I am playing with "muss"
     Then I should see "must" in ".panel-heading"
     And I should see "muss" in ".panel-body"
+
+  Scenario: User should correct words with direct with words with random languages
+    Given the following words exist:
+    | lang_code1 | lang_code2 | text1 | text2 |
+    |   en       |    de      | make  | machen|
+    |   de       |    en      | haben | have  |
+    |   en       |    de      | must  | muss  |
+    |   de       |    en      | tun   | do    |
+    When I am on main page
+    And I am on "/words/play?lang_pair=de-en"
+    And I am playing with "make"
+    Then I should see "machen" in ".panel-heading"
+    And I should see "make" in ".panel-body"
+    And I should see "have" in ".panel-body"
+    And I should see "do" in ".panel-body"
+    And I should see "must" in ".panel-body"
+    When I am on "/words/play?lang_pair=en-de"
+    And I am playing with "make"
+    Then I should see "make" in ".panel-heading"
+    And I should see "machen" in ".panel-body"
+    And I should see "haben" in ".panel-body"
+    And I should see "muss" in ".panel-body"
+    And I should see "tun" in ".panel-body"
