@@ -10,16 +10,22 @@ module CardGeneratorHelper
         translations = words.where(
           'pos = (?) and '\
           '(lang_code1 = (?) and lang_code2 = (?) or'\
-          ' lang_code1 = (?) and lang_code2 = (?)) and'\
-          ' memorized between (?) and (?)',
+          ' lang_code1 = (?) and lang_code2 = (?))',
           pos,
           lang_code1, lang_code2,
           lang_code2, lang_code1,
-          min_memorized, max_memorized
         )
 
         unless translations.empty?
-          word = text1 ? translations.where(text1: text1).first : translations.sample(random: rng)
+          word = nil
+          if text1.nil?
+            word = translations.where(
+              'memorized between (?) and (?)',
+              min_memorized, max_memorized
+            ).sample(random: rng)
+          else
+            word = translations.where(text1: text1).first
+          end
 
           translations = translations.where.not(
             text1: word.text1,
