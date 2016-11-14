@@ -27,6 +27,8 @@ module CardGeneratorHelper
             word = translations.where(text1: text1).first
           end
 
+          break if word.nil?
+
           translations = translations.where.not(
             text1: word.text1,
             text2: word.text2
