@@ -1,12 +1,13 @@
 module CardGeneratorHelper
   def generate_cards(user, rng=nil, text1=nil)
     cards = nil
-    Word.pluck(:pos).uniq.shuffle.each do |pos|
-      words = user.words
-      lang_code1, lang_code2 = @lang_pair
-      if words.count > 0
-        min_memorized = words.minimum(:memorized)
-        max_memorized = min_memorized + 1
+    words = user.words
+    return cards if words.count.zero?
+    min_memorized = words.minimum(:memorized)
+    max_memorized = words.maximum(:memorized) + 1
+    lang_code1, lang_code2 = @lang_pair
+    (min_memorized...max_memorized).each do |mem|
+      Word.pluck(:pos).uniq.shuffle.each do |pos|
         translations = words.where(
           'pos = (?) and '\
           '(lang_code1 = (?) and lang_code2 = (?) or'\
@@ -21,7 +22,7 @@ module CardGeneratorHelper
           if text1.nil?
             word = translations.where(
               'memorized between (?) and (?)',
-              min_memorized, max_memorized
+              min_memorized, mem
             ).sample(random: rng)
           else
             word = translations.where(text1: text1).first
