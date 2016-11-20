@@ -1,6 +1,9 @@
 .field.form-group
   = label_tag :q, 'Search'
-  = text_field_tag :q, @word.text1, class: 'form-control'
+  .input-group
+    = text_field_tag :q, @word.text1, class: 'form-control'
+    .input-group-addon#clear_search.cursor-pointer
+      %span.glyphicon.glyphicon-remove-circle
 .actions.form-group
   = button_tag 'Get translations', id: 'translate', class: 'btn btn-default'
   = button_tag 'Add words', id: 'add-words',class: 'btn btn-primary'

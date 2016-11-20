@@ -78,6 +78,10 @@ Then(/^I should see incorrect answer$/) do
   assert_selector("button.card[class*='btn-danger']")
 end
 
+Then(/^I should see "([^"]*)" in search field$/) do |value|
+  expect(find('#q')['value']).to eq(value)
+end
+
 def create_guest
   User.where(email: 'guest@localhost').first || FactoryGirl.create(:user)
 end

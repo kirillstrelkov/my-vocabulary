@@ -101,3 +101,11 @@ Feature: User should be able to add new word
   Scenario: User should see notification if no translations found
     Given I am on main page
     And pending
+
+  Scenario: User should be able to remove search word
+    Given I am on main page
+    When I click "Add word"
+    And I fill in "q" with "word"
+    Then I should see "word" in search field
+    When I click css element "#clear_search"
+    Then I should see "" in search field

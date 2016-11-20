@@ -65,6 +65,10 @@ $(document).ready ->
   $('.selectpicker').selectpicker();
 
 # EVENTS:
+$(document).on 'click', '#clear_search', (event)->
+  $('#q').val('')
+  $('#q').focus()
+
 $(document).on 'click', '#try_it', (event)->
   guest_email = 'guest@localhost'
   $('#user_email').val(guest_email)
