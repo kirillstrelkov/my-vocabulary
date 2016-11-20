@@ -13,31 +13,18 @@
     %th
       %span{class: 'glyphicon glyphicon-ok cursor-pointer select-all', 'aria-hidden': 'true'}
     %th
-      Lang pair
+      Lang 1
+    %th
+      Lang 2
+    %th
+      Text 1
+    %th
+      Text 2
     %th
       Part of speech
-    %th
-      Text
-    %th
-      Gender
-    %th
-      Translation
-    %th
-      Gender
   %tbody
     - if @word.valid?
       %tr{class: 'translation cursor-pointer'}
         %td{class: 'status'}
           %span{class: 'glyphicon glyphicon-ok', 'aria-hidden': 'true'}
-        %td{class: 'lang_pair'}
-          = "#{@word.lang_code1}-#{@word.lang_code2}"
-        %td{class: 'pos'}
-          = @word.pos
-        %td{class: 'text'}
-          = @word.text1
-        %td{class: 'text1_gender gender'}
-          = @word.text1_gender
-        %td{class: 'trans'}
-          = @word.text2
-        %td{class: 'text1_gender gender'}
-          = @word.text2_gender
+        = render partial: 'as_row', locals: {word: @word, lang_pair: @lang_pair}

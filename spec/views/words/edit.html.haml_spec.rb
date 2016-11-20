@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'words/edit', type: :view do
   before(:each) do
-    @word = assign(
+    assign(:dict, DictionaryHelper::Dictionary.new('Yandex'))
+    assign(:lang_pair, ['en', 'ru'])
+    assign(
       :word,
       Word.create!(
         lang_code1: 'en',
@@ -18,11 +20,8 @@ RSpec.describe 'words/edit', type: :view do
 
   it 'renders the edit word form' do
     render
-
-    assert_select '#q', value: 'hello'
-    assert_select 'td', text: 'hello'
-    assert_select 'td', text: 'приветствие'
-    assert_select 'td', text: 'en-ru'
-    assert_select 'td', text: 'ср'
+    expect(rendered).to include('hello')
+    expect(rendered).to include('приветствие')
+    expect(rendered).to include('ср')
   end
 end

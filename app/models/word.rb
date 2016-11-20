@@ -6,17 +6,21 @@ class Word < ActiveRecord::Base
   validate :uniqness, on: :create
   belongs_to :post
 
+  scope :with_lang_pair, ->(pair) do
+    where(lang_code1: pair, lang_code2: pair)
+  end
   self.per_page = 10
 
   private
 
   def uniqness
-    errors.add('Pair', "'#{text1} - #{text2}'  has already been added") if Word.find_by(
-      text1: text1,
-      text2: text2,
-      lang_code1: lang_code1,
-      lang_code2: lang_code2,
-      user_id: user_id
-    )
+    errors.add('Pair', "'#{text1} - #{text2}'  has already been added") unless Word.with_lang_pair([lang_code1, lang_code2]).where(
+      'user_id = (?) and '\
+      '(text1 = (?) and text2 = (?) or'\
+      ' text2 = (?) and text1 = (?))',
+      user_id,
+      text1, text2,
+      text1, text2
+    ).empty?
   end
 end

@@ -18,4 +18,11 @@ module WordsHelper
     end
     text
   end
+
+  def format_language(word, lang_code)
+    language_name(
+      @dict,
+      lang_code == word.lang_code1 ? word.lang_code1 : word.lang_code2
+    )
+  end
 end

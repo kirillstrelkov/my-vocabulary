@@ -134,20 +134,26 @@ $(document).on 'click', '#translate', (event)->
     else
       $(resp).each (i, e)->
         lang_pair = e['lang_pair']
+        lang1 = lang_pair.split('-')[0]
+        lang2 = lang_pair.split('-')[1]
         pos = e['pos']
         text1_gender = if e['text_gen']? then e['text_gen'] else ''
         text2_gender = if e['tr_gen']? then e['tr_gen'] else ''
-        text = e['text']
-        tr = e['tr']
+        text1 = e['text']
+        text2 = e['tr']
+        formatted_text1 = if text1_gender then "#{text1}(#{text1_gender})" else text1
+        formatted_text2 = if text2_gender then "#{text2}(#{text2_gender})" else text2
         $('table tbody').append("""
-        <tr class='translation cursor-pointer'>
+        <tr class='translation cursor-pointer'
+          data-lang_pair='#{lang_pair}' data-pos='#{pos}'
+          data-text1='#{text1}' data-text1_gender='#{text1_gender}'
+          data-text2='#{text2}' data-text2_gender='#{text2_gender}'>
           <td class='status'></td>
-          <td class='lang_pair'>#{lang_pair}</td>
+          <td class='lang1'>#{lang1}</td>
+          <td class='lang2'>#{lang2}</td>
+          <td class='text1'>#{formatted_text1}</td>
+          <td class='text2'>#{formatted_text2}</td>
           <td class='pos'>#{pos}</td>
-          <td class='text1'>#{text}</td>
-          <td class='text1_gender gender'>#{text1_gender}</td>
-          <td class='text2'>#{tr}</td>
-          <td class='text2_gender gender'>#{text2_gender}</td>
         </tr>
         """
         )
@@ -202,15 +208,14 @@ $(document).on 'click', '#add-words', (event)->
 
   glyphicons.each ->
     row = $(this).parent().parent()
-    lang_pair = row.find('td.lang_pair').text()
-    lang_pair = lang_pair.split('-')
+    lang_pair = row.data('lang_pair').split('-')
     lang_code1 = lang_pair[0]
     lang_code2 = lang_pair[1]
-    pos = row.find('td.pos').text()
-    text1 = row.find('td.text1').text()
-    text1_gender = row.find('td.text1_gender').text()
-    text2 = row.find('td.text2').text()
-    text2_gender = row.find('td.text2_gender').text()
+    pos = row.data('pos')
+    text1 = row.data('text1')
+    text1_gender = row.data('text1_gender')
+    text2 = row.data('text2')
+    text2_gender = row.data('text2_gender')
 
     data = {
       word: {

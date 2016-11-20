@@ -26,7 +26,7 @@ RSpec.describe User, type: :model do
   context 'with words' do
     let(:user) do
       u = FactoryGirl.create(:user, email: Faker::Internet.email)
-      FactoryGirl.create(:word, user_id: u.id)
+      FactoryGirl.create(:word, text1: 'my string 0', user_id: u.id)
       FactoryGirl.create(:word, text1: 'my string 1', user_id: u.id)
       FactoryGirl.create(:word, text1: 'my string 2', user_id: u.id)
       FactoryGirl.create(:word, text1: 'my string 3', user_id: u.id)

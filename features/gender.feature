@@ -10,10 +10,16 @@ Feature: Word should have gender
     |   de       |    ru      | noun | Vogel      |       m      |  птица   |   ж          |
 
   Scenario: Gender should be visible on words page
-    When I am on "/words"
+    When I am on "/words/play?lang_pair=de-ru"
+    And I am playing with "Hund"
     Then I should see "m" on page
     And I should see "ж" on page
-    And I should see "Hund" on page
+    And I should see "собака" on page
+    When I am on "/words/play?lang_pair=ru-de"
+    And I am playing with "Hund"
+    Then I should see "m" on page
+    And I should see "ж" on page
+    And I should see "der Hund" on page
 
   Scenario: Gender should be visible on show page
     When I am on "/words/1"

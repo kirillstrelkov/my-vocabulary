@@ -1,0 +1,10 @@
+%td{class: 'lang_name1'}
+  = format_language(word, lang_pair.first)
+%td{class: 'lang_name2'}
+  = format_language(word, lang_pair.second)
+%td{class: 'text1'}
+  = format_word(word, lang_pair.first)
+%td{class: 'text2'}
+  = format_word(word, lang_pair.second)
+%td{class: 'pos'}
+  = word.pos

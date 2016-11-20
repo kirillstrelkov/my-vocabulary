@@ -1,24 +1,18 @@
 %table{class: 'table table-condensed table-hover'}
   %thead
     %tr
-      %th Lang code 1
+      %th Lang 1
+      %th Lang 2
       %th Text 1
-      %th Gender 1
-      %th Lang code 1
       %th Text 2
-      %th Gender 2
+      %th Part of speech
       %th
       %th
       %th
   %tbody
     - @words.each do |word|
       %tr
-        %td= language_name(@dict, word.lang_code1)
-        %td= word.text1
-        %td= word.text1_gender
-        %td= language_name(@dict, word.lang_code2)
-        %td= word.text2
-        %td= word.text2_gender
+        = render partial: 'as_row', locals: {word: word, lang_pair: @lang_pair}
         %td= link_to 'Show', word, class: 'btn btn-default btn-xs'
         %td= link_to 'Edit', edit_word_path(word), class: 'btn btn-default btn-xs'
         %td= link_to 'Destroy', word, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger btn-xs'
