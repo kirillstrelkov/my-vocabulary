@@ -19,8 +19,7 @@
           = current_user.score
         = link_to('Logout', destroy_user_session_path, :method => :delete)
 %ul{class: 'nav nav-tabs'}
-  -{ edit_user_registration_path => 'My settings',
-    words_path => 'My vocabulary',
+  -{words_path => 'My vocabulary',
     new_word_path => 'Add word',
     words_play_path => 'Play',}.each do |path, text|
     %li{role: 'presentation', class: request.original_url.end_with?(path) ? 'active' : ''}
