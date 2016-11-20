@@ -13,4 +13,4 @@ production:
   url: <%= ENV['REDIS_URL'] %>
   namespace: production_cache
   db: 0
-  ttl: <%= 30.days %>
+  ttl: <%= 120.days %>
