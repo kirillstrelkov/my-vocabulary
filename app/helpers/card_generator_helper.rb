@@ -7,7 +7,7 @@ module CardGeneratorHelper
     max_memorized = words.maximum(:memorized) + 1
     lang_code1, lang_code2 = @lang_pair
     (min_memorized...max_memorized).each do |mem|
-      Word.pluck(:pos).uniq.shuffle.each do |pos|
+      words.pluck(:pos).uniq.shuffle.each do |pos|
         translations = words.where(
           'pos = (?) and '\
           '(lang_code1 = (?) and lang_code2 = (?) or'\
@@ -31,8 +31,8 @@ module CardGeneratorHelper
           break if word.nil?
 
           translations = translations.where.not(
-            text1: word.text1,
-            text2: word.text2
+            text1: [word.text1, word.text2],
+            text2: [word.text1, word.text2]
           ).order('random()')
           limited_translations = translations.limit(3)
 
