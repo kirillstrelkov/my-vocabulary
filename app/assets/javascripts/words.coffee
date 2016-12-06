@@ -149,11 +149,11 @@ $(document).on 'click', '#translate', (event)->
           data-text1='#{text1}' data-text1_gender='#{text1_gender}'
           data-text2='#{text2}' data-text2_gender='#{text2_gender}'>
           <td class='status'></td>
-          <td class='lang1'>#{lang1}</td>
-          <td class='lang2'>#{lang2}</td>
+          <td class='lang1 hidden-xs'>#{lang1}</td>
+          <td class='lang2 hidden-xs'>#{lang2}</td>
+          <td class='pos'>#{pos}</td>
           <td class='text1'>#{formatted_text1}</td>
           <td class='text2'>#{formatted_text2}</td>
-          <td class='pos'>#{pos}</td>
         </tr>
         """
         )

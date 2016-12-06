@@ -12,16 +12,16 @@
   %thead
     %th
       %span{class: 'glyphicon glyphicon-ok cursor-pointer select-all', 'aria-hidden': 'true'}
-    %th
+    %th.hidden-xs
       Lang 1
-    %th
+    %th.hidden-xs
       Lang 2
+    %th
+      Part of speech
     %th
       Text 1
     %th
       Text 2
-    %th
-      Part of speech
   %tbody
     - if @word.valid?
       %tr{class: 'translation cursor-pointer'}
