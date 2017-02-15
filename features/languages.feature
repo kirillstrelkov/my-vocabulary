@@ -61,3 +61,13 @@ Feature: Application should support different languages and language pairs
     And I select "German" from "lang_code1"
     Then I should see "German" option selected in "lang_code1"
     And I should see "Russian" option selected in "lang_code2"
+
+  Scenario: Language pair should be saved in /users/edit
+    Given I am on main page
+    And I select "English" from "lang_code1"
+    And I select "Russian" from "lang_code2"
+    Then I should see "English" option selected in "lang_code1"
+    And I should see "Russian" option selected in "lang_code2"
+    When I am on "/users/edit"
+    Then I should see "English" option selected in "lang_code1"
+    And I should see "Russian" option selected in "lang_code2"

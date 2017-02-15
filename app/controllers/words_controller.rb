@@ -2,7 +2,6 @@ class WordsController < ApplicationController
   helper DictionaryHelper
   include CardGeneratorHelper
   before_action :set_word, only: [:show, :edit, :update, :destroy]
-  before_action :set_lang_pair, only: [:index, :new, :play]
 
   # GET /words
   # GET /words.json
@@ -79,23 +78,6 @@ class WordsController < ApplicationController
     def set_word
       @word = Word.find(params[:id])
       set_lang_pair
-    end
-
-    def set_lang_pair
-      lang_pair = params[:lang_pair]
-      if lang_pair && lang_pair.match(/^\w{2,3}-\w{2,3}$/)
-        @lang_pair = lang_pair.downcase.split('-')
-        session[:lang_pair] = @lang_pair
-      elsif session[:lang_pair]
-        @lang_pair = session[:lang_pair]
-      else
-        if @word
-          @lang_pair = [@word.lang_code1, @word.lang_code2]
-        else
-          @lang_pair = [I18n.locale, nil]
-        end
-        session[:lang_pair] = @lang_pair
-      end
     end
 
     def word_params
