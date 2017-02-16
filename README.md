@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/kirillstrelkov/my-vocabulary.svg?branch=master)](https://travis-ci.org/kirillstrelkov/my-vocabulary)
 # Introduction
 
 Rails application which gives ability to learn new word by playing quiz game and add your own words.
