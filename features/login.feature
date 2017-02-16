@@ -1,3 +1,4 @@
+@social
 Feature: User should be able to login
 
   @selenium

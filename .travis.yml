@@ -10,4 +10,4 @@ before_script:
   - bundle exec rake db:migrate
 script:
   - bundle exec rspec
-  - bundle exec cucumber
+  - bundle exec cucumber -t ~@wip -t ~@social
