@@ -34,5 +34,6 @@ Feature: Words list
   Scenario: User should see Russian-German words if Russian-German lang_pair is passed
     Given pending
 
+  @wip
   Scenario: User should see German-English words if German-English lang_pair is passed
     Given pending
