@@ -5,8 +5,9 @@ def wait_for_visible(*args)
   end
 end
 
-def host_redirected?(timeout = Capybara.default_max_wait_time)
+def host_redirected?(timeout = Capybara.default_max_wait_time, &func)
   old_url = URI.parse(current_url).host
+  func.call
   wait_for(timeout) do
     url = URI.parse(current_url).host
     old_url != url

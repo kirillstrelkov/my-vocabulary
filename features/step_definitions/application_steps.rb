@@ -36,8 +36,7 @@ end
 
 When(/^I login with "([^"]*)" account$/) do |provider|
   provider.downcase!
-  click_link_or_button("Sign in with #{provider.capitalize}")
-  if host_redirected?
+  if host_redirected? { click_link_or_button("Sign in with #{provider.capitalize}") } 
     username = nil
     password = nil
     case provider
@@ -47,7 +46,6 @@ When(/^I login with "([^"]*)" account$/) do |provider|
         password = ENV['FACEBOOK_TEST_PASSWORD']
       end
     when 'google'
-      puts 'google'
       username = ENV['GOOGLE_TEST_USERNAME']
       password = ENV['GOOGLE_TEST_PASSWORD']
     when 'vkontakte'
