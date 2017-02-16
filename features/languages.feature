@@ -39,6 +39,7 @@ Feature: Application should support different languages and language pairs
     Then I should see "English" option selected in "lang_code1"
     And I should see "Czech" option selected in "lang_code2"
 
+  @wip
   Scenario: Language pair is correct if locale is russian
     Given I am on main page
     Then I should see "Russian" option selected in "lang_code1"

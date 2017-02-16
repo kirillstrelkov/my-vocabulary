@@ -8,6 +8,7 @@ Feature: Words list
     |   de       |    ru      | noun |   ж          | Hund  | собака |
     |   de       |    ru      | noun |   м          | Hund  | пес    |
 
+  @wip
   Scenario: Guest user should not be able to delete words
     When I am on "/?lang_pair=de-ru"
     And I am on main page

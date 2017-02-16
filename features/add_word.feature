@@ -82,12 +82,14 @@ Feature: User should be able to add new word
     And I hit ENTER in "q"
     Then I should see "hello" on page
 
+  @wip
   Scenario: User should be able to search with parameter in url as query
     Given I select "German" from "lang_code1"
     And I select "English" from "lang_code2"
     When I am on "/words/new?q=hallo"
     Then I should see "hello" on page
 
+  @wip
   Scenario: User should be able to search with parameter in url as hash
     Given I select "German" from "lang_code1"
     And I select "English" from "lang_code2"
