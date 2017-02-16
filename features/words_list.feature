@@ -18,15 +18,19 @@ Feature: Words list
     When I refresh page
     Then I should see "Words: 4" on page
 
+  @wip
   Scenario: User should be able to delete word
     Given pending
 
+  @wip
   Scenario: User should see Russian-German words if Russian-German is selected
     Given pending
 
+  @wip
   Scenario: User should see German-English words if German-English is selected
     Given pending
 
+  @wip
   Scenario: User should see Russian-German words if Russian-German lang_pair is passed
     Given pending
 

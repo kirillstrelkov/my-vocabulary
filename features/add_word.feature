@@ -96,10 +96,12 @@ Feature: User should be able to add new word
     When I am on "/words/new#q=hallo"
     Then I should see "hello" on page
 
+  @wip
   Scenario: User should be able to select correct language pairs
     Given I am on main page
     And pending
 
+  @wip
   Scenario: User should see notification if no translations found
     Given I am on main page
     And pending

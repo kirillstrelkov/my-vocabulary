@@ -7,10 +7,12 @@ Feature: Application should support different languages and language pairs
     Then I should see "German" option selected in "lang_code1"
     And I should see "Russian" option selected in "lang_code2"
 
+  @wip
   Scenario: User should be able to use application in English
     Given I am on main page
     And pending
 
+  @wip
   Scenario: User should be able to use application in Russian
     Given I am on main page
     And pending

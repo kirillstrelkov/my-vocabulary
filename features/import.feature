@@ -1,3 +1,4 @@
+@wip
 Feature: User should be able to import csv file
 
   Scenario: Imprt words from csv file
