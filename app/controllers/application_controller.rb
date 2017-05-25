@@ -25,17 +25,23 @@ class ApplicationController < ActionController::Base
     lang_pair = params[:lang_pair]
     if lang_pair && lang_pair.match(/^\w{2,3}-\w{2,3}$/)
       @lang_pair = lang_pair.downcase.split('-')
-      session[:lang_pair] = @lang_pair
-    elsif session[:lang_pair]
-      @lang_pair = session[:lang_pair]
     else
-      if @word
-        @lang_pair = [@word.lang_code1, @word.lang_code2]
+      session_pair = session[:lang_pair]
+      if session_pair
+        if session_pair.include?(nil) && !current_user.nil?
+          word = current_user.words.order(updated_at: :desc).first
+          @lang_pair = [word.lang_code1, word.lang_code2]
+        else
+          @lang_pair = session[:lang_pair]
+        end
       else
-        @lang_pair = [I18n.locale, nil]
+        if @word
+          @lang_pair = [@word.lang_code1, @word.lang_code2]
+        else
+          @lang_pair = [I18n.locale, nil]
+        end
       end
-      session[:lang_pair] = @lang_pair
     end
-    puts @lang_pair
+    session[:lang_pair] = @lang_pair
   end
 end
