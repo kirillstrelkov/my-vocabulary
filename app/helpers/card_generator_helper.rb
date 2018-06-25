@@ -35,6 +35,8 @@ module CardGeneratorHelper
           word = filtered_words.where(text1: text1).first
         end
 
+        continue if word.nil?
+
         translations = [word]
         3.times do
           next_tran = find_next_tran(filtered_words, translations)
