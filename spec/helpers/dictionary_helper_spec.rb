@@ -577,14 +577,14 @@ RSpec.describe DictionaryHelper, type: :helper do
                              text_gen: 'n',
                              tr: 'лошадь',
                              tr_gen: 'ж',
-                             ts: nil)
+                             ts: 'pfeːɐ̯t')
       expect(obj).to include(lang_pair: 'de-ru',
                              pos: 'noun',
                              text: 'Pferd',
                              text_gen: 'n',
                              tr: 'конь',
                              tr_gen: 'м',
-                             ts: nil)
+                             ts: 'pfeːɐ̯t')
     end
   end
 end

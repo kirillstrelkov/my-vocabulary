@@ -83,7 +83,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         %w(de en machen make verb),
         %w(de en stellen make verb),
         %w(de en müssen must verb),
-        %w(de en tun do verb),
+        %w(de en tun do verb)
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -99,11 +99,11 @@ RSpec.describe CardGeneratorHelper, type: :helper do
     end
 
     it 'returns nil there are two same translations for word' do
-      data = [
+      [
         %w(de en machen make verb),
         %w(de en stellen make verb),
         %w(de en müssen must verb),
-        %w(de en tun do verb),
+        %w(de en tun do verb)
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -119,12 +119,12 @@ RSpec.describe CardGeneratorHelper, type: :helper do
     end
 
     it 'returns cards there are two same translations for word but enough words' do
-      data = [
+      [
         %w(de en machen make verb),
         %w(de en stellen make verb),
         %w(de en müssen must verb),
         %w(de en tun do verb),
-        %w(de en fliegen fly verb),
+        %w(de en fliegen fly verb)
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
