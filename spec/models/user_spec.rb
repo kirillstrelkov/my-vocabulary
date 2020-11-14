@@ -5,20 +5,20 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   context 'valid' do
     it 'with correct field' do
-      user = FactoryGirl.build(:user, email: Faker::Internet.email)
+      user = FactoryBot.build(:user, email: Faker::Internet.email)
       expect(user).to be_valid
     end
   end
 
   context 'invalid' do
     it 'with empty name' do
-      user = FactoryGirl.build(:user, name: nil)
+      user = FactoryBot.build(:user, name: nil)
       expect(user).not_to be_valid
     end
   end
 
   context 'without words' do
-    let(:user) { FactoryGirl.build(:user, email: Faker::Internet.email) }
+    let(:user) { FactoryBot.build(:user, email: Faker::Internet.email) }
 
     it 'has no words' do
       expect(user.words).to be_empty
@@ -27,11 +27,11 @@ RSpec.describe User, type: :model do
 
   context 'with words' do
     let(:user) do
-      u = FactoryGirl.create(:user, email: Faker::Internet.email)
-      FactoryGirl.create(:word, text1: 'my string 0', user_id: u.id)
-      FactoryGirl.create(:word, text1: 'my string 1', user_id: u.id)
-      FactoryGirl.create(:word, text1: 'my string 2', user_id: u.id)
-      FactoryGirl.create(:word, text1: 'my string 3', user_id: u.id)
+      u = FactoryBot.create(:user, email: Faker::Internet.email)
+      FactoryBot.create(:word, text1: 'my string 0', user_id: u.id)
+      FactoryBot.create(:word, text1: 'my string 1', user_id: u.id)
+      FactoryBot.create(:word, text1: 'my string 2', user_id: u.id)
+      FactoryBot.create(:word, text1: 'my string 3', user_id: u.id)
       u
     end
 

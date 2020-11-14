@@ -12,9 +12,9 @@ RSpec.describe Word, type: :model do
       user_id: 1
     }
   end
-  let(:valid_word) { FactoryGirl.build(:word, valid_data) }
+  let(:valid_word) { FactoryBot.build(:word, valid_data) }
   let(:word_without_user_id) do
-    FactoryGirl.build(:word, valid_data.update({ user_id: nil }))
+    FactoryBot.build(:word, valid_data.update({ user_id: nil }))
   end
 
   before :each do
@@ -38,25 +38,25 @@ RSpec.describe Word, type: :model do
     end
     it 'has field not set' do
       invalid_words = valid_data.map do |k, _v|
-        FactoryGirl.build(:word, valid_data.merge({ k => nil }))
+        FactoryBot.build(:word, valid_data.merge({ k => nil }))
       end
       invalid_words.each do |word|
         expect(word).not_to be_valid
       end
     end
     it 'has long text' do
-      expect(FactoryGirl.build(:word, valid_data.merge(text1: Faker::Lorem.characters(51)))).not_to be_valid
+      expect(FactoryBot.build(:word, valid_data.merge(text1: Faker::Lorem.characters(51)))).not_to be_valid
     end
     it 'has short language code' do
-      expect(FactoryGirl.build(:word, valid_data.merge(lang_code1: Faker::Lorem.characters(1)))).not_to be_valid
+      expect(FactoryBot.build(:word, valid_data.merge(lang_code1: Faker::Lorem.characters(1)))).not_to be_valid
     end
     it 'has long language code' do
-      expect(FactoryGirl.build(:word, valid_data.merge(lang_code2: Faker::Lorem.characters(4)))).not_to be_valid
+      expect(FactoryBot.build(:word, valid_data.merge(lang_code2: Faker::Lorem.characters(4)))).not_to be_valid
     end
 
     it 'is a duplicate' do
-      FactoryGirl.create(:word, valid_data)
-      expect { FactoryGirl.create(:word, valid_data) }.to raise_error ActiveRecord::RecordInvalid
+      FactoryBot.create(:word, valid_data)
+      expect { FactoryBot.create(:word, valid_data) }.to raise_error ActiveRecord::RecordInvalid
     end
   end
 end

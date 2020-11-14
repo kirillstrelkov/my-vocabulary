@@ -23,7 +23,7 @@ Given(/^the following words exist:$/) do |table|
   data[1..-1].each do |row|
     hash = Hash[header.zip(row)]
     hash[:user_id] = user_id
-    FactoryGirl.create(:word, hash)
+    FactoryBot.create(:word, hash)
   end
 end
 
@@ -83,5 +83,5 @@ Then(/^I should see "([^"]*)" in search field$/) do |value|
 end
 
 def create_guest
-  User.where(email: 'guest@localhost').first || FactoryGirl.create(:user)
+  User.where(email: 'guest@localhost').first || FactoryBot.create(:user)
 end

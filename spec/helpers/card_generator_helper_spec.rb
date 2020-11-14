@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe CardGeneratorHelper, type: :helper do
   context '#generate_cards' do
     before :all do
-      @user = FactoryGirl.create(:random_user)
+      @user = FactoryBot.create(:random_user)
       @lang_pair = %w[de en]
     end
 
@@ -21,7 +21,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         %w[de en müssen must verb],
         %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
-        FactoryGirl.create(
+        FactoryBot.create(
           :word,
           lang_code1: lang_code1,
           lang_code2: lang_code2,
@@ -41,7 +41,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         %w[de en müssen must verb],
         %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
-        FactoryGirl.create(
+        FactoryBot.create(
           :word,
           lang_code1: lang_code1,
           lang_code2: lang_code2,
@@ -65,7 +65,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         %w[de en hallo hello noun],
         %w[de en hallo hi noun]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
-        FactoryGirl.create(
+        FactoryBot.create(
           :word,
           lang_code1: lang_code1,
           lang_code2: lang_code2,
@@ -87,7 +87,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         %w[de en müssen must verb],
         %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
-        FactoryGirl.create(
+        FactoryBot.create(
           :word,
           lang_code1: lang_code1,
           lang_code2: lang_code2,
@@ -107,7 +107,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         %w[de en müssen must verb],
         %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
-        FactoryGirl.create(
+        FactoryBot.create(
           :word,
           lang_code1: lang_code1,
           lang_code2: lang_code2,
@@ -128,7 +128,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
         %w[de en tun do verb],
         %w[de en fliegen fly verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
-        FactoryGirl.create(
+        FactoryBot.create(
           :word,
           lang_code1: lang_code1,
           lang_code2: lang_code2,
@@ -151,7 +151,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           %w[de en müssen must verb 0],
           %w[de en tun do verb 1]
         ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
-          FactoryGirl.create(
+          FactoryBot.create(
             :word,
             lang_code1: lang_code1,
             lang_code2: lang_code2,
@@ -173,7 +173,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
          %w[de en müssen must verb 2],
          %w[de en fliegen fly verb 2],
          %w[de en tun do verb 0]].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
-          FactoryGirl.create(
+          FactoryBot.create(
             :word,
             lang_code1: lang_code1,
             lang_code2: lang_code2,
@@ -197,7 +197,7 @@ RSpec.describe CardGeneratorHelper, type: :helper do
           %w[de en haben have verb 2],
           %w[de en tun do verb 0]
         ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
-          FactoryGirl.create(
+          FactoryBot.create(
             :word,
             lang_code1: lang_code1,
             lang_code2: lang_code2,

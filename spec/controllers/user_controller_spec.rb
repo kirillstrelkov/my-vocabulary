@@ -13,7 +13,7 @@ RSpec.describe UserController, type: :controller do
      %w[de en haben have],
      %w[de en muss must],
      %w[de en tun do]].each do |l1, l2, text1, text2|
-      user.words << FactoryGirl.create(
+      user.words << FactoryBot.create(
         :word,
         lang_code1: l1, lang_code2: l2,
         text1: text1, text2: text2,
