@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SessionController < ApplicationController
   include SessionHelper
   def update_lang_pair

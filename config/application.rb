@@ -1,4 +1,6 @@
-require File.expand_path('../boot', __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 
@@ -24,7 +26,7 @@ module MyVocabulary
     config.assets.initialize_on_precompile = false
     config.active_record.raise_in_transactional_callbacks = true
 
-    redis_conf = YAML.load(
+    redis_conf = YAML.safe_load(
       ERB.new(File.read(File.join('config', 'redis.yml'))).result
     )[Rails.env.to_s]
     config.cache_store = [
@@ -35,6 +37,6 @@ module MyVocabulary
         expires_in: redis_conf['ttl'] }
     ]
 
-    config.logger = Logger.new(STDOUT)
+    config.logger = Logger.new($stdout)
   end
 end

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class WordsController < ApplicationController
   helper DictionaryHelper
   include CardGeneratorHelper
-  before_action :set_word, only: [:show, :edit, :update, :destroy]
+  before_action :set_word, only: %i[show edit update destroy]
 
   # GET /words
   # GET /words.json
@@ -11,8 +13,7 @@ class WordsController < ApplicationController
 
   # GET /words/1
   # GET /words/1.json
-  def show
-  end
+  def show; end
 
   # GET /words/new
   def new
@@ -20,8 +21,7 @@ class WordsController < ApplicationController
   end
 
   # GET /words/1/edit
-  def edit
-  end
+  def edit; end
 
   # GET /words/play
   def play
@@ -75,19 +75,20 @@ class WordsController < ApplicationController
   end
 
   private
-    def set_word
-      @word = Word.find(params[:id])
-      set_lang_pair
-    end
 
-    def word_params
-      params[:word][:user_id] = current_user.id
-      params.require(:word).permit(
-        :lang_code1, :lang_code2,
-        :text1, :text1_gender,
-        :text2, :text2_gender,
-        :pos,
-        :user_id
-      )
-    end
+  def set_word
+    @word = Word.find(params[:id])
+    set_lang_pair
+  end
+
+  def word_params
+    params[:word][:user_id] = current_user.id
+    params.require(:word).permit(
+      :lang_code1, :lang_code2,
+      :text1, :text1_gender,
+      :text2, :text2_gender,
+      :pos,
+      :user_id
+    )
+  end
 end

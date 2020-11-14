@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CardGeneratorHelper, type: :helper do
   context '#generate_cards' do
     before :all do
       @user = FactoryGirl.create(:random_user)
-      @lang_pair = ['de', 'en']
+      @lang_pair = %w[de en]
     end
 
     before :each do
@@ -13,11 +15,11 @@ RSpec.describe CardGeneratorHelper, type: :helper do
 
     it 'returns empty array when 2 words are nouns and 3 words are verbs' do
       data = [
-        ['de', 'en', 'hallo', 'hello', 'noun'],
-        ['de', 'en', 'hallo', 'hi', 'noun'],
-        %w(de en haben have verb),
-        %w(de en müssen must verb),
-        %w(de en tun do verb),
+        %w[de en hallo hello noun],
+        %w[de en hallo hi noun],
+        %w[de en haben have verb],
+        %w[de en müssen must verb],
+        %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -34,10 +36,10 @@ RSpec.describe CardGeneratorHelper, type: :helper do
 
     it 'returns cards when 4 words are verbs' do
       [
-        %w(de en machen make verb),
-        %w(de en haben have verb),
-        %w(de en müssen must verb),
-        %w(de en tun do verb)
+        %w[de en machen make verb],
+        %w[de en haben have verb],
+        %w[de en müssen must verb],
+        %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -56,12 +58,12 @@ RSpec.describe CardGeneratorHelper, type: :helper do
 
     it 'returns cards when 4 words are verbs and 2 words are nouns' do
       [
-        %w(de en machen make verb),
-        %w(de en haben have verb),
-        %w(de en müssen must verb),
-        %w(de en tun do verb),
-        ['de', 'en', 'hallo', 'hello', 'noun'],
-        ['de', 'en', 'hallo', 'hi', 'noun'],
+        %w[de en machen make verb],
+        %w[de en haben have verb],
+        %w[de en müssen must verb],
+        %w[de en tun do verb],
+        %w[de en hallo hello noun],
+        %w[de en hallo hi noun]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -80,10 +82,10 @@ RSpec.describe CardGeneratorHelper, type: :helper do
 
     it 'returns nil when word translation is in translations' do
       [
-        %w(de en machen make verb),
-        %w(de en stellen make verb),
-        %w(de en müssen must verb),
-        %w(de en tun do verb)
+        %w[de en machen make verb],
+        %w[de en stellen make verb],
+        %w[de en müssen must verb],
+        %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -100,10 +102,10 @@ RSpec.describe CardGeneratorHelper, type: :helper do
 
     it 'returns nil there are two same translations for word' do
       [
-        %w(de en machen make verb),
-        %w(de en stellen make verb),
-        %w(de en müssen must verb),
-        %w(de en tun do verb)
+        %w[de en machen make verb],
+        %w[de en stellen make verb],
+        %w[de en müssen must verb],
+        %w[de en tun do verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -120,11 +122,11 @@ RSpec.describe CardGeneratorHelper, type: :helper do
 
     it 'returns cards there are two same translations for word but enough words' do
       [
-        %w(de en machen make verb),
-        %w(de en stellen make verb),
-        %w(de en müssen must verb),
-        %w(de en tun do verb),
-        %w(de en fliegen fly verb)
+        %w[de en machen make verb],
+        %w[de en stellen make verb],
+        %w[de en müssen must verb],
+        %w[de en tun do verb],
+        %w[de en fliegen fly verb]
       ].each do |lang_code1, lang_code2, text1, text2, pos|
         FactoryGirl.create(
           :word,
@@ -144,21 +146,21 @@ RSpec.describe CardGeneratorHelper, type: :helper do
     context 'with memorized' do
       it 'returns cards when 4 words are verbs with memorized 0 or 1' do
         [
-          %w(de en machen make verb 1),
-          %w(de en haben have verb 0),
-          %w(de en müssen must verb 0),
-          %w(de en tun do verb 1)
-          ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
-            FactoryGirl.create(
-              :word,
-              lang_code1: lang_code1,
-              lang_code2: lang_code2,
-              text1: text1,
-              text2: text2,
-              pos: pos,
-              user_id: @user.id,
-              memorized: memorized.to_i
-            )
+          %w[de en machen make verb 1],
+          %w[de en haben have verb 0],
+          %w[de en müssen must verb 0],
+          %w[de en tun do verb 1]
+        ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
+          FactoryGirl.create(
+            :word,
+            lang_code1: lang_code1,
+            lang_code2: lang_code2,
+            text1: text1,
+            text2: text2,
+            pos: pos,
+            user_id: @user.id,
+            memorized: memorized.to_i
+          )
         end
         cards = generate_cards(@user)
         expect(cards).to include(:translations)
@@ -166,11 +168,11 @@ RSpec.describe CardGeneratorHelper, type: :helper do
       end
 
       it 'should select word with memorized 2' do
-        [%w(de en machen make verb 2),
-         %w(de en haben have verb 2),
-         %w(de en müssen must verb 2),
-         %w(de en fliegen fly verb 2),
-         %w(de en tun do verb 0)].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
+        [%w[de en machen make verb 2],
+         %w[de en haben have verb 2],
+         %w[de en müssen must verb 2],
+         %w[de en fliegen fly verb 2],
+         %w[de en tun do verb 0]].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
           FactoryGirl.create(
             :word,
             lang_code1: lang_code1,
@@ -190,28 +192,27 @@ RSpec.describe CardGeneratorHelper, type: :helper do
 
       it 'returns card when 4 words and 3 translations with memorized 2' do
         [
-          %w(de en fliegen fly verb 2),
-          %w(de en machen make verb 2),
-          %w(de en haben have verb 2),
-          %w(de en tun do verb 0)
-          ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
-            FactoryGirl.create(
-              :word,
-              lang_code1: lang_code1,
-              lang_code2: lang_code2,
-              text1: text1,
-              text2: text2,
-              pos: pos,
-              user_id: @user.id,
-              memorized: memorized.to_i
-            )
+          %w[de en fliegen fly verb 2],
+          %w[de en machen make verb 2],
+          %w[de en haben have verb 2],
+          %w[de en tun do verb 0]
+        ].each do |lang_code1, lang_code2, text1, text2, pos, memorized|
+          FactoryGirl.create(
+            :word,
+            lang_code1: lang_code1,
+            lang_code2: lang_code2,
+            text1: text1,
+            text2: text2,
+            pos: pos,
+            user_id: @user.id,
+            memorized: memorized.to_i
+          )
         end
         cards = generate_cards(@user, nil, 'tun')
         expect(cards).not_to be_nil
         expect(cards[:word].text1).to eq('tun')
         expect(cards[:word].text2).to eq('do')
       end
-
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def login_with(provider, username, password)
   method = "login_#{provider}"
   if self.class.private_method_defined?(method)

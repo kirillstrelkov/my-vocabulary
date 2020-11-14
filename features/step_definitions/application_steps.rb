@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given(/^I am logged in as "([^"]*)"$/) do |username|
   create_guest if username.downcase == 'guest'
   visit('/users/sign_in')
@@ -30,13 +32,13 @@ When(/^I choose (\w+) translation$/) do |number|
   all(:css, '.translation')[number].click
 end
 
-When(/^I select "([^"]*)" test file$/) do |arg1|
+When(/^I select "([^"]*)" test file$/) do |_arg1|
   pending # Write code here that turns the phrase above into concrete actions
 end
 
 When(/^I login with "([^"]*)" account$/) do |provider|
   provider.downcase!
-  if host_redirected? { click_link_or_button("Sign in with #{provider.capitalize}") } 
+  if host_redirected? { click_link_or_button("Sign in with #{provider.capitalize}") }
     username = nil
     password = nil
     case provider
@@ -63,8 +65,8 @@ end
 
 When(/^I choose incorrect answer$/) do
   correct_word_id = find('.panel-heading h3')['data-word-id']
-  all("button[data-word-id]").select do |e|
-    e['data-word-id'] != correct_word_id
+  all('button[data-word-id]').reject do |e|
+    e['data-word-id'] == correct_word_id
   end.sample.click
 end
 

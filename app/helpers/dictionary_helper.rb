@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 require 'uri'
 
 module DictionaryHelper
   def unique_langs(dict, direction)
-    raise Excetion("Unsupported #{direction} parameter") unless [:to, :from].include?(direction)
+    raise Excetion("Unsupported #{direction} parameter") unless %i[to from].include?(direction)
+
     supported_pairs.map do |code1, code2|
       code = direction == :from ? code1 : code2
       [language_name(dict, code), code]
@@ -12,38 +15,38 @@ module DictionaryHelper
 
   def supported_pairs
     [
-      ["be", "ru"],
-      ["bg", "ru"],
-      ["cs", "en"], ["cs", "ru"],
-      ["da", "en"], ["da", "ru"],
-      ["nl", "en"], ["nl", "ru"],
-      ["en", "cs"], ["en", "da"], ["en", "nl"], ["en", "et"],
-      ["en", "fi"], ["en", "fr"], ["en", "de"], ["en", "el"],
-      ["en", "it"], ["en", "lv"], ["en", "lt"], ["en", "no"],
-      ["en", "pt"], ["en", "ru"], ["en", "sk"], ["en", "es"],
-      ["en", "sv"], ["en", "tr"], ["en", "uk"],
-      ["et", "en"], ["et", "ru"],
-      ["fi", "en"], ["fi", "ru"],
-      ["fr", "en"], ["fr", "ru"],
-      ["de", "en"], ["de", "ru"], ["de", "tr"],
-      ["el", "en"], ["el", "ru"],
-      ["it", "en"], ["it", "ru"],
-      ["lv", "en"], ["lv", "ru"],
-      ["lt", "en"], ["lt", "ru"],
-      ["no", "en"], ["no", "ru"],
-      ["pl", "ru"],
-      ["pt", "en"], ["pt", "ru"],
-      ["ru", "be"], ["ru", "bg"], ["ru", "cs"], ["ru", "da"],
-      ["ru", "nl"], ["ru", "en"], ["ru", "et"], ["ru", "fi"],
-      ["ru", "fr"], ["ru", "de"], ["ru", "el"], ["ru", "it"],
-      ["ru", "lv"], ["ru", "lt"], ["ru", "no"], ["ru", "pl"],
-      ["ru", "pt"], ["ru", "sk"], ["ru", "es"], ["ru", "sv"],
-      ["ru", "tr"], ["ru", "uk"],
-      ["sk", "en"], ["sk", "ru"],
-      ["es", "en"], ["es", "ru"],
-      ["sv", "en"], ["sv", "ru"],
-      ["tr", "en"], ["tr", "de"], ["tr", "ru"],
-      ["uk", "en"], ["uk", "ru"]
+      %w[be ru],
+      %w[bg ru],
+      %w[cs en], %w[cs ru],
+      %w[da en], %w[da ru],
+      %w[nl en], %w[nl ru],
+      %w[en cs], %w[en da], %w[en nl], %w[en et],
+      %w[en fi], %w[en fr], %w[en de], %w[en el],
+      %w[en it], %w[en lv], %w[en lt], %w[en no],
+      %w[en pt], %w[en ru], %w[en sk], %w[en es],
+      %w[en sv], %w[en tr], %w[en uk],
+      %w[et en], %w[et ru],
+      %w[fi en], %w[fi ru],
+      %w[fr en], %w[fr ru],
+      %w[de en], %w[de ru], %w[de tr],
+      %w[el en], %w[el ru],
+      %w[it en], %w[it ru],
+      %w[lv en], %w[lv ru],
+      %w[lt en], %w[lt ru],
+      %w[no en], %w[no ru],
+      %w[pl ru],
+      %w[pt en], %w[pt ru],
+      %w[ru be], %w[ru bg], %w[ru cs], %w[ru da],
+      %w[ru nl], %w[ru en], %w[ru et], %w[ru fi],
+      %w[ru fr], %w[ru de], %w[ru el], %w[ru it],
+      %w[ru lv], %w[ru lt], %w[ru no], %w[ru pl],
+      %w[ru pt], %w[ru sk], %w[ru es], %w[ru sv],
+      %w[ru tr], %w[ru uk],
+      %w[sk en], %w[sk ru],
+      %w[es en], %w[es ru],
+      %w[sv en], %w[sv ru],
+      %w[tr en], %w[tr de], %w[tr ru],
+      %w[uk en], %w[uk ru]
     ]
   end
 
@@ -68,7 +71,7 @@ module DictionaryHelper
       pair.split('-').first
     end.uniq.map do |code|
       [language_name(dict, code), code]
-    end.sort_alphabetical_by {|v, c| v}
+    end.sort_alphabetical_by { |v, _c| v }
   end
 
   class Dictionary
@@ -87,8 +90,7 @@ module DictionaryHelper
       data
     end
 
-
-    def initialize(name, lang_ui=:en)
+    def initialize(name, lang_ui = :en)
       @dict = Dictionary.const_get(name.capitalize)
       @lang_ui = lang_ui
     end
@@ -140,11 +142,11 @@ module DictionaryHelper
         if json.include?(:code)
           json
         else
-          simplify_translations(json, lang_pair=lang_pair)
+          simplify_translations(json, lang_pair = lang_pair)
         end
       end
 
-      def self.simplify_translations(initial_json, lang_pair=nil)
+      def self.simplify_translations(initial_json, lang_pair = nil)
         trans = []
         initial_json[:def].each do |w|
           w[:tr].each do |tr|
@@ -158,19 +160,19 @@ module DictionaryHelper
             }
             translation[:lang_pair] = lang_pair if lang_pair
             trans << translation
-            if tr[:syn]
-              tr[:syn].each do |syn|
-                translation = {
-                  text: w[:text],
-                  text_gen: w[:gen],
-                  pos: syn[:pos],
-                  ts: w[:ts],
-                  tr: syn[:text],
-                  tr_gen: syn[:gen]
-                }
-                translation[:lang_pair] = lang_pair if lang_pair
-                trans << translation
-              end
+            next unless tr[:syn]
+
+            tr[:syn].each do |syn|
+              translation = {
+                text: w[:text],
+                text_gen: w[:gen],
+                pos: syn[:pos],
+                ts: w[:ts],
+                tr: syn[:text],
+                tr_gen: syn[:gen]
+              }
+              translation[:lang_pair] = lang_pair if lang_pair
+              trans << translation
             end
           end
         end
@@ -178,5 +180,4 @@ module DictionaryHelper
       end
     end
   end
-
 end

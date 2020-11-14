@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserController < ApplicationController
   def update_score
     # TODO: fix not safe - because any user can trigger it manually
@@ -8,12 +10,13 @@ class UserController < ApplicationController
       command = params[:command]
       if command && word
         command = command.to_sym
-        if command == :increase
+        case command
+        when :increase
           current_user.update_attribute(:score, current_user.score + 1)
           word.update_attribute(:memorized, word.memorized + 1)
-        elsif command == :decrease
+        when :decrease
           current_user.update_attribute(:score, current_user.score - 1)
-          word.update_attribute(:memorized, word.memorized - 1) if word.memorized > 0
+          word.update_attribute(:memorized, word.memorized - 1) if word.memorized.positive?
         end
         status = command
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe UserController, type: :controller do
@@ -6,11 +8,11 @@ RSpec.describe UserController, type: :controller do
     user = User.first
     user.update_attribute(:score, 0)
     Word.destroy_all
-    [%w(de en hallo hello),
-     %w(de en machen make),
-     %w(de en haben have),
-     %w(de en muss must),
-     %w(de en tun do)].each do |l1, l2, text1, text2|
+    [%w[de en hallo hello],
+     %w[de en machen make],
+     %w[de en haben have],
+     %w[de en muss must],
+     %w[de en tun do]].each do |l1, l2, text1, text2|
       user.words << FactoryGirl.create(
         :word,
         lang_code1: l1, lang_code2: l2,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CardGeneratorHelper
   def find_next_tran(trans, found_trans)
     texts1 = found_trans.map(&:text1).uniq
@@ -8,7 +10,7 @@ module CardGeneratorHelper
     ).order('random()').first
   end
 
-  def generate_cards(user, rng=nil, text1=nil)
+  def generate_cards(user, rng = nil, text1 = nil)
     words = user.words
     return if words.count.zero?
 
@@ -29,11 +31,11 @@ module CardGeneratorHelper
         )
 
         word = nil
-        if text1.nil?
-          word = filtered_words.sample(random: rng)
-        else
-          word = filtered_words.where(text1: text1).first
-        end
+        word = if text1.nil?
+                 filtered_words.sample(random: rng)
+               else
+                 filtered_words.where(text1: text1).first
+               end
 
         next if word.nil?
 
@@ -41,16 +43,17 @@ module CardGeneratorHelper
         3.times do
           next_tran = find_next_tran(filtered_words, translations)
           break if next_tran.nil?
+
           translations << next_tran
         end
 
-        if translations.length == 4
-          translations.shuffle!
-          return {
-            word: word,
-            translations: translations
-          }
-        end
+        next unless translations.length == 4
+
+        translations.shuffle!
+        return {
+          word: word,
+          translations: translations
+        }
       end
     end
     flash[:notice] = 'Not enough words to play for this language pair, ' \

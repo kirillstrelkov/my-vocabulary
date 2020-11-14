@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -23,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def set_lang_pair
     lang_pair = params[:lang_pair]
-    if lang_pair && lang_pair.match(/^\w{2,3}-\w{2,3}$/)
+    if lang_pair&.match(/^\w{2,3}-\w{2,3}$/)
       @lang_pair = lang_pair.downcase.split('-')
     else
       session_pair = session[:lang_pair]
@@ -35,11 +37,11 @@ class ApplicationController < ActionController::Base
           @lang_pair = session[:lang_pair]
         end
       else
-        if @word
-          @lang_pair = [@word.lang_code1, @word.lang_code2]
-        else
-          @lang_pair = [I18n.locale, nil]
-        end
+        @lang_pair = if @word
+                       [@word.lang_code1, @word.lang_code2]
+                     else
+                       [I18n.locale, nil]
+                     end
       end
     end
     session[:lang_pair] = @lang_pair

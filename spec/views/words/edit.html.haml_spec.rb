@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'words/edit', type: :view do
   before(:each) do
     assign(:dict, DictionaryHelper::Dictionary.new('Yandex'))
-    assign(:lang_pair, ['en', 'ru'])
+    assign(:lang_pair, %w[en ru])
     assign(
       :word,
       Word.create!(

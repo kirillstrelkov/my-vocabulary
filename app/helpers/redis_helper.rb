@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 module RedisHelper
   def get(prefix, key)
     key = prepare_key(prefix, key)
     value = Rails.cache.read(key)
-    if value
-      value = JSON.parse(value, symbolize_names: true)
-    end
+    value = JSON.parse(value, symbolize_names: true) if value
     value
   end
 

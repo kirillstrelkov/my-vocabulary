@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SessionHelper
   def update_session(key, value)
     Rails.logger.debug("#{self}##{__method__} params: #{key} #{value}")

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DictionaryController < ApplicationController
   include DictionaryHelper
   respond_to :json
@@ -12,17 +14,15 @@ class DictionaryController < ApplicationController
 
   def lookup
     errors = []
-    [:text, :lang_pair].each do |param|
-      begin
-        params.require(param)
-      rescue ActionController::ParameterMissing => e
-        errors << e.message
-      end
+    %i[text lang_pair].each do |param|
+      params.require(param)
+    rescue ActionController::ParameterMissing => e
+      errors << e.message
     end
     if errors.empty?
       respond_with @dict.lookup(params['text'], params['lang_pair'])
     else
-      render json: {errors: errors}, status: :not_acceptable
+      render json: { errors: errors }, status: :not_acceptable
     end
   end
 end
